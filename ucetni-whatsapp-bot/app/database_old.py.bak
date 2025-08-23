@@ -1,0 +1,306 @@
+"""
+Database interface - now using real SQLAlchemy operations
+This replaces the previous mock database implementation
+"""
+
+import os
+import logging
+from typing import Dict, List, Optional, Any
+from datetime import datetime, timedelta
+import csv
+import io
+import base64
+
+from .database.operations import db_operations
+from .database.connection import init_database, close_database
+
+logger = logging.getLogger(__name__)
+
+class Database:
+    """
+    Database interface that now uses real SQLAlchemy operations
+    This maintains compatibility with existing code while using real database
+    """
+    
+    def __init__(self):
+        self.database_url = os.getenv('DATABASE_URL')
+        logger.info("Real database initialized with SQLAlchemy")
+
+    async def connect(self):
+        """Initialize database connection"""
+        try:
+            await db_operations.init_database(self.database_url)
+            logger.info("Database connected successfully")
+        except Exception as e:
+            logger.error(f"Error connecting to database: {str(e)}")
+            raise
+
+    async def disconnect(self):
+        """Close database connection"""
+        try:
+            await close_database()
+            logger.info("Database disconnected")
+        except Exception as e:
+            logger.error(f"Error disconnecting database: {str(e)}")
+
+    async def get_or_create_user(self, whatsapp_number: str, profile_name: str = None) -> Dict[str, Any]:
+        """Get existing user or create new one"""
+        user = await db_operations.get_or_create_user(whatsapp_number, profile_name)
+        return {
+            'id': user.id,
+            'whatsapp_number': user.whatsapp_number,
+            'profile_name': user.profile_name,
+            'business_name': user.profile_name,  # For backward compatibility
+            'onboarding_completed': user.onboarding_completed,
+            'subscription_status': user.subscription_status,
+            'created_at': user.created_at,
+            'updated_at': user.updated_at
+        }
+
+    async def get_or_create_user(self, whatsapp_number: str, business_name: str = None) -> Dict[str, Any]:
+        # Mock implementation
+        if whatsapp_number in self.users:
+            user = self.users[whatsapp_number]
+            if business_name and user['business_name'] != business_name:
+                user['business_name'] = business_name
+                user['updated_at'] = datetime.now()
+            return user
+        else:
+            user_id = self.next_user_id
+            self.next_user_id += 1
+            
+            user = {
+                'id': user_id,
+                'whatsapp_number': whatsapp_number,
+                'business_name': business_name,
+                'created_at': datetime.now(),
+                'updated_at': datetime.now()
+            }
+            self.users[whatsapp_number] = user
+            
+            await self._create_default_reminders(user_id)
+            return user
+
+    async def _create_default_reminders(self, user_id: int):
+        async with self.pool.acquire() as conn:
+            now = datetime.now()
+            
+            if now.day <= 15:
+                tax_deadline = now.replace(day=15)
+            else:
+                next_month = now.replace(day=1) + timedelta(days=32)
+                tax_deadline = next_month.replace(day=15)
+            
+            await conn.execute(
+                '''INSERT INTO reminders (user_id, reminder_type, message, due_date)
+                   VALUES ($1, $2, $3, $4)''',
+                user_id, 'tax_advance', 
+                '📅 Připomínka: Nezapomeň zaplatit zálohy na daň z příjmů!',
+                tax_deadline
+            )
+            
+            quarter = (now.month - 1) // 3 + 1
+            vat_month = quarter * 3 + 1
+            if vat_month > 12:
+                vat_month = 1
+                vat_year = now.year + 1
+            else:
+                vat_year = now.year
+            
+            vat_deadline = datetime(vat_year, vat_month, 25).date()
+            
+            if vat_deadline > now.date():
+                await conn.execute(
+                    '''INSERT INTO reminders (user_id, reminder_type, message, due_date)
+                       VALUES ($1, $2, $3, $4)''',
+                    user_id, 'vat', 
+                    '📅 DPH: Nezapomeň podat přiznání k DPH a zaplatit daň!',
+                    vat_deadline
+                )
+
+    async def save_transaction(self, user_id: int, transaction_data: Dict[str, Any]) -> int:
+        async with self.pool.acquire() as conn:
+            transaction_id = await conn.fetchval(
+                '''INSERT INTO transactions 
+                   (user_id, type, amount, description, category, category_name, original_message)
+                   VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id''',
+                user_id,
+                transaction_data['type'],
+                transaction_data['amount'],
+                transaction_data.get('description', ''),
+                transaction_data.get('category', ''),
+                transaction_data.get('category_name', ''),
+                transaction_data.get('original_message', '')
+            )
+            
+            logger.info(f"Transakce #{transaction_id} uložena pro uživatele #{user_id}")
+            return transaction_id
+
+    async def get_monthly_summary(self, user_id: int) -> Optional[Dict[str, Any]]:
+        async with self.pool.acquire() as conn:
+            now = datetime.now()
+            
+            summary = await conn.fetchrow('''
+                SELECT 
+                    COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) as total_income,
+                    COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) as total_expenses,
+                    COUNT(*) as transaction_count
+                FROM transactions
+                WHERE user_id = $1 
+                AND EXTRACT(MONTH FROM created_at) = $2
+                AND EXTRACT(YEAR FROM created_at) = $3
+            ''', user_id, now.month, now.year)
+            
+            if not summary or summary['transaction_count'] == 0:
+                return None
+            
+            top_expenses = await conn.fetch('''
+                SELECT category_name, SUM(amount) as amount
+                FROM transactions
+                WHERE user_id = $1 
+                AND type = 'expense'
+                AND EXTRACT(MONTH FROM created_at) = $2
+                AND EXTRACT(YEAR FROM created_at) = $3
+                GROUP BY category_name
+                ORDER BY amount DESC
+                LIMIT 3
+            ''', user_id, now.month, now.year)
+            
+            return {
+                'total_income': float(summary['total_income']),
+                'total_expenses': float(summary['total_expenses']),
+                'profit': float(summary['total_income'] - summary['total_expenses']),
+                'transaction_count': summary['transaction_count'],
+                'top_expenses': [dict(expense) for expense in top_expenses]
+            }
+
+    async def get_quarterly_summary(self, user_id: int) -> Optional[Dict[str, Any]]:
+        async with self.pool.acquire() as conn:
+            now = datetime.now()
+            current_quarter = (now.month - 1) // 3 + 1
+            
+            summary = await conn.fetchrow('''
+                SELECT 
+                    COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) as total_income,
+                    COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) as total_expenses,
+                    COUNT(*) as transaction_count
+                FROM transactions
+                WHERE user_id = $1 
+                AND EXTRACT(QUARTER FROM created_at) = $2
+                AND EXTRACT(YEAR FROM created_at) = $3
+            ''', user_id, current_quarter, now.year)
+            
+            if not summary or summary['transaction_count'] == 0:
+                return None
+            
+            category_breakdown = await conn.fetch('''
+                SELECT category_name, SUM(amount) as amount
+                FROM transactions
+                WHERE user_id = $1 
+                AND type = 'expense'
+                AND EXTRACT(QUARTER FROM created_at) = $2
+                AND EXTRACT(YEAR FROM created_at) = $3
+                GROUP BY category_name
+                ORDER BY amount DESC
+            ''', user_id, current_quarter, now.year)
+            
+            total_income = float(summary['total_income'])
+            vat_estimate = total_income * 0.21 if total_income > 0 else 0
+            
+            return {
+                'total_income': total_income,
+                'total_expenses': float(summary['total_expenses']),
+                'profit': float(summary['total_income'] - summary['total_expenses']),
+                'transaction_count': summary['transaction_count'],
+                'vat_estimate': vat_estimate,
+                'category_breakdown': [dict(cat) for cat in category_breakdown]
+            }
+
+    async def get_transactions(self, user_id: int, limit: int = 10, offset: int = 0) -> List[Dict[str, Any]]:
+        async with self.pool.acquire() as conn:
+            transactions = await conn.fetch('''
+                SELECT * FROM transactions
+                WHERE user_id = $1
+                ORDER BY created_at DESC
+                LIMIT $2 OFFSET $3
+            ''', user_id, limit, offset)
+            
+            return [dict(t) for t in transactions]
+
+    async def export_to_csv(self, user_id: int) -> str:
+        async with self.pool.acquire() as conn:
+            transactions = await conn.fetch('''
+                SELECT 
+                    created_at as "Datum",
+                    type as "Typ",
+                    amount as "Částka",
+                    category_name as "Kategorie",
+                    description as "Popis"
+                FROM transactions
+                WHERE user_id = $1
+                ORDER BY created_at DESC
+            ''', user_id)
+            
+            if not transactions:
+                return None
+            
+            output = io.StringIO()
+            writer = csv.writer(output)
+            
+            writer.writerow(['Datum', 'Typ', 'Částka (Kč)', 'Kategorie', 'Popis'])
+            
+            for t in transactions:
+                writer.writerow([
+                    t['Datum'].strftime('%d.%m.%Y %H:%M'),
+                    'Příjem' if t['Typ'] == 'income' else 'Výdaj',
+                    f"{t['Částka']:.2f}",
+                    t['Kategorie'],
+                    t['Popis']
+                ])
+            
+            csv_content = output.getvalue()
+            encoded = base64.b64encode(csv_content.encode()).decode()
+            
+            expires_at = datetime.now() + timedelta(hours=24)
+            
+            export_id = await conn.fetchval('''
+                INSERT INTO export_history (user_id, export_type, file_url, expires_at)
+                VALUES ($1, $2, $3, $4) RETURNING id
+            ''', user_id, 'csv', encoded, expires_at)
+            
+            return f"data:text/csv;base64,{encoded}"
+
+    async def get_pending_reminders(self) -> List[Dict[str, Any]]:
+        async with self.pool.acquire() as conn:
+            reminders = await conn.fetch('''
+                SELECT r.*, u.whatsapp_number
+                FROM reminders r
+                JOIN users u ON r.user_id = u.id
+                WHERE r.due_date <= CURRENT_DATE + INTERVAL '3 days'
+                AND r.sent = FALSE
+            ''')
+            
+            return [dict(r) for r in reminders]
+
+    async def mark_reminder_sent(self, reminder_id: int):
+        async with self.pool.acquire() as conn:
+            await conn.execute('''
+                UPDATE reminders 
+                SET sent = TRUE, sent_at = NOW()
+                WHERE id = $1
+            ''', reminder_id)
+
+    async def get_user_statistics(self, user_id: int) -> Dict[str, Any]:
+        async with self.pool.acquire() as conn:
+            stats = await conn.fetchrow('''
+                SELECT 
+                    COUNT(*) as total_transactions,
+                    COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) as total_income,
+                    COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) as total_expenses,
+                    MIN(created_at) as first_transaction,
+                    MAX(created_at) as last_transaction
+                FROM transactions
+                WHERE user_id = $1
+            ''', user_id)
+            
+            return dict(stats) if stats else {}

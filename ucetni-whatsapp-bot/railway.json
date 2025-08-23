@@ -1,0 +1,98 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "nixpacks",
+    "buildCommand": "pip install -r requirements.txt"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "sleepApplication": false,
+    "restartPolicyType": "always",
+    "restartPolicyMaxRetries": 10,
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 100,
+    "watchPatterns": [
+      "**/*.py"
+    ]
+  },
+  "environments": {
+    "production": {
+      "variables": {
+        "ENVIRONMENT": "production",
+        "DEBUG": "false",
+        "PORT": "${{ PORT }}",
+        "DATABASE_URL": "${{ DATABASE_URL }}",
+        "TWILIO_ACCOUNT_SID": "${{ TWILIO_ACCOUNT_SID }}",
+        "TWILIO_AUTH_TOKEN": "${{ TWILIO_AUTH_TOKEN }}",
+        "TWILIO_WHATSAPP_NUMBER": "${{ TWILIO_WHATSAPP_NUMBER }}",
+        "GROQ_API_KEY": "${{ GROQ_API_KEY }}",
+        "WEBHOOK_URL": "${{ WEBHOOK_URL }}",
+        "SECRET_KEY": "${{ SECRET_KEY }}",
+        "SENTRY_DSN": "${{ SENTRY_DSN }}",
+        "TZ": "Europe/Prague",
+        "LOG_LEVEL": "INFO",
+        "LOG_FORMAT": "json",
+        "PYTHONPATH": "/app",
+        "PAYMENT_PROVIDER": "${{ PAYMENT_PROVIDER }}",
+        "STRIPE_SECRET_KEY": "${{ STRIPE_SECRET_KEY }}",
+        "STRIPE_WEBHOOK_SECRET": "${{ STRIPE_WEBHOOK_SECRET }}",
+        "STRIPE_PRICE_ID": "${{ STRIPE_PRICE_ID }}",
+        "COMGATE_MERCHANT_ID": "${{ COMGATE_MERCHANT_ID }}",
+        "COMGATE_SECRET": "${{ COMGATE_SECRET }}",
+        "SMTP_SERVER": "${{ SMTP_SERVER }}",
+        "SMTP_PORT": "${{ SMTP_PORT }}",
+        "SMTP_USERNAME": "${{ SMTP_USERNAME }}",
+        "SMTP_PASSWORD": "${{ SMTP_PASSWORD }}",
+        "FROM_EMAIL": "${{ FROM_EMAIL }}",
+        "FROM_NAME": "${{ FROM_NAME }}"
+      }
+    },
+    "staging": {
+      "variables": {
+        "ENVIRONMENT": "staging",
+        "DEBUG": "false",
+        "PORT": "${{ PORT }}",
+        "DATABASE_URL": "${{ STAGING_DATABASE_URL }}",
+        "TWILIO_ACCOUNT_SID": "${{ STAGING_TWILIO_ACCOUNT_SID }}",
+        "TWILIO_AUTH_TOKEN": "${{ STAGING_TWILIO_AUTH_TOKEN }}",
+        "TWILIO_WHATSAPP_NUMBER": "${{ STAGING_TWILIO_WHATSAPP_NUMBER }}",
+        "GROQ_API_KEY": "${{ STAGING_GROQ_API_KEY }}",
+        "WEBHOOK_URL": "${{ STAGING_WEBHOOK_URL }}",
+        "SECRET_KEY": "${{ STAGING_SECRET_KEY }}",
+        "SENTRY_DSN": "${{ STAGING_SENTRY_DSN }}",
+        "TZ": "Europe/Prague",
+        "LOG_LEVEL": "INFO",
+        "LOG_FORMAT": "json",
+        "PYTHONPATH": "/app",
+        "PAYMENT_PROVIDER": "${{ STAGING_PAYMENT_PROVIDER }}",
+        "STRIPE_SECRET_KEY": "${{ STAGING_STRIPE_SECRET_KEY }}",
+        "STRIPE_WEBHOOK_SECRET": "${{ STAGING_STRIPE_WEBHOOK_SECRET }}",
+        "STRIPE_PRICE_ID": "${{ STAGING_STRIPE_PRICE_ID }}",
+        "COMGATE_MERCHANT_ID": "${{ STAGING_COMGATE_MERCHANT_ID }}",
+        "COMGATE_SECRET": "${{ STAGING_COMGATE_SECRET }}",
+        "SMTP_SERVER": "${{ STAGING_SMTP_SERVER }}",
+        "SMTP_PORT": "${{ STAGING_SMTP_PORT }}",
+        "SMTP_USERNAME": "${{ STAGING_SMTP_USERNAME }}",
+        "SMTP_PASSWORD": "${{ STAGING_SMTP_PASSWORD }}",
+        "FROM_EMAIL": "${{ STAGING_FROM_EMAIL }}",
+        "FROM_NAME": "${{ STAGING_FROM_NAME }}"
+      }
+    }
+  },
+  "services": [
+    {
+      "name": "ucetni-whatsapp-bot",
+      "source": {
+        "type": "local"
+      },
+      "variables": {
+        "PORT": {
+          "default": "8000"
+        },
+        "PYTHONPATH": {
+          "default": "/app"
+        }
+      }
+    }
+  ]
+}

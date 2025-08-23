@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - DATABASE_URL=sqlite+aiosqlite:///./ucetni_bot.db
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - SECRET_KEY=dev-secret-key
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_WHATSAPP_NUMBER=${TWILIO_WHATSAPP_NUMBER}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - WEBHOOK_URL=${WEBHOOK_URL:-https://your-ngrok-url.com/webhook/whatsapp}
+      - TZ=Europe/Prague
+      - LOG_LEVEL=DEBUG
+      - LOG_FORMAT=pretty
+    volumes:
+      - .:/app
+      - app_data:/app/data
+    restart: unless-stopped
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+volumes:
+  app_data:

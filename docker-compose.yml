@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: ucetnibot-db
+    environment:
+      POSTGRES_DB: ucetnibot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ucetnibot_network
+
+  backend:
+    build: 
+      context: ./ucetni-whatsapp-bot
+      dockerfile: Dockerfile
+    container_name: ucetnibot-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./ucetni-whatsapp-bot/.env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/ucetnibot
+      - PORT=8000
+      - DEBUG=true
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./ucetni-whatsapp-bot:/app
+      - /app/venv
+    command: >
+      sh -c "
+        alembic upgrade head &&
+        python app/seeds.py &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+    networks:
+      - ucetnibot_network
+
+  frontend:
+    build: 
+      context: ./uctobot-web
+      dockerfile: Dockerfile
+    container_name: ucetnibot-frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./uctobot-web/.env.local
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./uctobot-web:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - ucetnibot_network
+
+volumes:
+  postgres_data:
+
+networks:
+  ucetnibot_network:
+    driver: bridge

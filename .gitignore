@@ -1,0 +1,7 @@
+# Ignore large files
+uctobot-backend.zip
+uctobot-backend.tar.gz
+
+# Ignore environment files
+.env
+ucetni-whatsapp-bot/.env.development

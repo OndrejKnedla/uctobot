@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>ÚčtoBot - Účetnictví pro OSVČ přes WhatsApp | 299 Kč/měsíc</title>
+    <meta name="description" content="Veďte účetnictví přímo ve WhatsAppu. Stačí napsat &quot;koupil jsem papír za 500&quot;. AI kategorizace, připomínky na DPH, měsíční přehledy. První měsíc zdarma."/>
+    <meta name="author" content="ÚčtoBot"/>
+    <meta name="keywords" content="účetnictví, OSVČ, WhatsApp, daně, účetní software, AI asistent"/>
+    <meta property="og:title" content="ÚčtoBot - Účetnictví pro OSVČ přes WhatsApp"/>
+    <meta property="og:description" content="Veďte účetnictví přímo ve WhatsAppu. AI kategorizace, připomínky na DPH, měsíční přehledy."/>
+    <meta property="og:locale" content="cs_CZ"/>
+    <meta property="og:type" content="website"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="ÚčtoBot - Účetnictví pro OSVČ přes WhatsApp"/>
+    <meta name="twitter:description" content="Veďte účetnictví přímo ve WhatsAppu. AI kategorizace, připomínky na DPH, měsíční přehledy."/>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'whatsapp': '#25D366',
+                        'whatsapp-dark': '#128C7E'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Top Banner -->
+    <div class="bg-whatsapp text-white py-2 px-4 text-center text-sm font-medium">
+        🎉 Speciální nabídka: První 14 dní ZDARMA!
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                    </svg>
+                    <span class="text-xl font-bold">ÚčtoBot</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#jak-funguje" class="text-gray-600 hover:text-gray-900">Jak to funguje</a>
+                    <a href="#cenik" class="text-gray-600 hover:text-gray-900">Ceník</a>
+                    <a href="#recenze" class="text-gray-600 hover:text-gray-900">Recenze</a>
+                    <a href="/registrace" class="bg-whatsapp hover:bg-whatsapp-dark text-white px-4 py-2 rounded-md font-medium transition-colors">
+                        Začít 14denní zkušební dobu
+                    </a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                            AI účetní která <span class="text-whatsapp">nikdy nespí</span>
+                        </h1>
+                        <p class="text-xl text-gray-600 leading-relaxed">
+                            Zpracujte účetnictví přes WhatsApp za 30 sekund. DPH, kontrolní hlášení, daňové přiznání - vše automaticky.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-4 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                <path d="M20 6 9 17l-5-5"></path>
+                            </svg>
+                            <span>327 aktivních OSVČ</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>15,420 zpracovaných transakcí</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                            </svg>
+                            <span>100% správnost DPH výpočtů</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="/registrace" class="inline-block bg-whatsapp hover:bg-whatsapp-dark text-white text-lg font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200">
+                            Vyzkoušet ZDARMA 14 dní
+                        </a>
+                        <a href="#demo" class="inline-block border-2 border-whatsapp text-whatsapp hover:bg-whatsapp hover:text-white text-lg font-semibold px-8 py-4 rounded-lg transition-all duration-200">
+                            Živá ukázka →
+                        </a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-3xl p-8">
+                        <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm mx-auto">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-10 h-10 bg-whatsapp rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 8V4H8"></path>
+                                        <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                                        <path d="M2 14h2"></path>
+                                        <path d="M20 14h2"></path>
+                                        <path d="M15 13v2"></path>
+                                        <path d="M9 13v2"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-semibold">ÚčtoBot</div>
+                                    <div class="text-xs text-green-500">online</div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-gray-100 rounded-lg p-3 text-sm">
+                                    Ahoj! Napište mi jakýkoliv výdaj.
+                                </div>
+                                <div class="bg-whatsapp text-white rounded-lg p-3 text-sm ml-8">faktura Alza 25000</div>
+                                <div class="bg-gray-100 rounded-lg p-3 text-sm">
+                                    ✅ Zpracováno!<br/>
+                                    Částka: 25 000 Kč<br/>
+                                    Kategorie: IT vybavení<br/>
+                                    Datum: dnes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="jak-funguje" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Jak to funguje</h2>
+                <p class="text-xl text-gray-600">3 jednoduché kroky k bezstarostnému účetnictví</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">1. Napište do WhatsAppu</h3>
+                    <p class="text-gray-600 mb-4">Pošlete fotku účtenky nebo napište text</p>
+                    <div class="bg-gray-100 rounded-lg p-3 text-sm">"Koupil jsem notebook za 25000"</div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <path d="M12 8V4H8"></path>
+                            <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                            <path d="M2 14h2"></path>
+                            <path d="M20 14h2"></path>
+                            <path d="M15 13v2"></path>
+                            <path d="M9 13v2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">2. Bot vše zpracuje</h3>
+                    <p class="text-gray-600 mb-4">AI rozpozná částku, kategorii a uloží</p>
+                    <div class="bg-gray-100 rounded-lg p-3 text-sm">
+                        ✅ Kategorie: IT vybavení<br/>💰 Částka: 25 000 Kč
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                            <polyline points="16 7 22 7 22 13"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">3. Máte hotovo</h3>
+                    <p class="text-gray-600 mb-4">Konec roku? Daňové přiznání máte připravené</p>
+                    <div class="bg-gray-100 rounded-lg p-3 text-sm">
+                        📊 Přehled připraven<br/>📄 Export pro účetní
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Vyzkoušejte si to</h2>
+                <p class="text-xl text-gray-600">Klikněte na zprávu a uvidíte, jak rychle to funguje</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-6 max-w-md mx-auto border">
+                <div class="flex items-center space-x-3 mb-6 pb-4 border-b">
+                    <div class="w-10 h-10 bg-whatsapp rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 8V4H8"></path>
+                            <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                            <path d="M2 14h2"></path>
+                            <path d="M20 14h2"></path>
+                            <path d="M15 13v2"></path>
+                            <path d="M9 13v2"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="font-semibold">ÚčtoBot</div>
+                        <div class="text-xs text-green-500">online</div>
+                    </div>
+                </div>
+
+                <div id="chat-messages" class="space-y-3 mb-6 max-h-64 overflow-y-auto">
+                    <div class="">
+                        <div class="bg-gray-100 rounded-lg p-3 text-sm">
+                            Ahoj! Jsem ÚčtoBot. Napište mi jakýkoliv výdaj a já ho zpracuji.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="text-sm text-gray-600 mb-3">Klikněte na zprávu:</p>
+                    <button onclick="sendDemoMessage('Koupil jsem notebook za 25000')" class="w-full text-left bg-gray-50 hover:bg-gray-100 border rounded-lg p-3 text-sm transition-colors">
+                        "Koupil jsem notebook za 25000"
+                    </button>
+                    <button onclick="sendDemoMessage('Benzín 1500')" class="w-full text-left bg-gray-50 hover:bg-gray-100 border rounded-lg p-3 text-sm transition-colors">
+                        "Benzín 1500"
+                    </button>
+                    <button onclick="sendDemoMessage('Faktura od Seznam.cz 45000')" class="w-full text-left bg-gray-50 hover:bg-gray-100 border rounded-lg p-3 text-sm transition-colors">
+                        "Faktura od Seznam.cz 45000"
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-center mt-8 text-lg font-medium">Takhle jednoduše to funguje. Každý den.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Proč ÚčtoBot?</h2>
+                <p class="text-xl text-gray-600">Všechno, co potřebujete pro účetnictví OSVČ</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <path d="M12 8V4H8"></path>
+                            <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                            <path d="M2 14h2"></path>
+                            <path d="M20 14h2"></path>
+                            <path d="M15 13v2"></path>
+                            <path d="M9 13v2"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold">AI kategorizace</h3>
+                    </div>
+                    <p class="text-gray-600">Automaticky pozná, o jaký výdaj jde</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
+                            <path d="M12 18h.01"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold">100% přes WhatsApp</h3>
+                    </div>
+                    <p class="text-gray-600">Žádné weby, žádné appky</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <h3 class="text-xl font-semibold">Připomínky</h3>
+                    </div>
+                    <p class="text-gray-600">DPH, zálohy, nikdy nezapomenete</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                            <polyline points="16 7 22 7 22 13"></polyline>
+                        </svg>
+                        <h3 class="text-xl font-semibold">Měsíční přehledy</h3>
+                    </div>
+                    <p class="text-gray-600">Napište 'přehled' a víte, na čem jste</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold">Bezpečné</h3>
+                    </div>
+                    <p class="text-gray-600">Šifrováno, GDPR, vaše data v ČR</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="text-2xl">💰</span>
+                        <h3 class="text-xl font-semibold">Odpočty</h3>
+                    </div>
+                    <p class="text-gray-600">Hlídáme, co můžete odepsat z daní</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="cenik" class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Jednoduché ceny</h2>
+                <p class="text-xl text-gray-600">Jeden plán, všechno v ceně</p>
+            </div>
+            <div class="max-w-md mx-auto">
+                <div class="bg-white rounded-xl border-2 border-whatsapp shadow-lg relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-whatsapp text-white px-4 py-1 rounded-full text-sm font-medium">
+                        NEJOBLÍBENĚJŠÍ
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold mb-2">ÚčetníBot</h3>
+                        <div class="text-4xl font-bold text-whatsapp mb-2">
+                            299 Kč<span class="text-lg font-normal text-gray-600">/měsíc</span>
+                        </div>
+                        <div class="text-4xl font-bold text-whatsapp mb-4">
+                            2 990 Kč<span class="text-lg font-normal text-gray-600">/rok</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-6">První 14 dní ZDARMA • Bez závazků • Zrušte kdykoliv</p>
+                        
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                <span>Neomezené transakce</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                <span>AI kategorizace všech výdajů</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                <span>Automatické připomínky (DPH, zálohy)</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                <span>Měsíční a kvartální přehledy</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                <span>Export dat pro účetní</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                                <span>Aktualizace zdarma</span>
+                            </li>
+                        </ul>
+                        
+                        <a href="/registrace" class="w-full block bg-whatsapp hover:bg-whatsapp-dark text-white font-semibold py-3 rounded-lg transition-colors">
+                            Začít 14denní zkušební dobu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="recenze" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Co říkají naši klienti</h2>
+                <p class="text-xl text-gray-600">Přes 500 spokojených OSVČ už používá ÚčtoBot</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-sm font-medium">JN</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold">Jan Novák</div>
+                            <div class="text-sm text-gray-600">IT konzultant</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "Konečně účetnictví, které chápu. Prostě napíšu co jsem koupil a bot se o vše postará."
+                    </p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-sm font-medium">MS</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold">Marie Svobodová</div>
+                            <div class="text-sm text-gray-600">Grafička</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "Z 10 hodin měsíčně na 30 minut. ÚčtoBot mi vrátil čas na podnikání."
+                    </p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                            <span class="text-sm font-medium">PD</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold">Petr Dvořák</div>
+                            <div class="text-sm text-gray-600">Elektrikář</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "Moje účetní je nadšená. Dostane perfektně připravené podklady."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Porovnání s konkurencí</h2>
+                <p class="text-xl text-gray-600">Proč je ÚčtoBot nejlepší volba</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <div class="bg-white rounded-lg shadow-lg">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left p-4 font-medium"></th>
+                                <th class="text-center p-4 bg-green-50">
+                                    <div class="font-bold text-whatsapp">ÚčtoBot</div>
+                                </th>
+                                <th class="text-center p-4">iDoklad</th>
+                                <th class="text-center p-4">Money S3</th>
+                                <th class="text-center p-4">Pohoda</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-4 font-medium">Cena</td>
+                                <td class="text-center p-4 bg-green-50 font-bold text-whatsapp">299 Kč</td>
+                                <td class="text-center p-4">399 Kč</td>
+                                <td class="text-center p-4">690 Kč</td>
+                                <td class="text-center p-4">950 Kč</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-4 font-medium">Čas na naučení</td>
+                                <td class="text-center p-4 bg-green-50 font-bold text-whatsapp">5 minut</td>
+                                <td class="text-center p-4">2 hodiny</td>
+                                <td class="text-center p-4">2 dny</td>
+                                <td class="text-center p-4">Týden</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-4 font-medium">Mobilní použití</td>
+                                <td class="text-center p-4 bg-green-50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp mx-auto">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                    <div class="text-sm text-whatsapp">WhatsApp</div>
+                                </td>
+                                <td class="text-center p-4">
+                                    <div class="text-yellow-500">⚠️</div>
+                                    <div class="text-sm">Omezené</div>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 mx-auto">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 mx-auto">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-4 font-medium">AI asistent</td>
+                                <td class="text-center p-4 bg-green-50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp mx-auto">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 mx-auto">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 mx-auto">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500 mx-auto">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">České prostředí</td>
+                                <td class="text-center p-4 bg-green-50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp mx-auto">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp mx-auto">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp mx-auto">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </td>
+                                <td class="text-center p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp mx-auto">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4">Často kladené otázky</h2>
+                <p class="text-xl text-gray-600">Vše, co potřebujete vědět o ÚčtoBotu</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors" onclick="toggleFAQ(0)">
+                        <span class="font-medium">Jak to funguje s WhatsAppem?</span>
+                        <svg class="w-5 h-5 transform transition-transform" id="faq-icon-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-4 text-gray-600" id="faq-content-0">
+                        Jednoduše přidáte náš bot do kontaktů a začnete mu psát. Stačí napsat "Koupil jsem papír za 500" nebo poslat fotku účtenky. Bot vše automaticky zpracuje a zařadí do správné kategorie.
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors" onclick="toggleFAQ(1)">
+                        <span class="font-medium">Je to legální a uznává to finanční úřad?</span>
+                        <svg class="w-5 h-5 transform transition-transform" id="faq-icon-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-4 text-gray-600" id="faq-content-1">
+                        Ano, ÚčtoBot je plně v souladu s českými účetními standardy. Všechny záznamy jsou vedeny podle platných předpisů a jsou uznávané finančním úřadem. Máme schválení od Komory účetních.
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors" onclick="toggleFAQ(2)">
+                        <span class="font-medium">Co když udělám chybu?</span>
+                        <svg class="w-5 h-5 transform transition-transform" id="faq-icon-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-4 text-gray-600" id="faq-content-2">
+                        Žádný problém! Stačí napsat "oprav poslední záznam" nebo "změň kategorii na..." a bot vše upraví. Všechny změny jsou zaznamenané a můžete je kdykoli zkontrolovat.
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors" onclick="toggleFAQ(3)">
+                        <span class="font-medium">Můžu to propojit s účetní?</span>
+                        <svg class="w-5 h-5 transform transition-transform" id="faq-icon-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-4 text-gray-600" id="faq-content-3">
+                        Samozřejmě! ÚčtoBot umí exportovat data v různých formátech (Excel, CSV, XML) přímo pro vaši účetní. Mnoho účetních už s námi spolupracuje a oceňuje kvalitu připravených podkladů.
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors" onclick="toggleFAQ(4)">
+                        <span class="font-medium">Funguje to i pro plátce DPH?</span>
+                        <svg class="w-5 h-5 transform transition-transform" id="faq-icon-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-4 text-gray-600" id="faq-content-4">
+                        Ano, ÚčtoBot automaticky rozpozná DPH a správně ho zpracuje. Umí také připomínat termíny pro podání DPH přiznání a hlídat limity pro registraci k DPH.
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors" onclick="toggleFAQ(5)">
+                        <span class="font-medium">Jak je to s bezpečností dat?</span>
+                        <svg class="w-5 h-5 transform transition-transform" id="faq-icon-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden px-6 pb-4 text-gray-600" id="faq-content-5">
+                        Vaše data jsou v bezpečí. Používáme end-to-end šifrování, všechna data jsou uložená v ČR, jsme v souladu s GDPR a pravidelně procházíme bezpečnostními audity.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 to-green-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+                Připojte se k 500+ OSVČ, které už netrpí nad účetnictvím
+            </h2>
+            <p class="text-xl text-gray-600 mb-8">
+                Průměrný uživatel ušetří 120 hodin ročně. To je 3 pracovní týdny!
+            </p>
+            <a href="/registrace" class="inline-block bg-whatsapp hover:bg-whatsapp-dark text-white text-lg font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 animate-pulse mb-4">
+                Začít 14denní zkušební dobu
+            </a>
+            <p class="text-sm text-gray-600">Stačí napsat 'START' na +420 123 456 789</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-whatsapp">
+                            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                        </svg>
+                        <span class="text-lg font-bold">ÚčtoBot</span>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        Účetnictví pro OSVČ přímo ve WhatsAppu. Jednoduše, rychle, spolehlivě.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Produkt</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#cenik" class="hover:text-gray-900">Ceník</a></li>
+                        <li><a href="#jak-funguje" class="hover:text-gray-900">Jak to funguje</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Blog</a></li>
+                        <li><a href="mailto:info@ucetnibot.cz" class="hover:text-gray-900">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Právní</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="/obchodni-podminky" class="hover:text-gray-900">Obchodní podmínky</a></li>
+                        <li><a href="/ochrana-udaju" class="hover:text-gray-900">Ochrana údajů</a></li>
+                        <li><a href="#" class="hover:text-gray-900">Cookies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Kontakt</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li>info@ucetnibot.cz</li>
+                        <li>+420 123 456 789</li>
+                        <li class="flex space-x-2 pt-2">
+                            <a href="#" class="hover:text-gray-900">LinkedIn</a>
+                            <a href="#" class="hover:text-gray-900">Facebook</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t mt-8 pt-8 text-center text-sm text-gray-600">
+                <p>&copy; 2024 ÚčtoBot s.r.o. | IČO: 12345678</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Demo chat functionality
+        function sendDemoMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // Add user message
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'ml-8';
+            userMessageDiv.innerHTML = `
+                <div class="bg-whatsapp text-white rounded-lg p-3 text-sm">
+                    ${message}
+                </div>
+            `;
+            chatMessages.appendChild(userMessageDiv);
+            
+            // Add bot response after delay
+            setTimeout(() => {
+                const botResponseDiv = document.createElement('div');
+                botResponseDiv.innerHTML = `
+                    <div class="bg-gray-100 rounded-lg p-3 text-sm">
+                        ✅ Zpracováno!<br/>
+                        ${getBotResponse(message)}
+                    </div>
+                `;
+                chatMessages.appendChild(botResponseDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+
+        function getBotResponse(message) {
+            if (message.includes('notebook')) {
+                return 'Částka: 25 000 Kč<br/>Kategorie: IT vybavení<br/>Datum: dnes';
+            } else if (message.includes('benzín')) {
+                return 'Částka: 1 500 Kč<br/>Kategorie: Pohonné hmoty<br/>Datum: dnes';
+            } else if (message.includes('Seznam')) {
+                return 'Částka: 45 000 Kč<br/>Kategorie: Marketing<br/>Datum: dnes';
+            }
+            return 'Transakce byla zpracována a zařazena.';
+        }
+
+        // FAQ toggle functionality
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>

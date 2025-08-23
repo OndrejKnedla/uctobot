@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faktura {{ invoice.invoice_number }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        body {
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        .invoice-title {
+            font-size: 28pt;
+            font-weight: bold;
+            color: #0066cc;
+            text-align: right;
+        }
+        
+        .company-info {
+            margin-bottom: 30px;
+        }
+        
+        .parties {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .supplier, .customer {
+            width: 45%;
+        }
+        
+        .party-title {
+            font-weight: bold;
+            font-size: 12pt;
+            color: #0066cc;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        
+        .invoice-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .invoice-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .invoice-details td {
+            padding: 5px 10px;
+            border: none;
+        }
+        
+        .invoice-details .label {
+            font-weight: bold;
+            width: 30%;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .items-table th {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .items-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .items-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .totals {
+            width: 50%;
+            margin-left: auto;
+            margin-bottom: 30px;
+        }
+        
+        .totals table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .totals td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+        
+        .totals .label {
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+        
+        .totals .total-row {
+            background-color: #0066cc;
+            color: white;
+            font-weight: bold;
+            font-size: 12pt;
+        }
+        
+        .payment-info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-info h3 {
+            color: #0066cc;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .notes {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 1cm;
+            left: 2cm;
+            right: 2cm;
+            text-align: center;
+            font-size: 9pt;
+            color: #666;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+        
+        .stamp-area {
+            margin-top: 40px;
+            text-align: right;
+            font-size: 10pt;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">ÚčetníBot</div>
+        <div class="invoice-title">FAKTURA</div>
+    </div>
+    
+    <div class="parties">
+        <div class="supplier">
+            <div class="party-title">Dodavatel:</div>
+            <div>
+                <strong>{{ invoice.supplier_name }}</strong><br>
+                {{ invoice.supplier_address | replace('\n', '<br>') | safe }}<br>
+                <br>
+                IČO: {{ invoice.supplier_ico }}<br>
+                DIČ: {{ invoice.supplier_dic }}<br>
+                <br>
+                E-mail: {{ invoice.supplier_email }}<br>
+                Telefon: {{ invoice.supplier_phone }}
+            </div>
+        </div>
+        
+        <div class="customer">
+            <div class="party-title">Odběratel:</div>
+            <div>
+                <strong>{{ invoice.customer_name }}</strong><br>
+                {% if invoice.customer_address %}
+                    {{ invoice.customer_address | replace('\n', '<br>') | safe }}<br>
+                    <br>
+                {% endif %}
+                {% if invoice.customer_ico %}
+                    IČO: {{ invoice.customer_ico }}<br>
+                {% endif %}
+                {% if invoice.customer_dic %}
+                    DIČ: {{ invoice.customer_dic }}<br>
+                {% endif %}
+                E-mail: {{ invoice.customer_email }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="invoice-details">
+        <table>
+            <tr>
+                <td class="label">Číslo faktury:</td>
+                <td><strong>{{ invoice.invoice_number }}</strong></td>
+                <td class="label">Variabilní symbol:</td>
+                <td><strong>{{ invoice.variable_symbol or invoice.invoice_number.replace('UB', '') }}</strong></td>
+            </tr>
+            <tr>
+                <td class="label">Datum vystavení:</td>
+                <td>{{ format_date(invoice.issue_date) }}</td>
+                <td class="label">Datum splatnosti:</td>
+                <td>{{ format_date(invoice.due_date) }}</td>
+            </tr>
+            <tr>
+                <td class="label">Způsob platby:</td>
+                <td>{{ invoice.payment_method }}</td>
+                <td class="label">{% if invoice.payment_date %}Datum platby:{% endif %}</td>
+                <td>{% if invoice.payment_date %}<strong>{{ format_date(invoice.payment_date) }}</strong>{% endif %}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th style="width: 50%;">Popis služby</th>
+                <th style="width: 10%;" class="text-center">Množství</th>
+                <th style="width: 20%;" class="text-right">Cena za jednotku</th>
+                <th style="width: 20%;" class="text-right">Celkem bez DPH</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in invoice.items %}
+            <tr>
+                <td>{{ item.description }}</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-right">{{ format_currency(item.unit_price) }}</td>
+                <td class="text-right">{{ format_currency(item.total_price) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="totals">
+        <table>
+            <tr>
+                <td class="label">Základ daně:</td>
+                <td class="text-right">{{ format_currency(invoice.subtotal) }}</td>
+            </tr>
+            <tr>
+                <td class="label">DPH {{ invoice.vat_rate }}%:</td>
+                <td class="text-right">{{ format_currency(invoice.vat_amount) }}</td>
+            </tr>
+            <tr class="total-row">
+                <td class="label">Celkem k úhradě:</td>
+                <td class="text-right">{{ format_currency(invoice.total_amount) }}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="payment-info">
+        <h3>Platební údaje:</h3>
+        <strong>Číslo účtu:</strong> {{ invoice.bank_account }}<br>
+        <strong>Variabilní symbol:</strong> {{ invoice.variable_symbol or invoice.invoice_number.replace('UB', '') }}<br>
+        <strong>Částka:</strong> {{ format_currency(invoice.total_amount) }}
+        
+        {% if invoice.payment_date %}
+        <p style="color: #28a745; font-weight: bold; margin-top: 15px;">
+            ✓ FAKTURA JE UHRAZENA - Platba přijata {{ format_date(invoice.payment_date) }}
+        </p>
+        {% endif %}
+    </div>
+    
+    {% if invoice.notes %}
+    <div class="notes">
+        <strong>Poznámky:</strong><br>
+        {{ invoice.notes }}
+    </div>
+    {% endif %}
+    
+    <div class="stamp-area">
+        <p>Vystaveno elektronicky, podpis není vyžadován.</p>
+        <p>Datum vytvoření: {{ format_date(invoice.issue_date) }}</p>
+    </div>
+    
+    <div class="footer">
+        <p>
+            ÚčetníBot s.r.o. | IČO: {{ invoice.supplier_ico }} | DIČ: {{ invoice.supplier_dic }}<br>
+            Web: https://ucetni-bot.cz | E-mail: {{ invoice.supplier_email }}
+        </p>
+    </div>
+</body>
+</html>
