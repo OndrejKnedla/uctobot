@@ -11,3 +11,7 @@ requests
 twilio
 groq
 aiosqlite
+mangum
+stripe
+alembic
+psycopg2-binary
