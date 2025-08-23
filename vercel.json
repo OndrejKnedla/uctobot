@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/*.py",
+      "src": "ucetni-whatsapp-bot/api/*.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api/index.py"
+      "dest": "ucetni-whatsapp-bot/api/index.py"
     }
   ]
 }
