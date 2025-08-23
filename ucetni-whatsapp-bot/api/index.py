@@ -1,11 +1,15 @@
-import sys
-import os
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 
-# Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+app = FastAPI()
 
-from mangum import Mangum
-from app.main import app
+@app.get("/")
+def read_root():
+    return {"message": "Hello from Uctobot API", "status": "running"}
 
-# Create the handler for Vercel
-handler = Mangum(app)
+@app.get("/api/health")
+def health_check():
+    return {"status": "healthy", "service": "uctobot"}
+
+# Handler for Vercel
+handler = app
