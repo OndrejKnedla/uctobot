@@ -15,7 +15,12 @@ class handler(BaseHTTPRequestHandler):
             response = {
                 "message": "Hello from Uctobot API",
                 "status": "running",
-                "endpoints": ["/", "/api/health"]
+                "endpoints": [
+                    "/",
+                    "/api/health",
+                    "/api/webhook"
+                ],
+                "description": "WhatsApp bot pro účetnictví"
             }
             self.wfile.write(json.dumps(response).encode())
             
