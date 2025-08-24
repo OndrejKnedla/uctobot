@@ -45,14 +45,14 @@ class handler(BaseHTTPRequestHandler):
             font-size: 1.1rem; 
         }
     </style>
-    <meta http-equiv="refresh" content="3;url=http://localhost:3000">
+    <meta http-equiv="refresh" content="3;url=https://uctobot-git-master-realok2001-gmailcoms-projects.vercel.app">
 </head>
 <body>
     <div class="container">
         <h1>🤖 ÚčtoBot</h1>
         <p>Účetnictví pro OSVČ přes WhatsApp</p>
         <p>Přesměrovávám na aplikaci...</p>
-        <a href="http://localhost:3000" class="btn">Pokračovat na localhost</a>
+        <a href="https://uctobot-git-master-realok2001-gmailcoms-projects.vercel.app" class="btn">Pokračovat</a>
     </div>
 </body>
 </html>'''
