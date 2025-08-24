@@ -1,20 +1,37 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import json
+import os
 
-app = Flask(__name__)
-
-# Configure CORS with specific settings
-CORS(app, 
-     origins=['*'],  # Allow all origins
-     methods=['GET', 'POST', 'OPTIONS'],
-     allow_headers=['Content-Type', 'Authorization'],
-     supports_credentials=False)
-
-@app.route('/', methods=['GET'])
-def home():
-    """Landing page with redirect"""
-    html = '''<!DOCTYPE html>
+def handler(request):
+    """Simple Vercel handler for all requests"""
+    
+    # Get request details from Vercel request object
+    method = getattr(request, 'method', 'GET')
+    url = getattr(request, 'url', '')
+    path = getattr(request, 'path', url)
+    
+    print(f"DEBUG: {method} request to path: '{path}'")
+    print(f"DEBUG: Full request object attributes: {dir(request)}")
+    
+    # Common CORS headers
+    cors_headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Content-Type': 'application/json',
+    }
+    
+    # Handle OPTIONS (preflight) requests
+    if method == 'OPTIONS':
+        print(f"DEBUG: Handling OPTIONS preflight request")
+        return {
+            'statusCode': 200,
+            'headers': cors_headers,
+            'body': json.dumps({'message': 'CORS preflight OK'})
+        }
+    
+    # Handle root path - landing page
+    if path == '/' or path == '' or not path:
+        html = '''<!DOCTYPE html>
 <html>
 <head>
     <title>ÚčtoBot</title>
@@ -62,77 +79,87 @@ def home():
     </div>
 </body>
 </html>'''
-    return html
-
-@app.route('/api/health', methods=['GET'])
-def health():
-    """Health check endpoint"""
-    return jsonify({
-        "message": "ÚčtoBot API", 
-        "status": "healthy", 
-        "version": "1.0.0"
-    })
-
-@app.route('/api/payments/create-checkout-session', methods=['POST', 'OPTIONS'])
-def create_checkout_session():
-    """Handle payment checkout session creation"""
-    
-    print(f"DEBUG: {request.method} request to /api/payments/create-checkout-session")
-    print(f"DEBUG: Request headers: {dict(request.headers)}")
-    print(f"DEBUG: Request origin: {request.headers.get('Origin', 'No origin')}")
-    
-    if request.method == 'OPTIONS':
-        # Handle preflight CORS request with explicit headers
-        response = jsonify({})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-        return response, 200
-    
-    try:
-        # Get request data
-        request_data = request.get_json() or {}
-        print(f"DEBUG: Request data: {request_data}")
         
-        plan_type = request_data.get('plan_type', 'monthly')
-        trial_days = request_data.get('trial_days', 7)
-        
-        print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
-        
-        # Mock Stripe response for production demo
-        response = {
-            "success": True,
-            "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
-            "session_id": f"cs_test_{plan_type}_123",
-            "plan_type": plan_type,
-            "trial_days": trial_days,
-            "message": "Demo checkout session created"
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'text/html',
+                'Access-Control-Allow-Origin': '*',
+            },
+            'body': html
         }
+    
+    # Handle health endpoint
+    if '/api/health' in path:
+        response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
+        return {
+            'statusCode': 200,
+            'headers': cors_headers,
+            'body': json.dumps(response)
+        }
+    
+    # Handle payment endpoint
+    if '/api/payments/create-checkout-session' in path:
+        print(f"DEBUG: Payment endpoint called with method: {method}")
         
-        print(f"DEBUG: Returning response: {response}")
-        
-        # Create response with explicit CORS headers
-        flask_response = jsonify(response)
-        flask_response.headers.add('Access-Control-Allow-Origin', '*')
-        flask_response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        flask_response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-        return flask_response, 200
-        
-    except Exception as e:
-        print(f"DEBUG: Error in payment handler: {e}")
-        error_response = {"success": False, "error": str(e)}
-        
-        # Create error response with explicit CORS headers
-        flask_response = jsonify(error_response)
-        flask_response.headers.add('Access-Control-Allow-Origin', '*')
-        flask_response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        flask_response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-        return flask_response, 500
-
-@app.errorhandler(404)
-def not_found(error):
-    """Handle 404 errors"""
-    return jsonify({"error": "Endpoint not found", "path": request.path}), 404
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        try:
+            # Get request body for POST requests
+            request_data = {}
+            if method == 'POST':
+                body = getattr(request, 'body', None)
+                if body:
+                    if isinstance(body, str):
+                        request_data = json.loads(body)
+                    elif isinstance(body, bytes):
+                        request_data = json.loads(body.decode('utf-8'))
+                    else:
+                        # Try to get JSON data from request
+                        json_data = getattr(request, 'json', None)
+                        if json_data:
+                            request_data = json_data() if callable(json_data) else json_data
+                        
+            print(f"DEBUG: Request data: {request_data}")
+            
+            plan_type = request_data.get('plan_type', 'monthly') if request_data else 'monthly'
+            trial_days = request_data.get('trial_days', 7) if request_data else 7
+            
+            print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
+            
+            # Mock Stripe response for production demo
+            response = {
+                "success": True,
+                "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
+                "session_id": f"cs_test_{plan_type}_123",
+                "plan_type": plan_type,
+                "trial_days": trial_days,
+                "message": "Demo checkout session created"
+            }
+            
+            print(f"DEBUG: Returning response: {response}")
+            
+            return {
+                'statusCode': 200,
+                'headers': cors_headers,
+                'body': json.dumps(response)
+            }
+            
+        except Exception as e:
+            print(f"DEBUG: Error in payment handler: {e}")
+            import traceback
+            traceback.print_exc()
+            
+            error_response = {"success": False, "error": str(e)}
+            return {
+                'statusCode': 500,
+                'headers': cors_headers,
+                'body': json.dumps(error_response)
+            }
+    
+    # Handle 404 for other paths
+    print(f"DEBUG: 404 - Endpoint not found for path: '{path}'")
+    error_response = {"error": "Endpoint not found", "path": path, "method": method}
+    return {
+        'statusCode': 404,
+        'headers': cors_headers,
+        'body': json.dumps(error_response)
+    }
