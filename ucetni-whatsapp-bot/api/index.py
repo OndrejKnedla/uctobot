@@ -79,7 +79,11 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response).encode())
     
     def do_POST(self):
-        if self.path == '/api/payments/create-checkout-session':
+        # Normalize path for Vercel routing
+        path = self.path.lstrip('/')
+        print(f"DEBUG: POST request to path: '{self.path}', normalized: '{path}'")
+        
+        if path == 'api/payments/create-checkout-session' or self.path == '/api/payments/create-checkout-session':
             content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length)
             
@@ -118,6 +122,7 @@ class handler(BaseHTTPRequestHandler):
                 response = {"success": False, "error": str(e)}
                 self.wfile.write(json.dumps(response).encode())
         else:
+            print(f"DEBUG: POST endpoint not found for path: '{self.path}'")
             self.send_response(404)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
