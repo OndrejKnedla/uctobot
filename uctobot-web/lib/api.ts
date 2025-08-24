@@ -7,14 +7,20 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
   console.log('API Call:', url, options);
   
   try {
+    // Create AbortController for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    
     const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,
       },
-      timeout: 10000, // 10 second timeout
+      signal: controller.signal,
       ...options,
     });
+
+    clearTimeout(timeoutId);
 
     console.log('API Response status:', response.status);
     
@@ -27,9 +33,15 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
     return response.json();
   } catch (error) {
     console.error('Network error:', error);
+    
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error('Požadavek vypršel. Zkuste to prosím znovu.');
+    }
+    
     if (error instanceof TypeError && error.message.includes('fetch')) {
       throw new Error('Nelze se připojit k serveru. Zkontrolujte internetové připojení.');
     }
+    
     throw error;
   }
 }
