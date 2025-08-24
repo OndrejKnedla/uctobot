@@ -57,7 +57,7 @@ class handler(BaseHTTPRequestHandler):
         content_length = int(self.headers.get('Content-Length', 0))
         post_data = self.rfile.read(content_length)
         
-        if path == '/payments/create-checkout-session':
+        if path == '/payments/create-checkout-session' or path == '/api/payments/create-checkout-session':
             try:
                 # Parse request data
                 request_data = json.loads(post_data.decode('utf-8')) if post_data else {}

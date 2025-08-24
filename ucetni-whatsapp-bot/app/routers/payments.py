@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-router = APIRouter(prefix="/api", tags=["payments"])
+router = APIRouter(prefix="/api/payments", tags=["payments"])
 
 # Set Stripe API key
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
