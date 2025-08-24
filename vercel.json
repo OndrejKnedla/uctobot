@@ -9,24 +9,12 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "ucetni-whatsapp-bot/api/index.py"
-    },
-    {
       "src": "/webhook",
       "dest": "ucetni-whatsapp-bot/api/webhook.py"
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2))",
-      "dest": "/ucetni-whatsapp-bot/static/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/ucetni-whatsapp-bot/static/index.html"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/ucetni-whatsapp-bot/static/$1.html"
+      "dest": "ucetni-whatsapp-bot/api/index.py"
     }
   ]
 }
