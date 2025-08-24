@@ -37,7 +37,10 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
       }
     } catch (error) {
       console.error('Chyba při vytváření platby:', error);
-      alert('Něco se pokazilo. Zkuste to prosím znovu.');
+      
+      // Zobraz konkrétní chybu uživateli pro debug
+      const errorMessage = error instanceof Error ? error.message : 'Neznámá chyba';
+      alert(`Chyba: ${errorMessage}\n\nZkuste to prosím znovu nebo otevřete Console (F12) pro více informací.`);
     } finally {
       setLoading(false);
     }
