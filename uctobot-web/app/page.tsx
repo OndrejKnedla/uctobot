@@ -42,8 +42,8 @@ export default function UctoBotLanding() {
     const fetchApiStats = async () => {
       try {
         const [userStatsRes, transactionStatsRes] = await Promise.all([
-          fetch('http://localhost:8000/api/users/stats'),
-          fetch('http://localhost:8000/api/transactions/stats')
+          fetch('https://uctobot.vercel.app/api/users/stats'),
+          fetch('https://uctobot.vercel.app/api/transactions/stats')
         ])
 
         if (userStatsRes.ok && transactionStatsRes.ok) {

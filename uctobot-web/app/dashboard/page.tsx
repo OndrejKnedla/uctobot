@@ -73,9 +73,9 @@ export default function Dashboard() {
       
       // Paralelní načtení všech dat
       const [demoResponse, userStatsResponse, transactionStatsResponse] = await Promise.all([
-        fetch('http://localhost:8000/api/demo'),
-        fetch('http://localhost:8000/api/users/stats'),
-        fetch('http://localhost:8000/api/transactions/stats')
+        fetch('https://uctobot.vercel.app/api/demo'),
+        fetch('https://uctobot.vercel.app/api/users/stats'),
+        fetch('https://uctobot.vercel.app/api/transactions/stats')
       ])
 
       if (!demoResponse.ok || !userStatsResponse.ok || !transactionStatsResponse.ok) {
