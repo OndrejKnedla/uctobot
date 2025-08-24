@@ -48,21 +48,21 @@ class handler(BaseHTTPRequestHandler):
             response = {"status": "healthy", "service": "uctobot"}
             self.wfile.write(json.dumps(response).encode())
             
-        # Create checkout session endpoint
+        # Create checkout session endpoint (GET for testing)
         elif path == '/payments/create-checkout-session':
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
-            self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
             self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             self.end_headers()
             
-            # Mock response - in production this would create real Stripe session
+            # Mock response for GET (testing)
             response = {
                 "success": True,
-                "checkout_url": "https://checkout.stripe.com/pay/mock-session",
-                "session_id": "cs_mock_session_12345",
-                "message": "Mock checkout session created"
+                "message": "Endpoint is working. Use POST to create checkout session.",
+                "method": "GET",
+                "available_methods": ["GET", "POST"]
             }
             self.wfile.write(json.dumps(response).encode())
             
@@ -179,6 +179,7 @@ class handler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response).encode())
                 
             except Exception as e:
+                print(f"ERROR in checkout session: {str(e)}")
                 self.send_response(400)
                 self.send_header('Content-type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
@@ -186,7 +187,9 @@ class handler(BaseHTTPRequestHandler):
                 error_response = {
                     "success": False,
                     "error": str(e),
-                    "message": "Failed to create checkout session"
+                    "message": "Failed to create checkout session",
+                    "path": path,
+                    "method": "POST"
                 }
                 self.wfile.write(json.dumps(error_response).encode())
         else:
