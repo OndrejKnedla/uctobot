@@ -73,8 +73,8 @@ async def create_checkout_session(
                 'quantity': 1,
             }],
             mode='subscription',
-            success_url='http://localhost:3000/platba-uspesna?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='http://localhost:3000',
+            success_url=f'{os.getenv("FRONTEND_URL", "https://uctobot.vercel.app")}/platba-uspesna?session_id={{CHECKOUT_SESSION_ID}}',
+            cancel_url=f'{os.getenv("FRONTEND_URL", "https://uctobot.vercel.app")}',
             metadata={
                 'plan': request.plan
             }
