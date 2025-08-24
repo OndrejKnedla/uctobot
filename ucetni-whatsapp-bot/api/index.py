@@ -1,37 +1,44 @@
+from http.server import BaseHTTPRequestHandler
 import json
-import os
+import urllib.parse
 
-def handler(request):
-    """Simple Vercel handler for all requests"""
+class handler(BaseHTTPRequestHandler):
+    def _send_cors_headers(self):
+        """Send CORS headers for all responses"""
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     
-    # Get request details from Vercel request object
-    method = getattr(request, 'method', 'GET')
-    url = getattr(request, 'url', '')
-    path = getattr(request, 'path', url)
+    def _send_json_response(self, status_code, data):
+        """Send JSON response with CORS headers"""
+        self.send_response(status_code)
+        self.send_header('Content-Type', 'application/json')
+        self._send_cors_headers()
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode('utf-8'))
     
-    print(f"DEBUG: {method} request to path: '{path}'")
-    print(f"DEBUG: Full request object attributes: {dir(request)}")
+    def _send_html_response(self, html):
+        """Send HTML response with CORS headers"""
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/html')
+        self._send_cors_headers()
+        self.end_headers()
+        self.wfile.write(html.encode('utf-8'))
     
-    # Common CORS headers
-    cors_headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        'Content-Type': 'application/json',
-    }
+    def do_OPTIONS(self):
+        """Handle preflight CORS requests"""
+        print(f"DEBUG: OPTIONS request to {self.path}")
+        self.send_response(200)
+        self._send_cors_headers()
+        self.end_headers()
     
-    # Handle OPTIONS (preflight) requests
-    if method == 'OPTIONS':
-        print(f"DEBUG: Handling OPTIONS preflight request")
-        return {
-            'statusCode': 200,
-            'headers': cors_headers,
-            'body': json.dumps({'message': 'CORS preflight OK'})
-        }
-    
-    # Handle root path - landing page
-    if path == '/' or path == '' or not path:
-        html = '''<!DOCTYPE html>
+    def do_GET(self):
+        """Handle GET requests"""
+        print(f"DEBUG: GET request to {self.path}")
+        
+        if self.path == '/':
+            # Landing page
+            html = '''<!DOCTYPE html>
 <html>
 <head>
     <title>ÚčtoBot</title>
@@ -79,87 +86,68 @@ def handler(request):
     </div>
 </body>
 </html>'''
+            self._send_html_response(html)
+            
+        elif self.path == '/api/health':
+            # Health check
+            response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
+            self._send_json_response(200, response)
+            
+        else:
+            # 404 for other GET requests
+            response = {"error": "Not found", "path": self.path, "method": "GET"}
+            self._send_json_response(404, response)
+    
+    def do_POST(self):
+        """Handle POST requests"""
+        print(f"DEBUG: POST request to {self.path}")
+        print(f"DEBUG: Headers: {dict(self.headers)}")
         
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'text/html',
-                'Access-Control-Allow-Origin': '*',
-            },
-            'body': html
-        }
-    
-    # Handle health endpoint
-    if '/api/health' in path:
-        response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
-        return {
-            'statusCode': 200,
-            'headers': cors_headers,
-            'body': json.dumps(response)
-        }
-    
-    # Handle payment endpoint
-    if '/api/payments/create-checkout-session' in path:
-        print(f"DEBUG: Payment endpoint called with method: {method}")
-        
-        try:
-            # Get request body for POST requests
-            request_data = {}
-            if method == 'POST':
-                body = getattr(request, 'body', None)
-                if body:
-                    if isinstance(body, str):
-                        request_data = json.loads(body)
-                    elif isinstance(body, bytes):
-                        request_data = json.loads(body.decode('utf-8'))
-                    else:
-                        # Try to get JSON data from request
-                        json_data = getattr(request, 'json', None)
-                        if json_data:
-                            request_data = json_data() if callable(json_data) else json_data
-                        
-            print(f"DEBUG: Request data: {request_data}")
-            
-            plan_type = request_data.get('plan_type', 'monthly') if request_data else 'monthly'
-            trial_days = request_data.get('trial_days', 7) if request_data else 7
-            
-            print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
-            
-            # Mock Stripe response for production demo
-            response = {
-                "success": True,
-                "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
-                "session_id": f"cs_test_{plan_type}_123",
-                "plan_type": plan_type,
-                "trial_days": trial_days,
-                "message": "Demo checkout session created"
-            }
-            
-            print(f"DEBUG: Returning response: {response}")
-            
-            return {
-                'statusCode': 200,
-                'headers': cors_headers,
-                'body': json.dumps(response)
-            }
-            
-        except Exception as e:
-            print(f"DEBUG: Error in payment handler: {e}")
-            import traceback
-            traceback.print_exc()
-            
-            error_response = {"success": False, "error": str(e)}
-            return {
-                'statusCode': 500,
-                'headers': cors_headers,
-                'body': json.dumps(error_response)
-            }
-    
-    # Handle 404 for other paths
-    print(f"DEBUG: 404 - Endpoint not found for path: '{path}'")
-    error_response = {"error": "Endpoint not found", "path": path, "method": method}
-    return {
-        'statusCode': 404,
-        'headers': cors_headers,
-        'body': json.dumps(error_response)
-    }
+        if self.path == '/api/payments/create-checkout-session':
+            try:
+                # Read POST data
+                content_length = int(self.headers.get('Content-Length', 0))
+                post_data = self.rfile.read(content_length)
+                
+                print(f"DEBUG: Raw POST data: {post_data}")
+                
+                # Parse JSON data
+                if post_data:
+                    try:
+                        request_data = json.loads(post_data.decode('utf-8'))
+                        print(f"DEBUG: Parsed JSON data: {request_data}")
+                    except json.JSONDecodeError as e:
+                        print(f"DEBUG: JSON decode error: {e}")
+                        request_data = {}
+                else:
+                    request_data = {}
+                
+                plan_type = request_data.get('plan_type', 'monthly')
+                trial_days = request_data.get('trial_days', 7)
+                
+                print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
+                
+                # Mock Stripe response for production demo
+                response = {
+                    "success": True,
+                    "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
+                    "session_id": f"cs_test_{plan_type}_123",
+                    "plan_type": plan_type,
+                    "trial_days": trial_days,
+                    "message": "Demo checkout session created"
+                }
+                
+                print(f"DEBUG: Returning response: {response}")
+                self._send_json_response(200, response)
+                
+            except Exception as e:
+                print(f"DEBUG: Error in payment handler: {e}")
+                import traceback
+                traceback.print_exc()
+                
+                error_response = {"success": False, "error": str(e)}
+                self._send_json_response(500, error_response)
+        else:
+            # 404 for other POST requests
+            response = {"error": "Endpoint not found", "path": self.path, "method": "POST"}
+            self._send_json_response(404, response)
