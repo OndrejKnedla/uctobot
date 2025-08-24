@@ -151,11 +151,6 @@ def not_found(error):
     }), 404
 
 # Export the Flask app for Vercel
-# This is the key - Vercel expects 'app' variable
+# Vercel will automatically detect the 'app' variable as WSGI application
 if __name__ == '__main__':
     app.run(debug=True)
-
-# For Vercel WSGI
-def handler(event, context):
-    """Vercel handler that wraps Flask app"""
-    return app(event, context)
