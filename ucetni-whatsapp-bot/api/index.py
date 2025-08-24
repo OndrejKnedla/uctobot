@@ -59,10 +59,71 @@ class handler(BaseHTTPRequestHandler):
             
             self.wfile.write(html.encode())
             
-        else:
+        elif self.path == '/api/health':
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             
-            response = {"message": "ÚčtoBot API", "status": "ok"}
+            response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
             self.wfile.write(json.dumps(response).encode())
+            
+        else:
+            self.send_response(404)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            
+            response = {"error": "Not found", "path": self.path}
+            self.wfile.write(json.dumps(response).encode())
+    
+    def do_POST(self):
+        if self.path == '/api/payments/create-checkout-session':
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            
+            try:
+                request_data = json.loads(post_data.decode('utf-8')) if post_data else {}
+                plan_type = request_data.get('plan_type', 'monthly')
+                trial_days = request_data.get('trial_days', 7)
+                
+                # Mock Stripe response for production demo
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                
+                response = {
+                    "success": True,
+                    "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
+                    "session_id": f"cs_test_{plan_type}_123",
+                    "plan_type": plan_type,
+                    "trial_days": trial_days,
+                    "message": "Demo checkout session created"
+                }
+                
+                self.wfile.write(json.dumps(response).encode())
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                
+                response = {"success": False, "error": str(e)}
+                self.wfile.write(json.dumps(response).encode())
+        else:
+            self.send_response(404)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            
+            response = {"error": "Endpoint not found", "path": self.path}
+            self.wfile.write(json.dumps(response).encode())
+    
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
