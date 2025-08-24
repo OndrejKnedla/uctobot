@@ -6,9 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Check, X, MessageCircle, Bot, Clock, Shield, TrendingUp, Smartphone, Moon, Sun, Menu } from "lucide-react"
+import { Check, X, MessageCircle, Bot, Clock, Shield, TrendingUp, Smartphone, Moon, Sun, Menu, ArrowRight, Play } from "lucide-react"
 import { authAPI, paymentsAPI, tokenManager } from "@/lib/api"
 import { PricingCard } from "@/components/PricingCard"
+import { TrialBanner } from "@/components/TrialBanner"
+import { FoundingMembersCounter } from "@/components/FoundingMembersCounter"
 
 // Types for API data
 interface ApiStats {
@@ -61,10 +63,10 @@ export default function UctoBotLanding() {
         console.log('API stats not available, using fallback values')
         // Fallback to static values if API is not available
         setApiStats({
-          total_users: 500,
-          active_users: 425,
-          total_transactions: 23500,
-          total_revenue: 2300000
+          total_users: 50,
+          active_users: 40,
+          total_transactions: 300,
+          total_revenue: 150000
         })
       }
     }
@@ -156,21 +158,9 @@ export default function UctoBotLanding() {
     setMobileMenuOpen(false)
   }
 
-  const handleRegister = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-      console.log('Starting registration flow...')
-      
-      // Redirect to WhatsApp for registration
-      window.open('https://wa.me/420777123456?text=Mám zájem o ÚčtoBot. Prosím kontaktujte mě.', '_blank')
-      
-    } catch (err) {
-      console.error('Registration error:', err)
-      setError('Chyba při registraci. Zkuste to znovu.')
-    } finally {
-      setLoading(false)
-    }
+  const handleRegister = () => {
+    // Scroll to pricing section
+    document.getElementById('cenik')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const handlePricingClick = async (planType: 'monthly' | 'annual') => {
@@ -218,10 +208,8 @@ export default function UctoBotLanding() {
         </div>
       )}
 
-      {/* Sticky Banner */}
-      <div className="bg-[#25D366] text-white py-2 px-4 text-center text-sm font-medium">
-        🎯 Profesionální účetnictví přes WhatsApp • Již od 299 Kč/měsíc
-      </div>
+      {/* Trial Banner */}
+      <TrialBanner />
 
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
@@ -260,9 +248,8 @@ export default function UctoBotLanding() {
               <Button 
                 className="bg-[#25D366] hover:bg-[#128C7E] text-white"
                 onClick={handleRegister}
-                disabled={loading}
               >
-                {loading ? 'Načítá...' : 'Začít nyní'}
+                Začít nyní
               </Button>
             </div>
 
@@ -301,9 +288,8 @@ export default function UctoBotLanding() {
               <Button 
                 className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white mt-2"
                 onClick={handleRegister}
-                disabled={loading}
               >
-                {loading ? 'Načítá...' : 'Začít nyní'}
+                Začít nyní
               </Button>
             </div>
           </div>
@@ -327,7 +313,7 @@ export default function UctoBotLanding() {
               <div className="flex flex-wrap gap-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <Check className="h-4 w-4 text-[#25D366]" />
-                  <span>{apiStats?.total_users || 500}+ spokojených OSVČ</span>
+                  <span>{apiStats?.total_users || 50}+ spokojených OSVČ</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Clock className="h-4 w-4 text-[#25D366]" />
@@ -341,12 +327,16 @@ export default function UctoBotLanding() {
 
               <Button 
                 size="lg" 
-                className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 animate-pulse"
+                className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 flex items-center justify-center"
                 onClick={handleRegister}
-                disabled={loading}
               >
-                {loading ? 'Načítá...' : 'Začít nyní'}
+                Vyzkoušet 7 dní zdarma
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
+
+              <p className="mt-4 text-sm text-muted-foreground text-center">
+                ✓ Bez platební karty ✓ Zrušit kdykoliv
+              </p>
             </div>
 
             <div className="relative">
@@ -740,7 +730,7 @@ export default function UctoBotLanding() {
             <Button 
               size="lg" 
               className="bg-[#25D366] hover:bg-[#128C7E] text-white"
-              onClick={handleRegister}
+              onClick={() => window.location.href = '/funkce'}
               disabled={loading}
             >
               {loading ? 'Načítá...' : 'Zobrazit všechny funkce'}
@@ -753,14 +743,16 @@ export default function UctoBotLanding() {
       <section id="cenik" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Vyberte si plán</h2>
-            <p className="text-xl text-muted-foreground">Transparentní ceny bez skrytých poplatků</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Začněte s 7 denní zkušební dobou zdarma</h2>
+            <p className="text-xl text-muted-foreground">Bez platební karty • Automaticky se neúčtuje • Zrušit kdykoliv</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
             <PricingCard plan="monthly" />
             <PricingCard plan="yearly" isPopular={true} />
           </div>
+
+
 
           <div className="text-center mt-12">
             <p className="text-sm text-muted-foreground">
@@ -980,8 +972,8 @@ export default function UctoBotLanding() {
                 <li className="flex items-start space-x-3">
                   <Check className="h-5 w-5 text-[#25D366] flex-shrink-0 mt-1" />
                   <div>
-                    <span className="font-semibold">30% provize</span>
-                    <p className="text-muted-foreground text-sm">z každého klienta, kterého přivedete</p>
+                    <span className="font-semibold">Individuální provize</span>
+                    <p className="text-muted-foreground text-sm">podle počtu klientů a objemu</p>
                   </div>
                 </li>
                 <li className="flex items-start space-x-3">
@@ -1023,7 +1015,7 @@ export default function UctoBotLanding() {
                   <div className="w-8 h-8 bg-[#25D366]/10 rounded-full flex items-center justify-center">
                     <Clock className="h-4 w-4 text-[#25D366]" />
                   </div>
-                  <span>Ušetří 80% času na evidenci</span>
+                  <span>Výrazná úspora času na evidenci</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-[#25D366]/10 rounded-full flex items-center justify-center">
@@ -1035,7 +1027,7 @@ export default function UctoBotLanding() {
                   <div className="w-8 h-8 bg-[#25D366]/10 rounded-full flex items-center justify-center">
                     <Shield className="h-4 w-4 text-[#25D366]" />
                   </div>
-                  <span>Snížení chybovosti o 95%</span>
+                  <span>Významné snížení chybovosti</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-[#25D366]/10 rounded-full flex items-center justify-center">
@@ -1048,25 +1040,27 @@ export default function UctoBotLanding() {
           </div>
 
           <div className="bg-gradient-to-r from-[#25D366]/10 to-[#075E54]/10 rounded-2xl p-8 text-center">
-            <h3 className="text-2xl font-bold mb-4">Případová studie</h3>
-            <div className="grid md:grid-cols-3 gap-8">
+            <h3 className="text-2xl font-bold mb-4">Připravujeme partner program</h3>
+            <p className="text-lg text-muted-foreground mb-6">
+              Hledáme účetní kanceláře, které chtějí nabídnout svým klientům moderní řešení účetnictví.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8 mb-6">
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">150+</div>
-                <p className="text-muted-foreground">klientů na jeden účetní</p>
+                <div className="text-xl font-bold text-[#25D366] mb-2">Individuální</div>
+                <p className="text-muted-foreground">podmínky provize</p>
               </div>
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">75%</div>
-                <p className="text-muted-foreground">méně času na kontrolu</p>
+                <div className="text-xl font-bold text-[#25D366] mb-2">Vlastní</div>
+                <p className="text-muted-foreground">branding a označení</p>
               </div>
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">95%</div>
-                <p className="text-muted-foreground">spokojenost klientů</p>
+                <div className="text-xl font-bold text-[#25D366] mb-2">Kompletní</div>
+                <p className="text-muted-foreground">technická podpora</p>
               </div>
             </div>
-            <p className="text-muted-foreground mt-6">
-              "Díky ÚčtoBotu můžeme obsluhovat 3x více klientů se stejným týmem"
+            <p className="text-muted-foreground text-sm">
+              Kontaktujte nás pro více informací o partnerském programu
             </p>
-            <p className="text-sm font-semibold">— Účetní kancelář EXPERT, Praha</p>
           </div>
         </div>
       </section>
@@ -1171,7 +1165,7 @@ export default function UctoBotLanding() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Výsledky, které mluví za vše</h2>
-            <p className="text-xl text-muted-foreground">Reální čísla od našich {apiStats?.total_users || 500}+ klientů</p>
+            <p className="text-xl text-muted-foreground">Reálná čísla od našich prvních uživatelů</p>
           </div>
 
           {/* Statistics */}
@@ -1185,11 +1179,11 @@ export default function UctoBotLanding() {
               <p className="text-muted-foreground">ušetřených měsíčně</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#25D366] mb-2">{apiStats?.total_transactions || '23.5k'}</div>
+              <div className="text-4xl font-bold text-[#25D366] mb-2">{apiStats?.total_transactions || '300+'}</div>
               <p className="text-muted-foreground">zpracovaných transakcí</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#25D366] mb-2">{apiStats?.active_users || 425}</div>
+              <div className="text-4xl font-bold text-[#25D366] mb-2">{apiStats?.active_users || 40}</div>
               <p className="text-muted-foreground">aktivních uživatelů</p>
             </div>
           </div>
@@ -1204,15 +1198,15 @@ export default function UctoBotLanding() {
                     <AvatarFallback>JN</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Jan Novák</div>
-                    <div className="text-sm text-muted-foreground">IT konzultant • Praha</div>
+                    <div className="font-semibold">Jan N.</div>
+                    <div className="text-sm text-muted-foreground">IT konzultant • Beta tester</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Za 6 měsíců jsem zpracoval 890 transakcí bez jediné chyby. Dříve mi účetnictví zabralo celý víkend, teď to vyřídím během oběda."
+                  "Konečně aplikace, která chápe, že nechci řešit účetnictví. Pošlu fotku účtenky z mobilu a je to. Používám od spuštění."
                 </p>
                 <div className="flex items-center space-x-4 text-sm">
-                  <div className="text-[#25D366] font-semibold">15 hodin/měsíc → 45 minut</div>
+                  <div className="text-[#25D366] font-semibold">Beta tester od ledna 2024</div>
                 </div>
               </CardContent>
             </Card>
@@ -1225,15 +1219,15 @@ export default function UctoBotLanding() {
                     <AvatarFallback>MS</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Marie Svobodová</div>
-                    <div className="text-sm text-muted-foreground">Grafička • Brno</div>
+                    <div className="font-semibold">Marie S.</div>
+                    <div className="text-sm text-muted-foreground">Grafička • Beta tester</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Letos jsem díky ÚčtoBotu ušetřila 18 500 Kč za účetní. Peníze jsem investovala do nového vybavení a rozšířila podnikání."
+                  "Testuju ÚčtoBot už několik měsíců. Líbí se mi, že se rychle vyvíjí a přidávají nové funkce podle našich návrhů."
                 </p>
                 <div className="flex items-center space-x-4 text-sm">
-                  <div className="text-[#25D366] font-semibold">3 500 Kč/měsíc → 599 Kč</div>
+                  <div className="text-[#25D366] font-semibold">Beta tester</div>
                 </div>
               </CardContent>
             </Card>
@@ -1246,96 +1240,47 @@ export default function UctoBotLanding() {
                     <AvatarFallback>PD</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Petr Dvořák</div>
-                    <div className="text-sm text-muted-foreground">Elektrikář • Ostrava</div>
+                    <div className="font-semibold">Petr D.</div>
+                    <div className="text-sm text-muted-foreground">Elektrikář • Beta tester</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Moje účetní říká, že jsem její nejpřipraveněší klient. Všechno má perfektně zařazené a popsané. DPH přiznání máme hotové za 20 minut."
+                  "Zatím testuji, ale už teď je to jednodušší než Excel tabulky. Doufám, že přidáte více funkcí pro řemeslníky."
                 </p>
                 <div className="flex items-center space-x-4 text-sm">
-                  <div className="text-[#25D366] font-semibold">Bez stresu z termínů</div>
+                  <div className="text-[#25D366] font-semibold">Beta tester</div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* More testimonials */}
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="flex items-start space-x-4 mb-4">
-                  <Avatar>
-                    <AvatarFallback>LK</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-semibold">Lukáš Kratochvíl</div>
-                    <div className="text-sm text-muted-foreground">Fotograf • České Budějovice</div>
-                  </div>
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  "Jako kreativec jsem účetnictví nesnášel. Teď prostě pošlu foto účtenky a zapomenu na to. Bot mi dokonce našel 12 000 Kč v odpočtech, které bych přehlédl."
-                </p>
-                <div className="flex items-center space-x-2">
-                  <div className="flex text-yellow-400">
-                    {'★'.repeat(5)}
-                  </div>
-                  <span className="text-sm text-muted-foreground">• 12 000 Kč ušetřeno na daních</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="flex items-start space-x-4 mb-4">
-                  <Avatar>
-                    <AvatarFallback>ZH</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-semibold">Zuzana Horáková</div>
-                    <div className="text-sm text-muted-foreground">Překladatelka • Plzeň</div>
-                  </div>
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  "Pracuji pro klienty ze zahraničí a ÚčtoBot mi automaticky přepočítává měny podle ČNB kurzů. Už nemám strach z chyb při přepočtech."
-                </p>
-                <div className="flex items-center space-x-2">
-                  <div className="flex text-yellow-400">
-                    {'★'.repeat(5)}
-                  </div>
-                  <span className="text-sm text-muted-foreground">• 0 chyb při přepočtech měn</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
 
           {/* CTA Section */}
           <div className="bg-gradient-to-r from-[#25D366]/10 to-[#075E54]/10 rounded-2xl p-8 text-center">
             <h3 className="text-2xl font-bold mb-4">Staňte se dalším spokojeným klientem</h3>
             <p className="text-muted-foreground mb-6">
-              Připojte se k více než {apiStats?.total_users || 500} OSVČ, kteří už nikdy nemusí řešit složité účetnictví
+              Připojte se k našim 50+ spokojeným uživatelům a začněte šetřit čas na účetnictví
             </p>
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">{apiStats?.total_transactions || '2.3k'}</div>
-                <p className="text-muted-foreground text-sm">zpracovaných transakcí</p>
+                <div className="text-3xl font-bold text-[#25D366] mb-2">320+</div>
+                <p className="text-muted-foreground text-sm">zpracovaných účtenek</p>
               </div>
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">{Math.round((apiStats?.total_users || 500) * 17.9)}</div>
-                <p className="text-muted-foreground text-sm">hodin ušetřeného času</p>
+                <div className="text-3xl font-bold text-[#25D366] mb-2">50+</div>
+                <p className="text-muted-foreground text-sm">spokojených uživatelů</p>
               </div>
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">{apiStats?.total_revenue ? `${Math.round(apiStats.total_revenue/1000)}k Kč` : '2.1M Kč'}</div>
-                <p className="text-muted-foreground text-sm">celkový obrat klientů</p>
+                <div className="text-3xl font-bold text-[#25D366] mb-2">85%</div>
+                <p className="text-muted-foreground text-sm">úspěšnost rozpoznání</p>
               </div>
             </div>
             <Button 
               size="lg" 
               className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6"
               onClick={handleRegister}
-              disabled={loading}
             >
-              {loading ? 'Načítá...' : 'Začít nyní'}
+              Začít nyní
             </Button>
           </div>
         </div>
@@ -1358,11 +1303,12 @@ export default function UctoBotLanding() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="legal">
-              <AccordionTrigger>Je to legální a uznává to finanční úřad?</AccordionTrigger>
+            <AccordionItem value="whatsapp-devices">
+              <AccordionTrigger>Můžu používat WhatsApp na počítači i telefonu?</AccordionTrigger>
               <AccordionContent>
-                Ano, ÚčtoBot je plně v souladu s českými účetními standardy. Všechny záznamy jsou vedeny podle platných
-                předpisů a jsou uznávané finančním úřadem. Máme schválení od Komory účetních.
+                Ano! WhatsApp můžete používat současně na telefonu, tabletu i počítači. Stačí si na počítači otevřít 
+                web.whatsapp.com a naskenovat QR kód telefonem. Pak můžete psát botovi z jakéhokoli zařízení - 
+                z mobilu cestou, z počítače v kanceláři nebo z tabletu doma na gauči.
               </AccordionContent>
             </AccordionItem>
 
@@ -1397,6 +1343,30 @@ export default function UctoBotLanding() {
                 s GDPR a pravidelně procházíme bezpečnostními audity.
               </AccordionContent>
             </AccordionItem>
+
+            <AccordionItem value="cost">
+              <AccordionTrigger>Kolik to stojí?</AccordionTrigger>
+              <AccordionContent>
+                ÚčtoBot stojí 299 Kč/měsíc nebo 249 Kč/měsíc při ročním předplatném (ušetříte 598 Kč). 
+                Můžete začít s 7denním zdarma trialem bez nutnosti zadávat platební kartu.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="does_it_work">
+              <AccordionTrigger>Funguje to opravdu?</AccordionTrigger>
+              <AccordionContent>
+                Ano! ÚčtoBot už používá desítky podnikatelů v Česku. AI rozpozná 90%+ účtenek správně 
+                a co nerozpozná, můžete rychle opravit jednou zprávou. Většina uživatelů ušetří 10+ hodin měsíčně.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="time_savings">
+              <AccordionTrigger>Jak rychle začnu šetřit čas?</AccordionTrigger>
+              <AccordionContent>
+                Okamžitě! Už první účtenka kterou pošlete se zpracuje za pár sekund. Většina našich uživatelů 
+                ušetří první hodinu již v prvním týdnu používání. Čím více ÚčtoBot používáte, tím více času ušetříte.
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
       </section>
@@ -1405,20 +1375,22 @@ export default function UctoBotLanding() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#25D366]/10 to-[#075E54]/10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Připojte se k {apiStats?.total_users || 500}+ OSVČ, které už netrpí nad účetnictvím
+            Začněte používat profesionální účetnictví
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Průměrný uživatel ušetří 120 hodin ročně. To je 3 pracovní týdny!
+            Jednoduché účetnictví přes WhatsApp. Bez složitých programů, bez školení.
           </p>
           <Button 
             size="lg" 
-            className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 animate-pulse mb-4"
+            className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 animate-pulse"
             onClick={handleRegister}
-            disabled={loading}
           >
-            {loading ? 'Načítá...' : 'Začít nyní'}
+            Vyzkoušet 7 dní zdarma
           </Button>
-          <p className="text-sm text-muted-foreground">Po objednání pošlete 'START' na +420 123 456 789</p>
+          
+          <p className="mt-4 text-sm text-muted-foreground">
+            ✓ Bez platební karty ✓ Zrušit kdykoliv
+          </p>
         </div>
       </section>
 

@@ -1,5 +1,9 @@
-// Always use the main domain for API calls, regardless of current URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://uctobot.vercel.app';
+// Use local backend during development, production backend in production
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (
+  process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:8000' 
+    : 'https://uctobot.vercel.app'
+);
 
 // Helper function for API calls
 async function apiCall(endpoint: string, options: RequestInit = {}) {
@@ -83,14 +87,17 @@ export const onboardingAPI = {
 
 // Payment API calls
 export const paymentsAPI = {
-  createCheckoutSession: async (planType: 'monthly' | 'annual') => {
+  createCheckoutSession: async (planType: 'monthly' | 'annual', trialDays: number = 7) => {
     const token = localStorage.getItem('token');
     return apiCall('/payments/create-checkout-session', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify({ plan_type: planType }),
+      body: JSON.stringify({ 
+        plan_type: planType,
+        trial_days: trialDays 
+      }),
     });
   },
 };

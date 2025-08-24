@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check } from 'lucide-react';
+import { Check, Shield } from 'lucide-react';
 import { paymentsAPI } from '@/lib/api';
 
 interface PricingCardProps {
@@ -24,20 +24,8 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
       // Převeď plan typ na správný formát pro API
       const planType = plan === 'yearly' ? 'annual' : 'monthly';
       
-      // NUKLEÁRNÍ ŘEŠENÍ - přímé volání bez API funkce
-      const response = await fetch('https://uctobot.vercel.app/payments/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ plan_type: planType }),
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
+      // Use the API function with proper environment detection
+      const data = await paymentsAPI.createCheckoutSession(planType, 7);
       
       console.log('Checkout session response:', data);
       
@@ -62,22 +50,37 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
   const yearlyTotal = 2990;
   const savings = plan === 'yearly' ? '598 Kč ušetříte' : null;
   
-  const features = [
-    'Neomezené doklady',
+  const features = plan === 'monthly' ? [
+    'Všechny funkce',
+    'Neomezené transakce', 
+    'AI zpracování účtenek',
+    'WhatsApp podpora',
+    'Automatické DPH',
+    'Export pro účetní',
+    'Zrušit kdykoliv',
+    'Support do 24 hodin'
+  ] : [
+    'Vše z měsíčního plánu',
+    '2 měsíce ZDARMA',
+    'Prioritní support',
+    'Founding member cena navždy',
     'AI zpracování účtenek',
     'WhatsApp podpora 24/7',
     'Automatické DPH',
-    'Export pro účetní',
-    'Podpora pro OSVČ i s.r.o.',
-    'Mobilní aplikace',
-    'Zálohování dat'
+    'Export pro účetní'
   ];
   
   return (
-    <Card className={`relative ${isPopular ? 'border-2 border-green-500 shadow-lg' : ''}`}>
+    <Card className={`relative ${isPopular ? 'border-2 border-green-500 shadow-lg transform scale-105' : 'border-2 border-gray-200'}`}>
       {isPopular && (
         <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-500 hover:bg-green-600">
-          Nejoblíbenější
+          Ušetříte 598 Kč
+        </Badge>
+      )}
+      
+      {!isPopular && (
+        <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white">
+          Nejflexibilnější
         </Badge>
       )}
       
@@ -102,6 +105,11 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
             </div>
           )}
         </div>
+        
+        {/* Trial Banner */}
+        <div className="bg-green-50 dark:bg-green-950/20 text-green-800 dark:text-green-200 text-center py-2 rounded-lg mt-4">
+          🎁 {plan === 'yearly' ? '7 dní zdarma + 2 měsíce NAVÍC' : 'Prvních 7 dní ZDARMA'}
+        </div>
       </CardHeader>
       
       <CardContent>
@@ -119,7 +127,11 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
         <Button
           onClick={handlePayment}
           disabled={loading}
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg"
+          className={`w-full py-6 text-lg font-semibold transition ${
+            plan === 'yearly' 
+              ? 'bg-green-600 hover:bg-green-700 text-white' 
+              : 'bg-gray-800 hover:bg-gray-900 text-white'
+          }`}
           size="lg"
         >
           {loading ? (
@@ -128,7 +140,7 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
               Načítání...
             </>
           ) : (
-            plan === 'monthly' ? 'Začít měsíční plán' : 'Vybrat roční plán'
+            'Vyzkoušet 7 dní zdarma'
           )}
         </Button>
       </CardFooter>

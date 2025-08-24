@@ -1,0 +1,10 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://uctobot-api.vercel.app",
+    "NEXT_PUBLIC_STRIPE_PUBLIC_KEY": "pk_test_51PO6fGP6xKXnyJOjZTYKBOJrmSNvzJwCfwDWLjMmqGnHGDccrrvwmNzhO8o7y6HMGiHWhM1tUjJ5oS6Fqpqdnvrd00MJglo5dE",
+    "NEXT_PUBLIC_APP_URL": "https://uctobot.vercel.app"
+  }
+}
