@@ -93,6 +93,11 @@ class handler(BaseHTTPRequestHandler):
             response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
             self._send_json_response(200, response)
             
+        elif self.path == '/api/test':
+            # Simple test endpoint
+            response = {"message": "Test endpoint works", "method": "GET"}
+            self._send_json_response(200, response)
+            
         else:
             # 404 for other GET requests
             response = {"error": "Not found", "path": self.path, "method": "GET"}
@@ -103,7 +108,11 @@ class handler(BaseHTTPRequestHandler):
         print(f"DEBUG: POST request to {self.path}")
         print(f"DEBUG: Headers: {dict(self.headers)}")
         
-        if self.path == '/api/payments/create-checkout-session':
+        # Test all possible paths for payment endpoint
+        print(f"DEBUG: Checking path '{self.path}' against payment endpoint")
+        if (self.path == '/api/payments/create-checkout-session' or 
+            self.path.endswith('/api/payments/create-checkout-session') or
+            '/api/payments/create-checkout-session' in self.path):
             try:
                 # Read POST data
                 content_length = int(self.headers.get('Content-Length', 0))
@@ -147,6 +156,24 @@ class handler(BaseHTTPRequestHandler):
                 
                 error_response = {"success": False, "error": str(e)}
                 self._send_json_response(500, error_response)
+        
+        elif self.path == '/api/test':
+            # Simple POST test endpoint
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                post_data = self.rfile.read(content_length)
+                print(f"DEBUG: Test POST data: {post_data}")
+                
+                response = {
+                    "message": "Test POST endpoint works", 
+                    "method": "POST",
+                    "received_data": post_data.decode('utf-8') if post_data else None
+                }
+                self._send_json_response(200, response)
+            except Exception as e:
+                print(f"DEBUG: Error in test POST: {e}")
+                self._send_json_response(500, {"error": str(e)})
+        
         else:
             # 404 for other POST requests
             response = {"error": "Endpoint not found", "path": self.path, "method": "POST"}
