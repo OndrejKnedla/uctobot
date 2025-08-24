@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://uctobot.vercel.app');
+// Always use the main domain for API calls, regardless of current URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://uctobot.vercel.app';
 
 // Helper function for API calls
 async function apiCall(endpoint: string, options: RequestInit = {}) {
