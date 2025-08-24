@@ -208,6 +208,11 @@ export default function UctoBotLanding() {
         </div>
       )}
 
+      {/* Demo Banner */}
+      <div className="bg-green-600 text-white text-center py-2 text-sm font-medium">
+        🎯 DEMO VERZE - Platební funkcionalita je simulována pro prezentační účely
+      </div>
+
       {/* Trial Banner */}
       <TrialBanner />
 

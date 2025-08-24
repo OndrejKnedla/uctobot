@@ -29,9 +29,9 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
       
       console.log('Checkout session response:', data);
       
-      if (data.success && data.checkout_url) {
-        // Přesměruj na Stripe Checkout
-        window.location.href = data.checkout_url;
+      if (data.success) {
+        // Show demo message instead of redirect
+        alert(`${data.message}\n\nDemo URL: ${data.checkout_url}\n\nV reálné aplikaci by došlo k přesměrování na Stripe platební stránku.`);
       } else {
         throw new Error(data.message || 'Nepodařilo se vytvořit platbu');
       }
