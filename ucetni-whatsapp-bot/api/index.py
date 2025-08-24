@@ -3,7 +3,13 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+
+# Configure CORS with specific settings
+CORS(app, 
+     origins=['*'],  # Allow all origins
+     methods=['GET', 'POST', 'OPTIONS'],
+     allow_headers=['Content-Type', 'Authorization'],
+     supports_credentials=False)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -73,10 +79,15 @@ def create_checkout_session():
     
     print(f"DEBUG: {request.method} request to /api/payments/create-checkout-session")
     print(f"DEBUG: Request headers: {dict(request.headers)}")
+    print(f"DEBUG: Request origin: {request.headers.get('Origin', 'No origin')}")
     
     if request.method == 'OPTIONS':
-        # Handle preflight CORS request
-        return jsonify({}), 200
+        # Handle preflight CORS request with explicit headers
+        response = jsonify({})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+        return response, 200
     
     try:
         # Get request data
@@ -99,12 +110,24 @@ def create_checkout_session():
         }
         
         print(f"DEBUG: Returning response: {response}")
-        return jsonify(response), 200
+        
+        # Create response with explicit CORS headers
+        flask_response = jsonify(response)
+        flask_response.headers.add('Access-Control-Allow-Origin', '*')
+        flask_response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        flask_response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+        return flask_response, 200
         
     except Exception as e:
         print(f"DEBUG: Error in payment handler: {e}")
         error_response = {"success": False, "error": str(e)}
-        return jsonify(error_response), 500
+        
+        # Create error response with explicit CORS headers
+        flask_response = jsonify(error_response)
+        flask_response.headers.add('Access-Control-Allow-Origin', '*')
+        flask_response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        flask_response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+        return flask_response, 500
 
 @app.errorhandler(404)
 def not_found(error):
