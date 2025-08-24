@@ -24,8 +24,20 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
       // Převeď plan typ na správný formát pro API
       const planType = plan === 'yearly' ? 'annual' : 'monthly';
       
-      // Použij naši API funkci
-      const data = await paymentsAPI.createCheckoutSession(planType);
+      // NUKLEÁRNÍ ŘEŠENÍ - přímé volání bez API funkce
+      const response = await fetch('https://uctobot.vercel.app/payments/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ plan_type: planType }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
       
       console.log('Checkout session response:', data);
       
