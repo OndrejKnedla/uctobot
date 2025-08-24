@@ -1,23 +1,32 @@
-from http.server import BaseHTTPRequestHandler
 import json
+import os
+from urllib.parse import parse_qs, urlparse
 
-class handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        print(f"DEBUG: GET request to path: '{self.path}'")
-        
-        # Check if it's a payment endpoint request (might come as GET due to Vercel routing)
-        path = self.path.lstrip('/')
-        if path == 'api/payments/create-checkout-session' or self.path == '/api/payments/create-checkout-session':
-            self.handle_payment_request()
-            return
-            
-        if self.path == '/':
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            
-            html = '''<!DOCTYPE html>
+def handler(request, context):
+    """Vercel serverless function handler"""
+    
+    # Get request details
+    method = request.method
+    path = request.path if hasattr(request, 'path') else request.url.path
+    
+    print(f"DEBUG: {method} request to path: '{path}'")
+    
+    # Handle CORS preflight
+    if method == 'OPTIONS':
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            },
+            'body': ''
+        }
+    
+    # Handle root path - landing page
+    if path == '/' or path == '':
+        html = '''<!DOCTYPE html>
 <html>
 <head>
     <title>ÚčtoBot</title>
@@ -65,78 +74,52 @@ class handler(BaseHTTPRequestHandler):
     </div>
 </body>
 </html>'''
-            
-            self.wfile.write(html.encode())
-            
-        elif self.path == '/api/health':
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            
-            response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
-            self.wfile.write(json.dumps(response).encode())
-            
-        else:
-            self.send_response(404)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            
-            response = {"error": "Not found", "path": self.path}
-            self.wfile.write(json.dumps(response).encode())
-    
-    def do_POST(self):
-        # Normalize path for Vercel routing
-        path = self.path.lstrip('/')
-        print(f"DEBUG: POST request to path: '{self.path}', normalized: '{path}'")
         
-        if path == 'api/payments/create-checkout-session' or self.path == '/api/payments/create-checkout-session':
-            self.handle_payment_request()
-            return
-        else:
-            print(f"DEBUG: POST endpoint not found for path: '{self.path}'")
-            self.send_response(404)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-            self.end_headers()
-            
-            response = {"error": "Endpoint not found", "path": self.path}
-            self.wfile.write(json.dumps(response).encode())
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'text/html',
+                'Access-Control-Allow-Origin': '*',
+            },
+            'body': html
+        }
     
-    def do_OPTIONS(self):
-        print(f"DEBUG: OPTIONS request to path: '{self.path}'")
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-        self.end_headers()
+    # Handle health endpoint
+    if path == '/api/health':
+        response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            },
+            'body': json.dumps(response)
+        }
     
-    def handle_payment_request(self):
-        """Handle payment request regardless of HTTP method"""
-        print(f"DEBUG: Payment request handler called for path: '{self.path}', method: '{self.command}'")
-        
-        # Read POST data if available
-        content_length = int(self.headers.get('Content-Length', 0))
-        post_data = self.rfile.read(content_length) if content_length > 0 else b''
+    # Handle payment endpoint
+    if path == '/api/payments/create-checkout-session' or path == 'api/payments/create-checkout-session':
+        print(f"DEBUG: Payment endpoint called with method: {method}")
         
         try:
-            request_data = json.loads(post_data.decode('utf-8')) if post_data else {}
+            # Get request body for POST requests
+            request_data = {}
+            if method == 'POST' and hasattr(request, 'body'):
+                try:
+                    if isinstance(request.body, str):
+                        request_data = json.loads(request.body)
+                    elif isinstance(request.body, bytes):
+                        request_data = json.loads(request.body.decode('utf-8'))
+                except:
+                    request_data = {}
+            
             plan_type = request_data.get('plan_type', 'monthly')
             trial_days = request_data.get('trial_days', 7)
             
             print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
             
             # Mock Stripe response for production demo
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-            self.end_headers()
-            
             response = {
                 "success": True,
                 "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
@@ -146,16 +129,42 @@ class handler(BaseHTTPRequestHandler):
                 "message": "Demo checkout session created"
             }
             
-            self.wfile.write(json.dumps(response).encode())
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                },
+                'body': json.dumps(response)
+            }
             
         except Exception as e:
             print(f"DEBUG: Error in payment handler: {e}")
-            self.send_response(500)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-            self.end_headers()
             
-            response = {"success": False, "error": str(e)}
-            self.wfile.write(json.dumps(response).encode())
+            error_response = {"success": False, "error": str(e)}
+            return {
+                'statusCode': 500,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                },
+                'body': json.dumps(error_response)
+            }
+    
+    # Handle 404 for other paths
+    print(f"DEBUG: 404 - Endpoint not found for path: '{path}'")
+    error_response = {"error": "Endpoint not found", "path": path}
+    return {
+        'statusCode': 404,
+        'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+        'body': json.dumps(error_response)
+    }
