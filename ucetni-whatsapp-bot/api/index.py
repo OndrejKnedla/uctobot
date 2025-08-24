@@ -1,32 +1,14 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
-import os
-from urllib.parse import parse_qs, urlparse
 
-def handler(request, context):
-    """Vercel serverless function handler"""
-    
-    # Get request details
-    method = request.method
-    path = request.path if hasattr(request, 'path') else request.url.path
-    
-    print(f"DEBUG: {method} request to path: '{path}'")
-    
-    # Handle CORS preflight
-    if method == 'OPTIONS':
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            },
-            'body': ''
-        }
-    
-    # Handle root path - landing page
-    if path == '/' or path == '':
-        html = '''<!DOCTYPE html>
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
+@app.route('/', methods=['GET'])
+def home():
+    """Landing page with redirect"""
+    html = '''<!DOCTYPE html>
 <html>
 <head>
     <title>ÚčtoBot</title>
@@ -74,97 +56,60 @@ def handler(request, context):
     </div>
 </body>
 </html>'''
+    return html
+
+@app.route('/api/health', methods=['GET'])
+def health():
+    """Health check endpoint"""
+    return jsonify({
+        "message": "ÚčtoBot API", 
+        "status": "healthy", 
+        "version": "1.0.0"
+    })
+
+@app.route('/api/payments/create-checkout-session', methods=['POST', 'OPTIONS'])
+def create_checkout_session():
+    """Handle payment checkout session creation"""
+    
+    print(f"DEBUG: {request.method} request to /api/payments/create-checkout-session")
+    print(f"DEBUG: Request headers: {dict(request.headers)}")
+    
+    if request.method == 'OPTIONS':
+        # Handle preflight CORS request
+        return jsonify({}), 200
+    
+    try:
+        # Get request data
+        request_data = request.get_json() or {}
+        print(f"DEBUG: Request data: {request_data}")
         
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'text/html',
-                'Access-Control-Allow-Origin': '*',
-            },
-            'body': html
-        }
-    
-    # Handle health endpoint
-    if path == '/api/health':
-        response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            },
-            'body': json.dumps(response)
-        }
-    
-    # Handle payment endpoint
-    if path == '/api/payments/create-checkout-session' or path == 'api/payments/create-checkout-session':
-        print(f"DEBUG: Payment endpoint called with method: {method}")
+        plan_type = request_data.get('plan_type', 'monthly')
+        trial_days = request_data.get('trial_days', 7)
         
-        try:
-            # Get request body for POST requests
-            request_data = {}
-            if method == 'POST' and hasattr(request, 'body'):
-                try:
-                    if isinstance(request.body, str):
-                        request_data = json.loads(request.body)
-                    elif isinstance(request.body, bytes):
-                        request_data = json.loads(request.body.decode('utf-8'))
-                except:
-                    request_data = {}
-            
-            plan_type = request_data.get('plan_type', 'monthly')
-            trial_days = request_data.get('trial_days', 7)
-            
-            print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
-            
-            # Mock Stripe response for production demo
-            response = {
-                "success": True,
-                "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
-                "session_id": f"cs_test_{plan_type}_123",
-                "plan_type": plan_type,
-                "trial_days": trial_days,
-                "message": "Demo checkout session created"
-            }
-            
-            return {
-                'statusCode': 200,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-                },
-                'body': json.dumps(response)
-            }
-            
-        except Exception as e:
-            print(f"DEBUG: Error in payment handler: {e}")
-            
-            error_response = {"success": False, "error": str(e)}
-            return {
-                'statusCode': 500,
-                'headers': {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-                },
-                'body': json.dumps(error_response)
-            }
-    
-    # Handle 404 for other paths
-    print(f"DEBUG: 404 - Endpoint not found for path: '{path}'")
-    error_response = {"error": "Endpoint not found", "path": path}
-    return {
-        'statusCode': 404,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        },
-        'body': json.dumps(error_response)
-    }
+        print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
+        
+        # Mock Stripe response for production demo
+        response = {
+            "success": True,
+            "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
+            "session_id": f"cs_test_{plan_type}_123",
+            "plan_type": plan_type,
+            "trial_days": trial_days,
+            "message": "Demo checkout session created"
+        }
+        
+        print(f"DEBUG: Returning response: {response}")
+        return jsonify(response), 200
+        
+    except Exception as e:
+        print(f"DEBUG: Error in payment handler: {e}")
+        error_response = {"success": False, "error": str(e)}
+        return jsonify(error_response), 500
+
+@app.errorhandler(404)
+def not_found(error):
+    """Handle 404 errors"""
+    return jsonify({"error": "Endpoint not found", "path": request.path}), 404
+
+if __name__ == '__main__':
+    app.run(debug=True)
