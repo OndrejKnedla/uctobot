@@ -48,6 +48,24 @@ class handler(BaseHTTPRequestHandler):
             response = {"status": "healthy", "service": "uctobot"}
             self.wfile.write(json.dumps(response).encode())
             
+        # Create checkout session endpoint
+        elif path == '/payments/create-checkout-session':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+            self.end_headers()
+            
+            # Mock response - in production this would create real Stripe session
+            response = {
+                "success": True,
+                "checkout_url": "https://checkout.stripe.com/pay/mock-session",
+                "session_id": "cs_mock_session_12345",
+                "message": "Mock checkout session created"
+            }
+            self.wfile.write(json.dumps(response).encode())
+            
         # Serve static files  
         elif path.startswith('/_next/') or path.endswith(('.js', '.css', '.png', '.jpg', '.jpeg', '.svg', '.woff', '.woff2', '.ico')):
             # Remove leading slash for path construction
@@ -117,12 +135,68 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response).encode())
     
     def do_POST(self):
+        # Parse the path
+        parsed_path = urlparse(self.path)
+        path = parsed_path.path
+        
         # Handle POST requests
         content_length = int(self.headers.get('Content-Length', 0))
         post_data = self.rfile.read(content_length)
         
+        # Create checkout session
+        if path == '/payments/create-checkout-session':
+            try:
+                # Parse JSON data
+                request_data = json.loads(post_data.decode('utf-8')) if post_data else {}
+                plan_type = request_data.get('plan_type', 'monthly')
+                
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+                self.end_headers()
+                
+                # Mock checkout URL based on plan
+                prices = {
+                    'monthly': '299',
+                    'annual': '2990'
+                }
+                
+                response = {
+                    "success": True,
+                    "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}",
+                    "session_id": f"cs_mock_{plan_type}_12345",
+                    "plan_type": plan_type,
+                    "price": prices.get(plan_type, '299'),
+                    "message": f"Mock {plan_type} checkout session created"
+                }
+                self.wfile.write(json.dumps(response).encode())
+                
+            except Exception as e:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                error_response = {
+                    "success": False,
+                    "error": str(e),
+                    "message": "Failed to create checkout session"
+                }
+                self.wfile.write(json.dumps(error_response).encode())
+        else:
+            # Default POST response
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            response = {"message": "POST received", "data_length": content_length}
+            self.wfile.write(json.dumps(response).encode())
+    
+    def do_OPTIONS(self):
+        # Handle CORS preflight requests
         self.send_response(200)
-        self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         self.end_headers()
-        response = {"message": "POST received", "data_length": content_length}
-        self.wfile.write(json.dumps(response).encode())

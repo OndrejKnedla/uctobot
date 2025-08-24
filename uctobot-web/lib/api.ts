@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://uctobot.vercel.app');
 
 // Helper function for API calls
 async function apiCall(endpoint: string, options: RequestInit = {}) {
