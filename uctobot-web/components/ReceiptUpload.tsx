@@ -133,7 +133,7 @@ export default function ReceiptUpload({ userId, onTransactionCreated }: ReceiptU
         setProgress(prev => Math.min(prev + 10, 90))
       }, 200)
 
-      const response = await fetch('http://localhost:8000/ocr/process-receipt', {
+      const response = await fetch('https://uctobot.vercel.app/ocr/process-receipt', {
         method: 'POST',
         body: formData,
       })

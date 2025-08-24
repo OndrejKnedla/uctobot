@@ -25,7 +25,7 @@ function PaymentSuccessContent() {
   
   useEffect(() => {
     if (sessionId) {
-      fetch(`http://localhost:8000/api/payment-success?session_id=${sessionId}`)
+      fetch(`https://uctobot.vercel.app/api/payment-success?session_id=${sessionId}`)
         .then(res => res.json())
         .then(setData)
         .catch(err => {

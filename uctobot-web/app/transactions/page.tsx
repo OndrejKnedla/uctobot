@@ -71,7 +71,7 @@ export default function TransactionsPage() {
       setLoading(true)
       setError(null)
       
-      const response = await fetch('http://localhost:8000/api/transactions?limit=50')
+      const response = await fetch('https://uctobot.vercel.app/api/transactions?limit=50')
       
       if (!response.ok) {
         throw new Error('Chyba při načítání transakcí')
@@ -98,7 +98,7 @@ export default function TransactionsPage() {
       setSubmitting(true)
       setError(null)
       
-      const response = await fetch('http://localhost:8000/api/transactions', {
+      const response = await fetch('https://uctobot.vercel.app/api/transactions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
