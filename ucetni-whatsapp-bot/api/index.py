@@ -3,6 +3,14 @@ import json
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
+        print(f"DEBUG: GET request to path: '{self.path}'")
+        
+        # Check if it's a payment endpoint request (might come as GET due to Vercel routing)
+        path = self.path.lstrip('/')
+        if path == 'api/payments/create-checkout-session' or self.path == '/api/payments/create-checkout-session':
+            self.handle_payment_request()
+            return
+            
         if self.path == '/':
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
@@ -84,43 +92,8 @@ class handler(BaseHTTPRequestHandler):
         print(f"DEBUG: POST request to path: '{self.path}', normalized: '{path}'")
         
         if path == 'api/payments/create-checkout-session' or self.path == '/api/payments/create-checkout-session':
-            content_length = int(self.headers.get('Content-Length', 0))
-            post_data = self.rfile.read(content_length)
-            
-            try:
-                request_data = json.loads(post_data.decode('utf-8')) if post_data else {}
-                plan_type = request_data.get('plan_type', 'monthly')
-                trial_days = request_data.get('trial_days', 7)
-                
-                # Mock Stripe response for production demo
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-                self.end_headers()
-                
-                response = {
-                    "success": True,
-                    "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
-                    "session_id": f"cs_test_{plan_type}_123",
-                    "plan_type": plan_type,
-                    "trial_days": trial_days,
-                    "message": "Demo checkout session created"
-                }
-                
-                self.wfile.write(json.dumps(response).encode())
-                
-            except Exception as e:
-                self.send_response(500)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-                self.end_headers()
-                
-                response = {"success": False, "error": str(e)}
-                self.wfile.write(json.dumps(response).encode())
+            self.handle_payment_request()
+            return
         else:
             print(f"DEBUG: POST endpoint not found for path: '{self.path}'")
             self.send_response(404)
@@ -134,8 +107,55 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response).encode())
     
     def do_OPTIONS(self):
+        print(f"DEBUG: OPTIONS request to path: '{self.path}'")
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         self.end_headers()
+    
+    def handle_payment_request(self):
+        """Handle payment request regardless of HTTP method"""
+        print(f"DEBUG: Payment request handler called for path: '{self.path}', method: '{self.command}'")
+        
+        # Read POST data if available
+        content_length = int(self.headers.get('Content-Length', 0))
+        post_data = self.rfile.read(content_length) if content_length > 0 else b''
+        
+        try:
+            request_data = json.loads(post_data.decode('utf-8')) if post_data else {}
+            plan_type = request_data.get('plan_type', 'monthly')
+            trial_days = request_data.get('trial_days', 7)
+            
+            print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
+            
+            # Mock Stripe response for production demo
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+            self.end_headers()
+            
+            response = {
+                "success": True,
+                "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
+                "session_id": f"cs_test_{plan_type}_123",
+                "plan_type": plan_type,
+                "trial_days": trial_days,
+                "message": "Demo checkout session created"
+            }
+            
+            self.wfile.write(json.dumps(response).encode())
+            
+        except Exception as e:
+            print(f"DEBUG: Error in payment handler: {e}")
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+            self.end_headers()
+            
+            response = {"success": False, "error": str(e)}
+            self.wfile.write(json.dumps(response).encode())
