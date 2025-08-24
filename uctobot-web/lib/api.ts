@@ -89,7 +89,7 @@ export const onboardingAPI = {
 export const paymentsAPI = {
   createCheckoutSession: async (planType: 'monthly' | 'annual', trialDays: number = 7) => {
     const token = localStorage.getItem('token');
-    return apiCall('/payments/create-checkout-session', {
+    return apiCall('/api/payments/create-checkout-session', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,

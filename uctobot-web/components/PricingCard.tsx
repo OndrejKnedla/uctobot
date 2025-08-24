@@ -47,8 +47,8 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
   };
   
   const monthlyPrice = plan === 'monthly' ? 299 : 249;
-  const yearlyTotal = 2990;
-  const savings = plan === 'yearly' ? '598 Kč ušetříte' : null;
+  const yearlyTotal = 2988;  // 249 × 12 = 2988
+  const savings = plan === 'yearly' ? '600 Kč ušetříte' : null;  // 3588 - 2988 = 600
   
   const features = plan === 'monthly' ? [
     'Všechny funkce',
