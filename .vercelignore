@@ -1,0 +1,11 @@
+# Ignore development files
+node_modules
+.git
+.env
+*.pyc
+__pycache__
+venv
+test_env
+
+# Keep static files
+!ucetni-whatsapp-bot/static/
