@@ -45,14 +45,14 @@ class handler(BaseHTTPRequestHandler):
             font-size: 1.1rem; 
         }
     </style>
-    <meta http-equiv="refresh" content="3;url=https://uctobot-web.vercel.app">
+    <meta http-equiv="refresh" content="3;url=http://localhost:3000">
 </head>
 <body>
     <div class="container">
         <h1>🤖 ÚčtoBot</h1>
         <p>Účetnictví pro OSVČ přes WhatsApp</p>
         <p>Přesměrovávám na aplikaci...</p>
-        <a href="https://uctobot-web.vercel.app" class="btn">Pokračovat</a>
+        <a href="http://localhost:3000" class="btn">Pokračovat na localhost</a>
     </div>
 </body>
 </html>'''
