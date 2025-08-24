@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check } from 'lucide-react';
+import { paymentsAPI } from '@/lib/api';
 
 interface PricingCardProps {
   plan: 'monthly' | 'yearly';
@@ -18,22 +19,21 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
     setLoading(true);
     
     try {
-      // Zavolej backend pro vytvoření Stripe session
-      const response = await fetch('http://localhost:8000/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ plan }),
-      });
+      console.log('Creating checkout session for plan:', plan);
       
-      const data = await response.json();
+      // Převeď plan typ na správný formát pro API
+      const planType = plan === 'yearly' ? 'annual' : 'monthly';
       
-      if (data.checkout_url) {
+      // Použij naši API funkci
+      const data = await paymentsAPI.createCheckoutSession(planType);
+      
+      console.log('Checkout session response:', data);
+      
+      if (data.success && data.checkout_url) {
         // Přesměruj na Stripe Checkout
         window.location.href = data.checkout_url;
       } else {
-        throw new Error(data.detail || 'Nepodařilo se vytvořit platbu');
+        throw new Error(data.message || 'Nepodařilo se vytvořit platbu');
       }
     } catch (error) {
       console.error('Chyba při vytváření platby:', error);

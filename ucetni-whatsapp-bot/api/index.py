@@ -150,6 +150,10 @@ class handler(BaseHTTPRequestHandler):
                 request_data = json.loads(post_data.decode('utf-8')) if post_data else {}
                 plan_type = request_data.get('plan_type', 'monthly')
                 
+                # Debug logging
+                print(f"DEBUG: Received plan_type: {plan_type}")
+                print(f"DEBUG: Full request data: {request_data}")
+                
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.send_header('Access-Control-Allow-Origin', '*')
@@ -169,7 +173,8 @@ class handler(BaseHTTPRequestHandler):
                     "session_id": f"cs_mock_{plan_type}_12345",
                     "plan_type": plan_type,
                     "price": prices.get(plan_type, '299'),
-                    "message": f"Mock {plan_type} checkout session created"
+                    "message": f"Mock {plan_type} checkout session created",
+                    "debug_received_data": request_data
                 }
                 self.wfile.write(json.dumps(response).encode())
                 
