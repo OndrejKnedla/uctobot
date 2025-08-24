@@ -1,36 +1,21 @@
-from http.server import BaseHTTPRequestHandler
+from flask import Flask, request, jsonify, make_response
 import json
 
-class handler(BaseHTTPRequestHandler):
-    def _send_response(self, status_code, content_type, body):
-        """Send response with CORS headers"""
-        self.send_response(status_code)
-        self.send_header('Content-Type', content_type)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-        self.end_headers()
-        if isinstance(body, str):
-            self.wfile.write(body.encode('utf-8'))
-        else:
-            self.wfile.write(body)
+# Create Flask app
+app = Flask(__name__)
 
-    def _handle_request(self):
-        """Handle all HTTP methods in one place"""
-        method = self.command
-        path = self.path
-        
-        print(f"DEBUG: {method} request to {path}")
-        print(f"DEBUG: Headers: {dict(self.headers)}")
-        
-        # Handle OPTIONS (CORS preflight)
-        if method == 'OPTIONS':
-            self._send_response(200, 'application/json', '{}')
-            return
-        
-        # Handle root path
-        if path == '/':
-            html = '''<!DOCTYPE html>
+@app.after_request
+def after_request(response):
+    """Add CORS headers to all responses"""
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
+@app.route('/', methods=['GET'])
+def home():
+    """Landing page with redirect"""
+    html = '''<!DOCTYPE html>
 <html>
 <head>
     <title>ÚčtoBot</title>
@@ -78,109 +63,99 @@ class handler(BaseHTTPRequestHandler):
     </div>
 </body>
 </html>'''
-            self._send_response(200, 'text/html', html)
-            return
-        
-        # Handle health endpoint
-        if path == '/api/health':
-            response = {"message": "ÚčtoBot API", "status": "healthy", "version": "1.0.0"}
-            self._send_response(200, 'application/json', json.dumps(response))
-            return
-        
-        # Handle test endpoint
-        if path == '/api/test':
-            if method == 'GET':
-                response = {"message": "Test GET works", "method": method, "path": path}
-                self._send_response(200, 'application/json', json.dumps(response))
-                return
-            elif method == 'POST':
-                try:
-                    content_length = int(self.headers.get('Content-Length', 0))
-                    post_data = self.rfile.read(content_length)
-                    print(f"DEBUG: POST data received: {post_data}")
-                    
-                    response = {
-                        "message": "Test POST works", 
-                        "method": method,
-                        "path": path,
-                        "received_data": post_data.decode('utf-8') if post_data else None
-                    }
-                    self._send_response(200, 'application/json', json.dumps(response))
-                    return
-                except Exception as e:
-                    print(f"DEBUG: Error handling test POST: {e}")
-                    error_response = {"error": str(e)}
-                    self._send_response(500, 'application/json', json.dumps(error_response))
-                    return
-        
-        # Handle payment endpoint
-        if path == '/api/payments/create-checkout-session':
-            if method == 'POST':
-                try:
-                    content_length = int(self.headers.get('Content-Length', 0))
-                    post_data = self.rfile.read(content_length)
-                    print(f"DEBUG: Payment POST data: {post_data}")
-                    
-                    # Parse JSON data
-                    request_data = {}
-                    if post_data:
-                        try:
-                            request_data = json.loads(post_data.decode('utf-8'))
-                        except json.JSONDecodeError as e:
-                            print(f"DEBUG: JSON decode error: {e}")
-                    
-                    plan_type = request_data.get('plan_type', 'monthly')
-                    trial_days = request_data.get('trial_days', 7)
-                    
-                    print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
-                    
-                    # Mock Stripe response
-                    response = {
-                        "success": True,
-                        "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
-                        "session_id": f"cs_test_{plan_type}_123",
-                        "plan_type": plan_type,
-                        "trial_days": trial_days,
-                        "message": "Demo checkout session created"
-                    }
-                    
-                    print(f"DEBUG: Returning payment response: {response}")
-                    self._send_response(200, 'application/json', json.dumps(response))
-                    return
-                    
-                except Exception as e:
-                    print(f"DEBUG: Error in payment handler: {e}")
-                    import traceback
-                    traceback.print_exc()
-                    
-                    error_response = {"success": False, "error": str(e)}
-                    self._send_response(500, 'application/json', json.dumps(error_response))
-                    return
-            else:
-                # Payment endpoint only accepts POST
-                response = {"error": f"Method {method} not allowed for payment endpoint"}
-                self._send_response(405, 'application/json', json.dumps(response))
-                return
-        
-        # 404 for other paths
-        response = {"error": "Endpoint not found", "path": path, "method": method}
-        self._send_response(404, 'application/json', json.dumps(response))
+    return html
 
-    # Override all HTTP methods to use our single handler
-    def do_GET(self):
-        self._handle_request()
+@app.route('/api/health', methods=['GET'])
+def health():
+    """Health check endpoint"""
+    return jsonify({
+        "message": "ÚčtoBot API", 
+        "status": "healthy", 
+        "version": "1.0.0"
+    })
+
+@app.route('/api/test', methods=['GET', 'POST', 'OPTIONS'])
+def test():
+    """Test endpoint for debugging"""
+    print(f"DEBUG: {request.method} request to /api/test")
+    print(f"DEBUG: Headers: {dict(request.headers)}")
     
-    def do_POST(self):
-        self._handle_request()
+    if request.method == 'OPTIONS':
+        return jsonify({'message': 'CORS OK'})
+    
+    response_data = {
+        "message": f"Test {request.method} works!",
+        "method": request.method,
+        "path": request.path,
+        "headers": dict(request.headers)
+    }
+    
+    if request.method == 'POST':
+        try:
+            data = request.get_json()
+            response_data["received_data"] = data
+            print(f"DEBUG: POST data: {data}")
+        except Exception as e:
+            response_data["json_error"] = str(e)
+    
+    return jsonify(response_data)
+
+@app.route('/api/payments/create-checkout-session', methods=['POST', 'OPTIONS'])
+def create_checkout_session():
+    """Handle payment checkout session creation"""
+    
+    print(f"DEBUG: {request.method} request to /api/payments/create-checkout-session")
+    print(f"DEBUG: Request headers: {dict(request.headers)}")
+    
+    if request.method == 'OPTIONS':
+        return jsonify({'message': 'CORS preflight OK'})
+    
+    try:
+        # Get request data
+        request_data = request.get_json() or {}
+        print(f"DEBUG: Request data: {request_data}")
         
-    def do_OPTIONS(self):
-        self._handle_request()
+        plan_type = request_data.get('plan_type', 'monthly')
+        trial_days = request_data.get('trial_days', 7)
         
-    def do_PUT(self):
-        self._handle_request()
+        print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
         
-    def do_DELETE(self):
-        self._handle_request()
+        # Mock Stripe response for production demo
+        response = {
+            "success": True,
+            "checkout_url": f"https://buy.stripe.com/test_mock_{plan_type}_{trial_days}days",
+            "session_id": f"cs_test_{plan_type}_123",
+            "plan_type": plan_type,
+            "trial_days": trial_days,
+            "message": "Demo checkout session created"
+        }
         
-    def do_HEAD(self):
-        self._handle_request()
+        print(f"DEBUG: Returning response: {response}")
+        return jsonify(response)
+        
+    except Exception as e:
+        print(f"DEBUG: Error in payment handler: {e}")
+        import traceback
+        traceback.print_exc()
+        
+        error_response = {"success": False, "error": str(e)}
+        return jsonify(error_response), 500
+
+@app.errorhandler(404)
+def not_found(error):
+    """Handle 404 errors"""
+    return jsonify({
+        "error": "Endpoint not found", 
+        "path": request.path,
+        "method": request.method
+    }), 404
+
+# Export the Flask app for Vercel
+# This is the key - Vercel expects 'app' variable
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# For Vercel WSGI
+def handler(event, context):
+    """Vercel handler that wraps Flask app"""
+    return app(event, context)
