@@ -195,6 +195,66 @@ export default function UctoBotLanding() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Custom animations CSS */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideInFromLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes slideInFromRight {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-slide-in-left {
+          animation: slideInFromLeft 0.8s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-slide-in-right {
+          animation: slideInFromRight 0.8s ease-out forwards;
+          opacity: 0;
+        }
+      `}</style>
+      
       {/* Error Display */}
       {error && (
         <div className="bg-red-500 text-white py-2 px-4 text-center text-sm">
@@ -209,7 +269,7 @@ export default function UctoBotLanding() {
       )}
 
       {/* Demo Banner */}
-      <div className="bg-green-600 text-white text-center py-2 text-sm font-medium">
+      <div className="bg-green-600 text-white text-center py-2 text-sm font-medium animate-fade-in-up">
         🎯 DEMO VERZE - Platební funkcionalita je simulována pro prezentační účely
       </div>
 
@@ -302,15 +362,23 @@ export default function UctoBotLanding() {
       </nav>
 
       {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Floating background elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-10 w-20 h-20 bg-[#25D366]/10 rounded-full animate-float"></div>
+          <div className="absolute top-40 right-20 w-16 h-16 bg-[#25D366]/10 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-40 left-20 w-12 h-12 bg-[#25D366]/10 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-20 right-40 w-24 h-24 bg-[#25D366]/10 rounded-full animate-float" style={{animationDelay: '0.5s'}}></div>
+        </div>
+        
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+            <div className="space-y-8 animate-slide-in-left">
               <div className="space-y-4">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-                  Účetnictví přes WhatsApp za <span className="text-[#25D366]">5 vteřin</span>
+                  Účetnictví přes WhatsApp za <span className="text-[#25D366] animate-pulse">5 vteřin</span>
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed">
+                <p className="text-xl text-muted-foreground leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                   Napište "Koupil jsem papír za 500" a máte hotovo. Žádné složité programy, žádné školení.
                 </p>
               </div>
@@ -753,8 +821,12 @@ export default function UctoBotLanding() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
-            <PricingCard plan="monthly" />
-            <PricingCard plan="yearly" isPopular={true} />
+            <div className="animate-slide-in-left">
+              <PricingCard plan="monthly" />
+            </div>
+            <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
+              <PricingCard plan="yearly" isPopular={true} />
+            </div>
           </div>
 
 
