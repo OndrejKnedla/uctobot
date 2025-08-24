@@ -1,1 +1,2 @@
-# No external dependencies required for basic handler
+# Minimal requirements for Vercel deployment
+# FastAPI and heavy dependencies removed for now to avoid crashes
