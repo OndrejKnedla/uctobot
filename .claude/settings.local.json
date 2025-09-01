@@ -93,7 +93,9 @@
       "Bash(for file in app/api/create-activation-code/route.ts app/api/create-payment-intent/route.ts)",
       "Bash(do)",
       "Bash(npm i:*)",
-      "WebFetch(domain:uctobot-git-master-realok2001-gmailcoms-projects.vercel.app)"
+      "WebFetch(domain:uctobot-git-master-realok2001-gmailcoms-projects.vercel.app)",
+      "WebFetch(domain:dokladbot.cz)",
+      "WebFetch(domain:www.dokladbot.cz)"
     ],
     "deny": [],
     "ask": [],
