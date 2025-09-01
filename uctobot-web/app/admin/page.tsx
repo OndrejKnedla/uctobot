@@ -167,7 +167,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            ÚčtoBot Admin
+            DokladBot Admin
           </h1>
           <p className="text-gray-600">
             Správa uživatelů a předplatných
