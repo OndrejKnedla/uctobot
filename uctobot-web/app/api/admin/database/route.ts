@@ -1,8 +1,31 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    // Check authentication
+    const authHeader = request.headers.get('authorization')
+    
+    if (authHeader && authHeader.startsWith('Basic ')) {
+      const credentials = authHeader.slice(6)
+      const [username, password] = Buffer.from(credentials, 'base64').toString().split(':')
+      
+      const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
+      
+      if (!ADMIN_PASSWORD || username !== 'admin' || password !== ADMIN_PASSWORD) {
+        return NextResponse.json(
+          { error: 'Unauthorized' },
+          { status: 401 }
+        )
+      }
+    } else {
+      // No auth header provided
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      )
+    }
+    
     // Fetch all data from database
     const users = await prisma.user.findMany({
       orderBy: { createdAt: 'desc' },

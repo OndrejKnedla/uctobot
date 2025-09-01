@@ -4,29 +4,132 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Lock } from 'lucide-react'
 
 export default function AdminDatabasePage() {
   const [data, setData] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('users')
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
 
-  const fetchData = async () => {
     try {
-      const response = await fetch('/api/admin/database')
+      const response = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+
       const result = await response.json()
-      setData(result)
+
+      if (result.success) {
+        setIsAuthenticated(true)
+        fetchData()
+      } else {
+        setError('Nesprávné jméno nebo heslo')
+      }
     } catch (error) {
-      console.error('Error fetching data:', error)
+      setError('Chyba při přihlašování')
     } finally {
       setLoading(false)
     }
   }
 
-  if (loading) {
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch('/api/admin/database', {
+        headers: {
+          'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+        }
+      })
+      
+      if (response.status === 401) {
+        setIsAuthenticated(false)
+        setError('Přihlášení vypršelo')
+        return
+      }
+      
+      const result = await response.json()
+      setData(result)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+      setError('Chyba při načítání dat')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Lock className="h-5 w-5" />
+              Admin přihlášení
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Uživatelské jméno</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="admin"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  disabled={loading}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="password">Heslo</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              {error && (
+                <div className="text-red-500 text-sm">{error}</div>
+              )}
+
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={loading}
+              >
+                {loading ? 'Přihlašování...' : 'Přihlásit se'}
+              </Button>
+            </form>
+
+            <div className="mt-4 text-xs text-gray-500 text-center">
+              Nastavte ADMIN_PASSWORD ve Vercel environment variables
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  if (loading && !data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-xl">Načítám databázi...</div>
@@ -37,7 +140,20 @@ export default function AdminDatabasePage() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">📊 DokladBot Database</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">📊 DokladBot Database</h1>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              setIsAuthenticated(false)
+              setData(null)
+              setUsername('')
+              setPassword('')
+            }}
+          >
+            🚪 Odhlásit
+          </Button>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <Card>
@@ -198,8 +314,8 @@ export default function AdminDatabasePage() {
         </Tabs>
 
         <div className="mt-6 text-center">
-          <Button onClick={fetchData} variant="outline">
-            🔄 Aktualizovat data
+          <Button onClick={fetchData} variant="outline" disabled={loading}>
+            {loading ? 'Načítám...' : '🔄 Aktualizovat data'}
           </Button>
         </div>
       </div>
