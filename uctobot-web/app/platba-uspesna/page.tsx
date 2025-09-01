@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle, MessageCircle, ArrowLeft, Star, Mail, Copy, Clock } from "lucide-react"
+import { CheckCircle, MessageCircle, ArrowLeft, Star, Mail, Copy, Clock, Settings } from "lucide-react"
 import { useRouter, useSearchParams } from 'next/navigation'
 
 interface ActivationData {
@@ -19,6 +19,7 @@ function PlatbaUspesnaPageContent() {
   const [activationData, setActivationData] = useState<ActivationData | null>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
+  const [portalLoading, setPortalLoading] = useState(false)
   
   useEffect(() => {
     const sessionId = searchParams.get('session_id')
@@ -72,6 +73,31 @@ function PlatbaUspesnaPageContent() {
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Nepodařilo se zkopírovat:', err)
+    }
+  }
+
+  const openCustomerPortal = async () => {
+    if (!activationData?.userEmail) return
+    
+    setPortalLoading(true)
+    try {
+      const response = await fetch('/api/customer-portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: activationData.userEmail })
+      })
+      
+      if (response.ok) {
+        const { url } = await response.json()
+        window.open(url, '_blank')
+      } else {
+        alert('Nepodařilo se otevřít portál pro správu předplatného')
+      }
+    } catch (error) {
+      console.error('Portal error:', error)
+      alert('Chyba při otevírání portálu')
+    } finally {
+      setPortalLoading(false)
     }
   }
 
@@ -299,20 +325,30 @@ function PlatbaUspesnaPageContent() {
             Pokud máte problém s aktivací nebo jakékoliv dotazy, kontaktujte nás. 
             Jsme tu pro vás 24/7.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto">
+            <Button 
+              onClick={openCustomerPortal}
+              disabled={portalLoading}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              {portalLoading ? 'Otevírám...' : 'Spravovat předplatné'}
+            </Button>
+            
             <Button 
               variant="outline" 
               asChild
               className="border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white"
             >
-              <a href="mailto:podpora@dokladbot.cz">
+              <a href="mailto:info@dokladbot.cz">
                 <Mail className="w-4 h-4 mr-2" />
-                podpora@dokladbot.cz
+                info@dokladbot.cz
               </a>
             </Button>
+            
             <Button 
+              variant="outline"
               asChild
-              className="bg-[#25D366] hover:bg-[#128C7E] text-white"
             >
               <a href="/">
                 Zpět na hlavní stránku
