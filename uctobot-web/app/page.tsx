@@ -1527,6 +1527,14 @@ export default function DokladBotLanding() {
                 </li>
                 <li>
                   <button 
+                    onClick={() => window.location.href = '/spravovat-predplatne'} 
+                    className="hover:text-foreground text-left"
+                  >
+                    Spravovat předplatné
+                  </button>
+                </li>
+                <li>
+                  <button 
                     onClick={() => window.location.href = '/video-tutorialy'} 
                     className="hover:text-foreground text-left"
                   >

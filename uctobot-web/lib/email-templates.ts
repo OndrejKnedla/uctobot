@@ -140,6 +140,10 @@ export function generateActivationEmailHTML(data: ActivationEmailData): string {
           </a>
           <br>
           Odpovídáme obvykle do 2 hodin během pracovní doby.
+          <br><br>
+          <a href="https://dokladbot.cz/spravovat-predplatne" style="color: #1e40af; text-decoration: underline;">
+            🔧 Spravovat předplatné (zrušit, změnit kartu, faktury)
+          </a>
         </div>
       </div>
 
@@ -201,6 +205,10 @@ ${data.isFoundingMember ? '- Zakladatelský člen: Cena uzamčena navždy!' : ''
 💬 POTŘEBUJETE POMOC?
 Napište nám na info@dokladbot.cz
 Odpovídáme obvykle do 2 hodin.
+
+🔧 SPRAVOVAT PŘEDPLATNÉ:
+https://dokladbot.cz/spravovat-predplatne
+(zrušit, změnit kartu, stáhnout faktury)
 
 Těšíme se na spolupráci! 🚀
 
