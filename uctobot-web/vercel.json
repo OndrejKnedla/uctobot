@@ -8,7 +8,7 @@
     }
   },
   "env": {
-    "NEXT_PUBLIC_APP_URL": "https://uctobot.vercel.app",
+    "NEXT_PUBLIC_APP_URL": "https://dokladbot.cz",
     "NODE_ENV": "production"
   },
   "headers": [
