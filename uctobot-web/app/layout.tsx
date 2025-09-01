@@ -8,7 +8,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "DokladBot - Profesionální účetnictví přes WhatsApp | 7 dní zdarma",
   description:
-    'Profesionální účetnictví přímo ve WhatsAppu. 7 dní zdarma! Stačí napsat "koupil jsem papír za 500". AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 199 Kč/měsíc.',
+    'Profesionální účetnictví přes WhatsApp. 7 dní zdarma! AI kategorizace, DPH připomínky, měsíční přehledy. Stačí napsat výdaj, zbytek za vás. 199 Kč/měsíc.',
   keywords: [
     'účetnictví OSVČ',
     'WhatsApp účetnictví',
@@ -34,6 +34,12 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   metadataBase: new URL('https://dokladbot.cz'),
   alternates: {
     canonical: '/',
@@ -55,7 +61,7 @@ export const metadata: Metadata = {
     url: 'https://dokladbot.cz',
     siteName: 'DokladBot',
     title: "DokladBot - Profesionální účetnictví přes WhatsApp | 7 dní zdarma",
-    description: 'Profesionální účetnictví přímo ve WhatsAppu. 7 dní zdarma! Stačí napsat "koupil jsem papír za 500". AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 199 Kč/měsíc.',
+    description: 'Profesionální účetnictví přes WhatsApp. 7 dní zdarma! AI kategorizace, DPH připomínky, měsíční přehledy. Stačí napsat výdaj, zbytek za vás. 199 Kč/měsíc.',
     images: [
       {
         url: '/og-image.jpg',

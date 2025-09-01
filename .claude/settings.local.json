@@ -95,7 +95,9 @@
       "Bash(npm i:*)",
       "WebFetch(domain:uctobot-git-master-realok2001-gmailcoms-projects.vercel.app)",
       "WebFetch(domain:dokladbot.cz)",
-      "WebFetch(domain:www.dokladbot.cz)"
+      "WebFetch(domain:www.dokladbot.cz)",
+      "WebFetch(domain:pagespeed.web.dev)",
+      "WebFetch(domain:developers.google.com)"
     ],
     "deny": [],
     "ask": [],
