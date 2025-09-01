@@ -151,8 +151,9 @@ export function generateActivationEmailHTML(data: ActivationEmailData): string {
         Těšíme se na spolupráci! 🚀
       </div>
       <div style="font-size: 12px; color: #999; line-height: 1.5;">
-        DokladBot s.r.o.<br>
+        DokladBot<br>
         Praha, Česká republika<br>
+        © 2025<br>
         <a href="https://dokladbot.cz" style="color: #25D366; text-decoration: none;">dokladbot.cz</a> | 
         <a href="mailto:info@dokladbot.cz" style="color: #25D366; text-decoration: none;">info@dokladbot.cz</a>
       </div>
@@ -204,8 +205,9 @@ Odpovídáme obvykle do 2 hodin.
 Těšíme se na spolupráci! 🚀
 
 --
-DokladBot s.r.o.
+DokladBot
 Praha, Česká republika
+© 2025
 dokladbot.cz | info@dokladbot.cz
   `.trim();
 }
