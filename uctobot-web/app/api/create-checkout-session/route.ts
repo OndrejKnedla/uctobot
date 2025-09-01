@@ -85,6 +85,13 @@ export async function POST(request: Request) {
       ],
       mode: 'subscription',
       allow_promotion_codes: true,
+      metadata: {
+        userId: user?.id || 'unknown',
+        plan: plan,
+        isFoundingMember: isFoundingMember ? 'true' : 'false',
+        customerName: customerName,
+        customerEmail: customerEmail
+      },
       subscription_data: {
         trial_period_days: 7,
         metadata: {

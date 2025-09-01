@@ -39,9 +39,10 @@ export async function POST(request: Request) {
         const plan = session.metadata?.plan
         const isFoundingMember = session.metadata?.isFoundingMember === 'true'
         const customerName = session.metadata?.customerName
+        const customerEmail = session.metadata?.customerEmail || session.customer_email
 
-        if (!userId || !plan) {
-          console.error('Missing metadata in checkout session')
+        if (!plan || !customerEmail) {
+          console.error('Missing required metadata in checkout session:', { plan, customerEmail })
           break
         }
 
@@ -60,48 +61,52 @@ export async function POST(request: Request) {
             stripeCustomerId: session.customer as string
           }
 
-          // Update user with Stripe customer info
-          await prisma.user.update({
-            where: { id: userId },
-            data: {
-              name: customerName || 'Unknown',
-              email: session.customer_email || undefined
-            }
-          })
+          // Update user with Stripe customer info (only if userId exists)
+          if (userId && userId !== 'unknown') {
+            await prisma.user.update({
+              where: { id: userId },
+              data: {
+                name: customerName || 'Unknown',
+                email: customerEmail || undefined
+              }
+            })
 
-          await prisma.subscription.upsert({
-            where: { userId },
-            create: { ...subscriptionData, userId },
-            update: subscriptionData
-          })
+            await prisma.subscription.upsert({
+              where: { userId },
+              create: { ...subscriptionData, userId },
+              update: subscriptionData
+            })
+          }
 
           // Generate activation code for WhatsApp
           const activationCode = `DOKLADBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
           const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000) // 48 hours
           
-          // Create activation code record
-          await prisma.activationCode.create({
-            data: {
-              userId,
-              code: activationCode,
-              expiresAt
-            }
-          })
+          // Create activation code record (only if userId exists)
+          if (userId && userId !== 'unknown') {
+            await prisma.activationCode.create({
+              data: {
+                userId,
+                code: activationCode,
+                expiresAt
+              }
+            })
+          }
 
-          // Send activation email
+          // Send activation email to EVERY customer
           try {
             await sendActivationEmail({
               customerName: customerName || 'Zákazník',
-              customerEmail: session.customer_email || 'test@example.com',
+              customerEmail: customerEmail,
               activationCode,
               expiresAt: expiresAt.toLocaleString('cs-CZ'),
               plan: plan as 'MONTHLY' | 'YEARLY',
               isFoundingMember,
               whatsappNumber: '+420608123456'
             })
-            console.log(`Activation email sent to ${session.customer_email}`)
+            console.log(`✅ Activation email sent to ${customerEmail}`)
           } catch (emailError) {
-            console.error('Failed to send activation email:', emailError)
+            console.error('❌ Failed to send activation email:', emailError)
           }
           
           console.log(`Checkout completed for user ${userId}, plan: ${plan}, activation code: ${activationCode}`)
