@@ -156,6 +156,7 @@ export function generateActivationEmailHTML(data: ActivationEmailData): string {
       </div>
       <div style="font-size: 12px; color: #999; line-height: 1.5;">
         DokladBot<br>
+        IČO: 22161104<br>
         Praha, Česká republika<br>
         © 2025<br>
         <a href="https://dokladbot.cz" style="color: #25D366; text-decoration: none;">dokladbot.cz</a> | 
@@ -214,6 +215,7 @@ Těšíme se na spolupráci! 🚀
 
 --
 DokladBot
+IČO: 22161104
 Praha, Česká republika
 © 2025
 dokladbot.cz | info@dokladbot.cz

@@ -1591,7 +1591,7 @@ export default function DokladBotLanding() {
                   <button onClick={() => window.location.href = '/reklamace'} className="hover:text-foreground">Reklamace</button>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  &copy; 2024 DokladBot s.r.o. Všechna práva vyhrazena.
+                  &copy; 2025 DokladBot • IČO: 22161104 • Všechna práva vyhrazena.
                 </p>
               </div>
               
