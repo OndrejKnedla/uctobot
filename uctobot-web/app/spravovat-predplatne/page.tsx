@@ -101,7 +101,7 @@ export default function SpravovatPredplatnePage() {
 
               <Button 
                 type="submit" 
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white"
                 disabled={loading}
               >
                 <Settings className="w-4 h-4 mr-2" />
@@ -116,36 +116,36 @@ export default function SpravovatPredplatnePage() {
           <h3 className="text-xl font-semibold mb-4">Co můžete v portálu spravovat:</h3>
           
           <div className="grid md:grid-cols-2 gap-4">
-            <Card className="border-green-200">
+            <Card className="border-[#25D366]/20">
               <CardContent className="p-4">
-                <h4 className="font-semibold text-green-700 mb-2">✅ Zrušit předplatné</h4>
+                <h4 className="font-semibold text-[#25D366] mb-2">✅ Zrušit předplatné</h4>
                 <p className="text-sm text-gray-600">
                   Kdykoli můžete zrušit své předplatné s okamžitým účinkem
                 </p>
               </CardContent>
             </Card>
             
-            <Card className="border-blue-200">
+            <Card className="border-[#128C7E]/20">
               <CardContent className="p-4">
-                <h4 className="font-semibold text-blue-700 mb-2">💳 Změnit platební kartu</h4>
+                <h4 className="font-semibold text-[#128C7E] mb-2">💳 Změnit platební kartu</h4>
                 <p className="text-sm text-gray-600">
                   Aktualizujte svou platební kartu pro budoucí platby
                 </p>
               </CardContent>
             </Card>
             
-            <Card className="border-purple-200">
+            <Card className="border-[#25D366]/30">
               <CardContent className="p-4">
-                <h4 className="font-semibold text-purple-700 mb-2">🧾 Stáhnout faktury</h4>
+                <h4 className="font-semibold text-[#25D366] mb-2">🧾 Stáhnout faktury</h4>
                 <p className="text-sm text-gray-600">
                   Přístup ke všem vašim fakturám a platebním dokladům
                 </p>
               </CardContent>
             </Card>
             
-            <Card className="border-orange-200">
+            <Card className="border-[#128C7E]/30">
               <CardContent className="p-4">
-                <h4 className="font-semibold text-orange-700 mb-2">📧 Upravit údaje</h4>
+                <h4 className="font-semibold text-[#128C7E] mb-2">📧 Upravit údaje</h4>
                 <p className="text-sm text-gray-600">
                   Změňte svou emailovou adresu nebo fakturační údaje
                 </p>
