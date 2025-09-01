@@ -269,7 +269,7 @@ function PlanovaStrankaContent() {
         </div>
 
         <div className="text-center mt-8 text-sm text-muted-foreground">
-          <p>Máte otázky? <a href="mailto:support@dokladbot.cz" className="text-[#25D366] hover:underline">Napište nám</a></p>
+          <p>Máte otázky? <a href="mailto:info@dokladbot.cz" className="text-[#25D366] hover:underline">Napište nám</a></p>
         </div>
       </div>
     </div>

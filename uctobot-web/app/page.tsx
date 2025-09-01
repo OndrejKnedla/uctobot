@@ -168,7 +168,7 @@ export default function DokladBotLanding() {
   const handlePartnerClick = async () => {
     try {
       console.log('Partner interest clicked')
-      window.location.href = 'mailto:partner@dokladbot.cz?subject=Zájem o partnerství&body=Dobrý den,%0A%0Amám zájem o partnerský program pro účetní kanceláře.%0A%0AKontaktní údaje:%0ANázev společnosti: %0AKontaktní osoba: %0ATelefon: %0AE-mail: %0A%0Aděkuji za informace.%0A%0AS pozdravem'
+      window.location.href = 'mailto:info@dokladbot.cz?subject=Zájem o partnerství&body=Dobrý den,%0A%0Amám zájem o partnerský program pro účetní kanceláře.%0A%0AKontaktní údaje:%0ANázev společnosti: %0AKontaktní osoba: %0ATelefon: %0AE-mail: %0A%0Aděkuji za informace.%0A%0AS pozdravem'
     } catch (err) {
       console.error('Partner click error:', err)
     }
@@ -886,9 +886,9 @@ export default function DokladBotLanding() {
             <Button 
               variant="outline" 
               className="border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white"
-              onClick={() => window.location.href = 'mailto:api@dokladbot.cz?subject=Zájem o API integraci&body=Dobrý den,%0A%0Amám zájem o API přístup k DokladBotu pro integraci s:%0A- %0A- %0A%0AKontaktní údaje:%0ANázev společnosti: %0AKontaktní osoba: %0ATelefon: %0A%0Aděkuji za informace.%0A%0AS pozdravem'}
+              onClick={() => window.location.href = 'mailto:info@dokladbot.cz?subject=Zájem o API integraci&body=Dobrý den,%0A%0Amám zájem o API přístup k DokladBotu pro integraci s:%0A- %0A- %0A%0AKontaktní údaje:%0ANázev společnosti: %0AKontaktní osoba: %0ATelefon: %0A%0Aděkuji za informace.%0A%0AS pozdravem'}
             >
-              Napsat na api@dokladbot.cz
+              Napsat na info@dokladbot.cz
             </Button>
           </div>
         </div>
@@ -1599,7 +1599,7 @@ export default function DokladBotLanding() {
                 <div className="mb-4">
                   <h4 className="font-semibold mb-2">Kontakt</h4>
                   <div className="text-sm text-muted-foreground space-y-1">
-                    <div>📧 support@dokladbot.cz</div>
+                    <div>📧 info@dokladbot.cz</div>
                     <div>🕐 Po-Pá 9:00-17:00</div>
                   </div>
                 </div>
