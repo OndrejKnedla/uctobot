@@ -13,13 +13,13 @@ export default function Icon() {
     (
       <div
         style={{
-          background: 'white',
+          background: 'transparent',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '20px',
+          fontSize: '28px',
         }}
       >
         💸
