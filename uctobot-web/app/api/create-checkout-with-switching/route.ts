@@ -4,6 +4,11 @@ import { prisma } from '@/lib/db/prisma'
 
 export async function POST(request: Request) {
   try {
+    // Check if Stripe is properly configured
+    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('dummy')) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 })
+    }
+
     const { plan, isFoundingMember, customerName, customerEmail } = await request.json()
 
     if (!plan || !['MONTHLY', 'YEARLY'].includes(plan)) {

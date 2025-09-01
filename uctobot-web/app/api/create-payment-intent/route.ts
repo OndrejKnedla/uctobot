@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db/prisma'
 import jwt from 'jsonwebtoken'
 
 // Verify JWT token
+
 async function verifyToken(request: Request) {
   const token = request.headers.get('authorization')?.replace('Bearer ', '')
   
@@ -22,6 +23,11 @@ async function verifyToken(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    // Check if Stripe is properly configured
+    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('dummy')) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 })
+    }
+
     const userId = await verifyToken(request)
     
     if (!userId) {

@@ -14,6 +14,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Customer information required' }, { status: 400 })
     }
 
+    // Check if Stripe is properly configured
+    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('dummy')) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 })
+    }
+
     // Calculate exact price with VAT (21%)
     const amountWithExactVAT = plan === 'MONTHLY' ? 240.79 : 2407.90 // Exact VAT calculation
     const displayAmount = plan === 'MONTHLY' ? 240.79 : 200.66 // Display monthly equivalent

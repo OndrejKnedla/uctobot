@@ -13,6 +13,11 @@ export async function GET(
       return NextResponse.json({ error: 'Session ID required' }, { status: 400 })
     }
 
+    // Check if Stripe is properly configured
+    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('dummy')) {
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 })
+    }
+
     // Retrieve the session from Stripe
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['subscription', 'customer']
