@@ -1,0 +1,622 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String           @id @default(cuid())
+  whatsappPhone        String?          @unique
+  email                String?          @unique
+  firstName            String?
+  lastName             String?
+  name                 String?
+  companyName          String?
+  ico                  String?
+  dic                  String?
+  address              String?
+  companyAddress       String?
+  city                 String?
+  zipCode              String?
+  country              String           @default("CZ")
+  isVatPayer           Boolean          @default(false)
+  vatFrequency         VatFrequency?
+  accountingType       AccountingType   @default(TAX_RECORDS)
+  whatsappVerified     Boolean          @default(false)
+  whatsappOtp          String?
+  whatsappOtpExpiry    DateTime?
+  lastWhatsappActivity DateTime?
+  registrationStep     Int              @default(0)
+  isProfileComplete    Boolean          @default(false)
+  stripeCustomerId     String?
+  // New engagement fields
+  voiceEnabled         Boolean          @default(false)
+  preferredTime        String           @default("07:00")
+  timezone             String           @default("Europe/Prague")
+  dailyBriefingEnabled Boolean          @default(true)
+  eveningReportEnabled Boolean          @default(true)
+  achievementData      Json?
+  currentStreak        Int              @default(0)
+  longestStreak        Int              @default(0)
+  trustLevel           TrustLevel       @default(NEW)
+  aiLearningEnabled    Boolean          @default(true)
+  currentCompanyId     String?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  activationCodes      ActivationCode[]
+  categories           Category[]
+  contacts             Contact[]
+  documents            Document[]
+  expenses             Expense[]
+  invoices             Invoice[]
+  notifications        Notification[]
+  receipts             Receipt[]
+  subscription         Subscription?
+  taxReports           TaxReport[]
+  transactions         Transaction[]
+  // New relations
+  achievements         Achievement[]
+  companies            Company[]
+  aiTraining           AITraining[]
+  dailyBriefings       DailyBriefing[]
+  challenges           Challenge[]
+  paymentMatches       PaymentMatch[]
+  chartGeneration      ChartGeneration[]
+
+  @@index([whatsappPhone])
+  @@index([email])
+}
+
+model ActivationCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  userId    String
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique
+  plan                 PlanType           @default(MONTHLY)
+  status               SubscriptionStatus @default(TRIAL)
+  price                Decimal
+  trialEndsAt          DateTime?
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelledAt          DateTime?
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  isFoundingMember     Boolean            @default(false)
+  lockedPrice          Decimal?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  payments             Payment[]
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Payment {
+  id                    String        @id @default(cuid())
+  subscriptionId        String
+  amount                Decimal
+  currency              String        @default("CZK")
+  status                PaymentStatus
+  stripePaymentIntentId String?
+  stripeInvoiceId       String?
+  paidAt                DateTime?
+  failedAt              DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  subscription          Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([subscriptionId])
+}
+
+model Invoice {
+  id                String        @id @default(cuid())
+  userId            String
+  invoiceNumber     String
+  variableSymbol    String?
+  contactId         String?
+  subtotal          Decimal
+  vatAmount         Decimal
+  total             Decimal
+  currency          String        @default("CZK")
+  exchangeRate      Decimal?
+  issuedDate        DateTime
+  dueDate           DateTime
+  paymentDate       DateTime?
+  status            InvoiceStatus @default(DRAFT)
+  note              String?
+  internalNote      String?
+  whatsappMessageId String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  contact           Contact?      @relation(fields: [contactId], references: [id])
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items             InvoiceItem[]
+
+  @@unique([userId, invoiceNumber])
+  @@index([userId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model InvoiceItem {
+  id          String    @id @default(cuid())
+  invoiceId   String
+  description String
+  quantity    Decimal
+  unit        String    @default("ks")
+  unitPrice   Decimal
+  vatRate     Decimal
+  total       Decimal
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  invoice     Invoice   @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+}
+
+model Expense {
+  id                String           @id @default(cuid())
+  userId            String
+  expenseNumber     String
+  contactId         String?
+  description       String
+  subtotal          Decimal
+  vatAmount         Decimal
+  total             Decimal
+  vatRate           Decimal
+  currency          String           @default("CZK")
+  exchangeRate      Decimal?
+  expenseDate       DateTime
+  paymentDate       DateTime?
+  type              ExpenseType
+  status            ExpenseStatus    @default(UNPAID)
+  categoryId        String?
+  aiProcessed       Boolean          @default(false)
+  aiExtractedData   Json?
+  whatsappMessageId String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  documents         Document[]
+  category          Category?        @relation(fields: [categoryId], references: [id])
+  contact           Contact?         @relation(fields: [contactId], references: [id])
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, expenseNumber])
+  @@index([userId])
+  @@index([status])
+  @@index([expenseDate])
+}
+
+
+model Category {
+  id            String            @id @default(cuid())
+  userId        String
+  name          String
+  type          CategoryType
+  taxDeductible Boolean           @default(false)
+  vatRate       Decimal?
+  taxCode       String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses      Expense[]
+  invoiceItems  InvoiceItem[]
+
+  @@unique([userId, name, type])
+  @@index([userId])
+}
+
+model Contact {
+  id           String      @id @default(cuid())
+  userId       String
+  type         ContactType
+  name         String
+  companyName  String?
+  ico          String?
+  dic          String?
+  email        String?
+  phone        String?
+  address      String?
+  city         String?
+  zipCode      String?
+  country      String      @default("CZ")
+  aresVerified Boolean     @default(false)
+  aresData     Json?
+  bankAccount  String?
+  bankCode     String?
+  iban         String?
+  note         String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses     Expense[]
+  invoices     Invoice[]
+
+  @@index([userId])
+  @@index([ico])
+}
+
+model Document {
+  id                String       @id @default(cuid())
+  userId            String
+  fileName          String
+  fileUrl           String
+  fileSize          Int
+  mimeType          String
+  type              DocumentType
+  expenseId         String?
+  ocrProcessed      Boolean      @default(false)
+  ocrData           Json?
+  ocrConfidence     Float?
+  whatsappMessageId String?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  expense           Expense?     @relation(fields: [expenseId], references: [id])
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expenseId])
+}
+
+model TaxReport {
+  id          String          @id @default(cuid())
+  userId      String
+  type        TaxReportType
+  period      String
+  vatOutput   Decimal?
+  vatInput    Decimal?
+  vatPayable  Decimal?
+  income      Decimal?
+  expenses    Decimal?
+  taxBase     Decimal?
+  taxAmount   Decimal?
+  status      TaxReportStatus @default(DRAFT)
+  submittedAt DateTime?
+  paidAt      DateTime?
+  data        Json
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, period])
+  @@index([userId])
+  @@index([type, period])
+}
+
+model Notification {
+  id                String           @id @default(cuid())
+  userId            String
+  type              NotificationType
+  title             String
+  message           String
+  scheduledFor      DateTime?
+  sentViaWhatsApp   Boolean          @default(false)
+  whatsappMessageId String?
+  read              Boolean          @default(false)
+  readAt            DateTime?
+  createdAt         DateTime         @default(now())
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([scheduledFor])
+}
+
+model Transaction {
+  id                String          @id @default(cuid())
+  userId            String
+  type              TransactionType
+  amount            Decimal
+  description       String
+  category          String
+  transactionDate   DateTime        @default(now())
+  receiptId         String?
+  whatsappMessageId String?
+  accountCode       String?
+  vatRate           Int?
+  vatAmount         Decimal?
+  netAmount         Decimal?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  receipt           Receipt?        @relation(fields: [receiptId], references: [id])
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([type])
+  @@index([transactionDate])
+  @@index([category])
+}
+
+model Receipt {
+  id                String        @id @default(cuid())
+  userId            String
+  merchant          String?
+  ico               String?
+  dic               String?
+  receiptNumber     String?
+  totalAmount       Decimal
+  currency          String        @default("CZK")
+  receiptDate       DateTime?
+  ocrRawText        String?
+  ocrConfidence     Float?
+  vatInfo           Json?
+  totalVat          Decimal?
+  totalBase         Decimal?
+  category          String?
+  imageUrl          String?
+  whatsappMessageId String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions      Transaction[]
+
+  @@index([userId])
+  @@index([receiptDate])
+  @@index([merchant])
+}
+
+enum PlanType {
+  MONTHLY
+  YEARLY
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  PAST_DUE
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+
+enum ExpenseStatus {
+  UNPAID
+  PAID
+  CANCELLED
+}
+
+enum ExpenseType {
+  INVOICE
+  RECEIPT
+  CASH
+}
+
+
+enum CategoryType {
+  INCOME
+  EXPENSE
+}
+
+enum ContactType {
+  CUSTOMER
+  SUPPLIER
+  BOTH
+}
+
+enum DocumentType {
+  INVOICE
+  RECEIPT
+  CONTRACT
+  OTHER
+}
+
+enum TaxReportType {
+  VAT
+  INCOME_TAX
+  SOCIAL
+  HEALTH
+}
+
+enum TaxReportStatus {
+  DRAFT
+  SUBMITTED
+  PAID
+}
+
+enum NotificationType {
+  PAYMENT_REMINDER
+  TAX_DEADLINE
+  INVOICE_OVERDUE
+  SUBSCRIPTION
+  SYSTEM
+}
+
+enum VatFrequency {
+  MONTHLY
+  QUARTERLY
+}
+
+enum AccountingType {
+  TAX_RECORDS
+  ACCOUNTING
+}
+
+enum TrustLevel {
+  NEW
+  REGULAR
+  VERIFIED
+  PREMIUM
+}
+
+// New models for advanced features
+
+model Company {
+  id           String   @id @default(cuid())
+  userId       String
+  name         String
+  ico          String   @unique
+  dic          String?
+  address      String?
+  isActive     Boolean  @default(true)
+  isPrimary    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([ico])
+}
+
+model Achievement {
+  id          String          @id @default(cuid())
+  userId      String
+  type        AchievementType
+  title       String
+  description String
+  badgeEmoji  String
+  points      Int             @default(0)
+  unlockedAt  DateTime
+  data        Json? // Additional achievement data
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([type])
+}
+
+model Challenge {
+  id           String        @id @default(cuid())
+  userId       String
+  type         ChallengeType
+  title        String
+  description  String
+  targetValue  Decimal
+  currentValue Decimal       @default(0)
+  startDate    DateTime
+  endDate      DateTime
+  completed    Boolean       @default(false)
+  completedAt  DateTime?
+  reward       String? // Description of reward
+  data         Json? // Challenge-specific data
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([completed])
+  @@index([endDate])
+}
+
+model AITraining {
+  id           String   @id @default(cuid())
+  userId       String
+  inputText    String
+  expectedType String // income/expense/category
+  predictedType String?
+  confidence   Float?
+  wasCorrect   Boolean?
+  correctedBy  String? // user correction
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expectedType])
+}
+
+model DailyBriefing {
+  id              String   @id @default(cuid())
+  userId          String
+  date            DateTime
+  totalIncome     Decimal  @default(0)
+  totalExpenses   Decimal  @default(0)
+  overdueInvoices Int      @default(0)
+  pendingTasks    Int      @default(0)
+  aiInsights      Json? // AI-generated insights
+  sentAt          DateTime?
+  opened          Boolean  @default(false)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+model PaymentMatch {
+  id                String          @id @default(cuid())
+  userId            String
+  invoiceId         String?
+  expenseId         String?
+  matchType         PaymentMatchType
+  confidence        Float
+  approvedAt        DateTime?
+  createdAt         DateTime        @default(now())
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ChartGeneration {
+  id          String    @id @default(cuid())
+  userId      String
+  chartType   ChartType
+  period      String // "2024-03", "2024-Q1", etc.
+  data        Json
+  imageUrl    String?
+  generatedAt DateTime
+  expiresAt   DateTime
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([chartType])
+  @@index([expiresAt])
+}
+
+// New enums
+
+enum AchievementType {
+  STREAK
+  MILESTONE
+  CATEGORY
+  SEASONAL
+}
+
+enum ChallengeType {
+  SAVINGS
+  REVENUE
+  STREAK
+  ORGANIZATION
+}
+
+enum PaymentMatchType {
+  EXACT
+  FUZZY
+  AI_PREDICTED
+}
+
+
+enum ChartType {
+  MONTHLY_PL
+  CASH_FLOW
+  EXPENSE_BREAKDOWN
+  CLIENT_ANALYSIS
+  TAX_OVERVIEW
+}

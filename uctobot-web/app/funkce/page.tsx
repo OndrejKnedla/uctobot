@@ -24,7 +24,7 @@ export default function FunkcePage() {
             </div>
             <div className="flex items-center space-x-2">
               <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">ÚčtoBot</span>
+              <span className="text-xl font-bold">DokladBot</span>
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function FunkcePage() {
             🚀 Připravené k nasazení
           </Badge>
           <h1 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-            Všechny funkce ÚčtoBotu
+            Všechny funkce DokladBotu
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Kompletní přehled funkcí pro profesionální účetnictví OSVČ a firem. Pravidelně přidáváme nové funkce.
@@ -65,7 +65,7 @@ export default function FunkcePage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Kompatibilní se všemi platformami</h2>
             <p className="text-xl text-muted-foreground">
-              WhatsApp běží na všech operačních systémech - používejte ÚčtoBot bez ohledu na to, jaká zařízení máte
+              WhatsApp běží na všech operačních systémech - používejte DokladBot bez ohledu na to, jaká zařízení máte
             </p>
           </div>
 
@@ -483,7 +483,7 @@ export default function FunkcePage() {
                 </div>
                 <h4 className="font-bold mb-2">Žádné instalace</h4>
                 <p className="text-sm text-muted-foreground">
-                  Nemusíte instalovat žádné speciální aplikace. WhatsApp už máte a ÚčtoBot funguje okamžitě.
+                  Nemusíte instalovat žádné speciální aplikace. WhatsApp už máte a DokladBot funguje okamžitě.
                 </p>
               </Card>
 
@@ -511,15 +511,15 @@ export default function FunkcePage() {
             Vyzkoušejte všechny funkce
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Začněte používat profesionální účetnictví na všech svých zařízeních. Začněte s 7denním zdarma trialem.
+            Začněte používat profesionální účetnictví na všech svých zařízeních. Staňte se Founding Member s 30denní garancí vrácení peněz.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button 
               size="lg" 
-              className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6"
+              className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 font-semibold"
               onClick={() => window.location.href = '/'}
             >
-              Vyzkoušet 7 dní zdarma
+              VYZKOUŠET ZDARMA
             </Button>
             <Button 
               variant="outline"
@@ -533,7 +533,7 @@ export default function FunkcePage() {
           <div className="flex items-center justify-center gap-8 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-green-500" />
-              <span>Bez platební karty</span>
+              <span>30denní garance vrácení peněz</span>
             </div>
             <div className="flex items-center gap-2">
               <MessageCircle className="h-4 w-4 text-[#25D366]" />
@@ -541,7 +541,7 @@ export default function FunkcePage() {
             </div>
             <div className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-blue-500" />
-              <span>7 dní zdarma</span>
+              <span>Founding Member přístup</span>
             </div>
           </div>
         </div>

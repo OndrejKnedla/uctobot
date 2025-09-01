@@ -5,18 +5,77 @@ import { GeistMono } from "geist/font/mono"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "ÚčtoBot - Profesionální účetnictví přes WhatsApp | 299 Kč/měsíc",
+  title: "DokladBot - Profesionální účetnictví přes WhatsApp | 7 dní zdarma",
   description:
-    'Profesionální účetnictví přímo ve WhatsAppu. Stačí napsat "koupil jsem papír za 500". AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 299 Kč/měsíc.',
-  generator: "v0.app",
-  keywords: "účetnictví, OSVČ, WhatsApp, daně, účetní software, AI asistent",
-  authors: [{ name: "ÚčtoBot" }],
-  openGraph: {
-    title: "ÚčtoBot - Účetnictví pro OSVČ přes WhatsApp",
-    description: "Profesionální účetnictví přímo ve WhatsAppu. AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 299 Kč/měsíc.",
-    type: "website",
-    locale: "cs_CZ",
+    'Profesionální účetnictví přímo ve WhatsAppu. 7 dní zdarma! Stačí napsat "koupil jsem papír za 500". AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 199 Kč/měsíc.',
+  keywords: [
+    'účetnictví OSVČ',
+    'WhatsApp účetnictví',
+    'AI účetní asistent',
+    'automatické účetnictví',
+    'účetní software',
+    'DPH připomínky',
+    'daňové přiznání',
+    'účetní evidence',
+    'podnikatelské účetnictví',
+    'digitální účetnictví',
+    'online účetnictví',
+    'chytrý účetní',
+    '7 dní zdarma',
+    '199 kč měsíčně',
+    'zakladatelská cena'
+  ].join(', '),
+  authors: [{ name: "DokladBot Team", url: "https://dokladbot.cz" }],
+  creator: "DokladBot",
+  publisher: "DokladBot",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
+  metadataBase: new URL('https://dokladbot.cz'),
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'cs_CZ',
+    url: 'https://dokladbot.cz',
+    siteName: 'DokladBot',
+    title: "DokladBot - Profesionální účetnictví přes WhatsApp | 7 dní zdarma",
+    description: 'Profesionální účetnictví přímo ve WhatsAppu. 7 dní zdarma! Stačí napsat "koupil jsem papír za 500". AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 199 Kč/měsíc.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'DokladBot - Profesionální účetnictví přes WhatsApp'
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@dokladbot',
+    creator: '@dokladbot',
+    title: "DokladBot - Profesionální účetnictví přes WhatsApp | 7 dní zdarma",
+    description: 'Profesionální účetnictví přímo ve WhatsAppu. 7 dní zdarma! AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 199 Kč/měsíc.',
+    images: ['/og-image.jpg'],
+  },
+  verification: {
+    google: 'your-google-site-verification-code',
+  },
+  category: 'business',
 }
 
 export default function RootLayout({
@@ -25,17 +84,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="cs">
-      <head>
-        <style>{`
-html {
-  font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
-  --font-mono: ${GeistMono.variable};
-}
-        `}</style>
-      </head>
-      <body>{children}</body>
+    <html lang="cs" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className={GeistSans.className}>{children}</body>
     </html>
   )
 }

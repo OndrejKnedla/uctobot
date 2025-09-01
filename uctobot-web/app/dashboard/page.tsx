@@ -53,13 +53,13 @@ interface TransactionStats {
   current_month_transactions: number
 }
 
-interface DemoData {
-  demo_users: User[]
+interface AppData {
+  users: User[]
   recent_transactions: Transaction[]
 }
 
 export default function Dashboard() {
-  const [demoData, setDemoData] = useState<DemoData | null>(null)
+  const [appData, setAppData] = useState<AppData | null>(null)
   const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [transactionStats, setTransactionStats] = useState<TransactionStats | null>(null)
   const [loading, setLoading] = useState(true)
@@ -71,26 +71,26 @@ export default function Dashboard() {
       setLoading(true)
       setError(null)
       
-      // Paralelní načtení všech dat
-      const [demoResponse, userStatsResponse, transactionStatsResponse] = await Promise.all([
-        fetch('https://uctobot.vercel.app/api/demo'),
-        fetch('https://uctobot.vercel.app/api/users/stats'),
-        fetch('https://uctobot.vercel.app/api/transactions/stats')
+      // Load data from local APIs only
+      const [userStatsResponse, transactionStatsResponse] = await Promise.all([
+        fetch('/api/users/stats'),
+        fetch('/api/transactions/stats')
       ])
 
-      if (!demoResponse.ok || !userStatsResponse.ok || !transactionStatsResponse.ok) {
+      if (!userStatsResponse.ok || !transactionStatsResponse.ok) {
         throw new Error('Chyba při načítání dat z API')
       }
 
-      const [demo, userStats, transactionStats] = await Promise.all([
-        demoResponse.json(),
+      const [userStats, transactionStats] = await Promise.all([
         userStatsResponse.json(),
         transactionStatsResponse.json()
       ])
 
-      setDemoData(demo)
       setUserStats(userStats)
       setTransactionStats(transactionStats)
+      
+      // Initialize empty data
+      setAppData({ users: [], recent_transactions: [] })
       setLastRefresh(new Date())
     } catch (err) {
       console.error('Chyba při načítání dat:', err)
@@ -143,7 +143,7 @@ export default function Dashboard() {
     )
   }
 
-  if (loading && !demoData) {
+  if (loading && !appData) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -185,7 +185,7 @@ export default function Dashboard() {
             <div>
               <h1 className="text-3xl font-bold">ÚčetníBot Dashboard</h1>
               <p className="text-muted-foreground mt-1">
-                Přehled dat z nové databáze • API v2.0.0
+                Přehled systému ÚčtoBot
               </p>
             </div>
             <div className="flex items-center space-x-4">
@@ -204,10 +204,6 @@ export default function Dashboard() {
               <Button variant="outline" onClick={() => window.location.href = '/transactions'}>
                 <Receipt className="h-4 w-4 mr-2" />
                 Transakce
-              </Button>
-              <Button variant="outline" onClick={() => window.open('http://localhost:8000/docs', '_blank')}>
-                <ExternalLink className="h-4 w-4 mr-2" />
-                API Docs
               </Button>
             </div>
           </div>
@@ -287,40 +283,18 @@ export default function Dashboard() {
           <TabsContent value="transactions" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Poslední transakce</CardTitle>
+                <CardTitle>Transakce</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  {demoData?.recent_transactions.length || 0} nejnovějších záznamů z databáze
+                  Pro zobrazení transakcí se přihlaste do svého účtu
                 </p>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {demoData?.recent_transactions.map((transaction) => (
-                    <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <div className={`w-2 h-2 rounded-full ${
-                          transaction.type === 'income' ? 'bg-green-500' : 'bg-red-500'
-                        }`} />
-                        <div>
-                          <div className="font-medium">{transaction.description}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {transaction.user_name && `${transaction.user_name} • `}
-                            {transaction.counterparty_name && `${transaction.counterparty_name} • `}
-                            {formatDate(transaction.created_at)}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className={`font-bold ${
-                          transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
-                        }`}>
-                          {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                        </div>
-                        <Badge variant={transaction.type === 'income' ? 'default' : 'secondary'}>
-                          {transaction.type === 'income' ? 'Příjem' : 'Výdaj'}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
+                <div className="text-center py-8 text-muted-foreground">
+                  <Receipt className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>Přihlaste se pro zobrazení vašich transakcí</p>
+                  <Button className="mt-4" onClick={() => window.location.href = '/login'}>
+                    Přihlásit se
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -329,103 +303,49 @@ export default function Dashboard() {
           <TabsContent value="users" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Demo uživatelé</CardTitle>
+                <CardTitle>Správa uživatelů</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  {demoData?.demo_users.length || 0} uživatelů v databázi
+                  Administrátorská funkce - pouze pro oprávněné uživatele
                 </p>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {demoData?.demo_users.map((user) => (
-                    <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                          {user.full_name?.charAt(0) || user.business_name?.charAt(0) || 'U'}
-                        </div>
-                        <div>
-                          <div className="font-medium">{user.full_name}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {user.business_name} • {user.total_transactions} transakcí
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-right space-y-2">
-                        <div>{getStatusBadge(user.subscription_status)}</div>
-                        <div className="text-sm font-medium">
-                          {formatCurrency(user.current_year_revenue)}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="text-center py-8 text-muted-foreground">
+                  <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>Přístup pouze pro administrátory</p>
+                  <Button className="mt-4" onClick={() => window.location.href = '/admin'}>
+                    Admin panel
+                  </Button>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
           <TabsContent value="api" className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>API Endpointy</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Základní endpointy:</h4>
-                    <div className="text-sm space-y-1 font-mono">
-                      <div>GET /api/demo</div>
-                      <div>GET /api/users/stats</div>
-                      <div>GET /api/transactions/stats</div>
-                      <div>GET /api/users</div>
-                      <div>GET /api/transactions</div>
-                      <div>POST /api/transactions</div>
-                    </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Systémové informace</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <div className="text-muted-foreground">Platform:</div>
+                    <div className="font-mono">Next.js</div>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => window.open('http://localhost:8000/docs', '_blank')}
-                    className="w-full"
-                  >
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Otevřít API dokumentaci
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Backend Status</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <div className="text-muted-foreground">Backend URL:</div>
-                      <div className="font-mono">localhost:8000</div>
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground">API verze:</div>
-                      <div className="font-mono">v2.0.0</div>
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground">Databáze:</div>
-                      <div className="font-mono">SQLite</div>
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground">Status:</div>
-                      <div className="text-green-600 font-medium">✅ Běží</div>
-                    </div>
+                  <div>
+                    <div className="text-muted-foreground">Database:</div>
+                    <div className="font-mono">PostgreSQL</div>
                   </div>
-                  
-                  <Button 
-                    variant="outline" 
-                    onClick={() => window.open('http://localhost:8000/health', '_blank')}
-                    className="w-full"
-                  >
-                    <Eye className="h-4 w-4 mr-2" />
-                    Zkontrolovat health endpoint
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                  <div>
+                    <div className="text-muted-foreground">Status:</div>
+                    <div className="text-green-600 font-medium">✅ Online</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground">Version:</div>
+                    <div className="font-mono">1.0.0</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

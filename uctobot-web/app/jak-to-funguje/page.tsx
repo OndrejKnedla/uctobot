@@ -24,7 +24,7 @@ export default function JakToFungujePage() {
             </div>
             <div className="flex items-center space-x-2">
               <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">ÚčtoBot</span>
+              <span className="text-xl font-bold">DokladBot</span>
             </div>
           </div>
         </div>
@@ -34,10 +34,10 @@ export default function JakToFungujePage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-            Jak ÚčtoBot funguje na všech zařízeních
+            Jak DokladBot funguje na všech zařízeních
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Detailní průvodce používáním ÚčtoBotu na mobilu, tabletu i počítači
+            Detailní průvodce používáním DokladBotu na mobilu, tabletu i počítači
           </p>
         </div>
       </section>
@@ -50,7 +50,7 @@ export default function JakToFungujePage() {
               WhatsApp funguje všude
             </h2>
             <p className="text-xl text-muted-foreground">
-              Používejte ÚčtoBot kdekoliv - v kanceláři na PC, doma na tabletu, nebo cestou na mobilu
+              Používejte DokladBot kdekoliv - v kanceláři na PC, doma na tabletu, nebo cestou na mobilu
             </p>
           </div>
 
@@ -175,7 +175,7 @@ export default function JakToFungujePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Krok za krokem</h2>
-            <p className="text-xl text-muted-foreground">Jak začít používat ÚčtoBot za 5 minut</p>
+            <p className="text-xl text-muted-foreground">Jak začít používat DokladBot za 5 minut</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -243,10 +243,10 @@ export default function JakToFungujePage() {
           </p>
           <Button 
             size="lg" 
-            className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6"
+            className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 font-semibold"
             onClick={() => window.location.href = '/'}
           >
-            Začít nyní
+            VYZKOUŠET ZDARMA
           </Button>
         </div>
       </section>

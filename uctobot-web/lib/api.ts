@@ -67,9 +67,9 @@ export const authAPI = {
     });
   },
 
-  startTrial: async () => {
+  startFoundingMember: async () => {
     const token = localStorage.getItem('token');
-    return apiCall('/auth/start-trial', {
+    return apiCall('/auth/start-founding-member', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -87,22 +87,35 @@ export const onboardingAPI = {
 
 // Payment API calls
 export const paymentsAPI = {
-  createCheckoutSession: async (planType: 'monthly' | 'annual', trialDays: number = 7) => {
-    console.log('Mock payment flow - creating checkout session');
-    console.log(`Plan: ${planType}, Trial days: ${trialDays}`);
+  createCheckoutSession: async (planType: 'monthly' | 'annual', customerData: { name: string; email: string }) => {
+    const plan = planType === 'monthly' ? 'MONTHLY' : 'YEARLY';
     
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const response = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        plan,
+        isFoundingMember: true,
+        customerName: customerData.name,
+        customerEmail: customerData.email,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to create checkout session');
+    }
+
+    const data = await response.json();
     
-    // Mock successful response
-    return {
-      success: true,
-      checkout_url: `https://buy.stripe.com/demo_${planType}_${trialDays}days`,
-      session_id: `cs_demo_${planType}_${Date.now()}`,
-      plan_type: planType,
-      trial_days: trialDays,
-      message: "🎉 Demo checkout session created! V produkci by vás toto přesměrovalo na Stripe platbu."
-    };
+    if (data.url) {
+      // Redirect to Stripe Checkout immediately
+      window.location.href = data.url;
+    }
+
+    return data;
   },
 };
 

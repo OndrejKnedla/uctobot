@@ -119,6 +119,14 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-display: swap;
+  }
+  
+  /* Improve text rendering */
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -165,4 +173,27 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: #25D366 transparent;
+}
+
+/* Preload critical fonts */
+@font-face {
+  font-family: 'Geist Sans';
+  font-display: swap;
+}
+
+/* Performance optimizations */
+img, picture, svg, video {
+  height: auto;
+  max-width: 100%;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

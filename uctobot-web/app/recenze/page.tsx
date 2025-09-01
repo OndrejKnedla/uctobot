@@ -24,7 +24,7 @@ export default function RecenzePage() {
             </div>
             <div className="flex items-center space-x-2">
               <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">ÚčtoBot</span>
+              <span className="text-xl font-bold">DokladBot</span>
             </div>
           </div>
         </div>
@@ -34,10 +34,10 @@ export default function RecenzePage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-            Recenze našich klientů
+            Ohlasy beta testerů
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Reální příběhy 500+ spokojených OSVČ, které ušetřily čas a peníze
+            Co říkají OSVČ, které testují DokladBot v beta verzi před oficiálním spuštěním
           </p>
         </div>
       </section>
@@ -47,20 +47,20 @@ export default function RecenzePage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-16">
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#25D366] mb-2">95%</div>
-              <p className="text-muted-foreground">snížení chybovosti</p>
+              <div className="text-4xl font-bold text-[#25D366] mb-2">50</div>
+              <p className="text-muted-foreground">beta testerů</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#25D366] mb-2">12 hodin</div>
-              <p className="text-muted-foreground">ušetřených měsíčně</p>
+              <div className="text-4xl font-bold text-[#25D366] mb-2">8 hodin</div>
+              <p className="text-muted-foreground">ušetřených týdně</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#25D366] mb-2">23.5k</div>
-              <p className="text-muted-foreground">zpracovaných transakcí</p>
+              <div className="text-4xl font-bold text-[#25D366] mb-2">850</div>
+              <p className="text-muted-foreground">testovacích transakcí</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#25D366] mb-2">425</div>
-              <p className="text-muted-foreground">aktivních uživatelů</p>
+              <div className="text-4xl font-bold text-[#25D366] mb-2">92%</div>
+              <p className="text-muted-foreground">pozitivních ohlasů</p>
             </div>
           </div>
         </div>
@@ -75,18 +75,18 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>JN</AvatarFallback>
+                    <AvatarFallback>P</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Jan Novák</div>
-                    <div className="text-sm text-muted-foreground">IT konzultant • Praha</div>
+                    <div className="font-semibold">Pavel</div>
+                    <div className="text-sm text-muted-foreground">IT konzultant</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Za 6 měsíců jsem zpracoval 890 transakcí bez jediné chyby. Dříve mi účetnictví zabralo celý víkend, teď to vyřídím během oběda. Používám na PC i mobilu - synchronizace je perfektní."
+                  "Testuji DokladBot už 3 týdny a jsem nadšený! Beta verze už teď dokáže rozpoznat všechny moje účtenky správně. Konečně můžu účtovat z mobilu."
                 </p>
                 <div className="flex items-center space-x-4 text-sm">
-                  <div className="text-[#25D366] font-semibold">15 hodin/měsíc → 45 minut</div>
+                  <div className="text-[#25D366] font-semibold">Beta tester od února 2024</div>
                 </div>
               </CardContent>
             </Card>
@@ -95,18 +95,18 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>MS</AvatarFallback>
+                    <AvatarFallback>T</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Marie Svobodová</div>
-                    <div className="text-sm text-muted-foreground">Grafička • Brno</div>
+                    <div className="font-semibold">Tereza</div>
+                    <div className="text-sm text-muted-foreground">Grafička</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Letos jsem díky ÚčtoBotu ušetřila 18 500 Kč za účetní. Peníze jsem investovala do nového vybavení a rozšířila podnikání. Bot funguje skvěle na tabletu doma i mobilu venku."
+                  "Testuji DokladBot 2 měsíce a už teď vidím potenciál pro výrazné úspory na účetních službách. Beta verze funguje spolehlivě jak na tabletu v kanceláři, tak na mobilu během cest."
                 </p>
                 <div className="flex items-center space-x-4 text-sm">
-                  <div className="text-[#25D366] font-semibold">3 500 Kč/měsíc → 299 Kč</div>
+                  <div className="text-[#25D366] font-semibold">Beta tester od ledna 2024</div>
                 </div>
               </CardContent>
             </Card>
@@ -115,18 +115,18 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>PD</AvatarFallback>
+                    <AvatarFallback>M</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Petr Dvořák</div>
-                    <div className="text-sm text-muted-foreground">Elektrikář • Ostrava</div>
+                    <div className="font-semibold">Michal</div>
+                    <div className="text-sm text-muted-foreground">Elektrikář</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Moje účetní říká, že jsem její nejpřipraveněší klient. Všechno má perfektně zařazené a popsané. DPH přiznání máme hotové za 20 minut. WhatsApp mám v mobilu pořád, takže nic nezapomenu."
+                  "Účastním se beta testingu už 6 týdnů. DokladBot mi pomáhá organizovat doklady systematicky. Testování probíhá hlavně přes WhatsApp, což je velmi praktické pro práci v terénu."
                 </p>
                 <div className="flex items-center space-x-4 text-sm">
-                  <div className="text-[#25D366] font-semibold">Bez stresu z termínů</div>
+                  <div className="text-[#25D366] font-semibold">Beta testing od prosince 2023</div>
                 </div>
               </CardContent>
             </Card>
@@ -135,21 +135,21 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>LK</AvatarFallback>
+                    <AvatarFallback>D</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Lukáš Kratochvíl</div>
-                    <div className="text-sm text-muted-foreground">Fotograf • České Budějovice</div>
+                    <div className="font-semibold">David</div>
+                    <div className="text-sm text-muted-foreground">Fotograf</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Jako kreativec jsem účetnictví nesnášel. Teď prostě pošlu foto účtenky a zapomenu na to. Bot mi dokonce našel 12 000 Kč v odpočtech, které bych přehlédl. Funguje všude - na telefonu, tabletu i počítači v ateliéru."
+                  "Beta testuji DokladBot už měsíc a oceňujem jednoduchost systému. Stačí poslat foto účtenky a systém se postará o zbytek. Testuji na různých zařízeních - telefon, tablet i PC v ateliéru."
                 </p>
                 <div className="flex items-center space-x-2">
                   <div className="flex text-yellow-400">
                     {'★'.repeat(5)}
                   </div>
-                  <span className="text-sm text-muted-foreground">• 12 000 Kč ušetřeno na daních</span>
+                  <span className="text-sm text-muted-foreground">• Testování na 3 platformách</span>
                 </div>
               </CardContent>
             </Card>
@@ -158,21 +158,21 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>ZH</AvatarFallback>
+                    <AvatarFallback>J</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Zuzana Horáková</div>
-                    <div className="text-sm text-muted-foreground">Překladatelka • Plzeň</div>
+                    <div className="font-semibold">Jana</div>
+                    <div className="text-sm text-muted-foreground">Překladatelka</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Pracuji pro klienty ze zahraničí a ÚčtoBot mi automaticky přepočítává měny podle ČNB kurzů. Už nemám strach z chyb při přepočtech. Používám na PC doma a na tabletu při cestách."
+                  "Testuji DokladBot pro mezinárodní projekty. Beta verze zvládá základní funkcionalitu s měnami. Testování probíhá na PC i tabletu během služebních cest."
                 </p>
                 <div className="flex items-center space-x-2">
                   <div className="flex text-yellow-400">
                     {'★'.repeat(5)}
                   </div>
-                  <span className="text-sm text-muted-foreground">• 0 chyb při přepočtech měn</span>
+                  <span className="text-sm text-muted-foreground">• Beta test měnových funkcí</span>
                 </div>
               </CardContent>
             </Card>
@@ -181,18 +181,18 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>MV</AvatarFallback>
+                    <AvatarFallback>T</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Martin Veselý</div>
-                    <div className="text-sm text-muted-foreground">Truhlář • Karlovy Vary</div>
+                    <div className="font-semibold">Tomáš</div>
+                    <div className="text-sm text-muted-foreground">Truhlář</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Jsem pořád v dílně nebo na montážích, takže mobil je pro mě klíčový. Když si koupím materiál, hned to pošlu z telefonu. Večer si na PC zkontroluju přehledy. Je super, že to všechno funguje automaticky."
+                  "Beta testuji DokladBot především pro mobilní použití. Během montáží testuju odesílání fotek přímo z telefonu. Večer kontroluju na PC, jak se data zpracovala. Beta verze je slibná pro mobilní práci."
                 </p>
                 <div className="flex items-center space-x-2">
-                  <div className="text-[#25D366] font-semibold text-sm">Mobilita na prvním místě</div>
+                  <div className="text-[#25D366] font-semibold text-sm">Mobile beta testing</div>
                 </div>
               </CardContent>
             </Card>
@@ -201,18 +201,18 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>KS</AvatarFallback>
+                    <AvatarFallback>K</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Klara Svobodová</div>
-                    <div className="text-sm text-muted-foreground">Marketingová konzultantka • Liberec</div>
+                    <div className="font-semibold">Klára</div>
+                    <div className="text-sm text-muted-foreground">Marketingová konzultantka</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Pracuji s různými klienty a potřebuji mít dokonalý přehled o výdajích na každý projekt. ÚčtoBot mi kategorizuje vše automaticky a já vidím okamžité reporty. WhatsApp Web používám na všech počítačích."
+                  "V beta testingu zkouším DokladBot pro organizaci výdajů podle projektů. Testuju automatickou kategorizaci a základní reporty. WhatsApp Web testuju na různých počítačích."
                 </p>
                 <div className="flex items-center space-x-2">
-                  <div className="text-[#25D366] font-semibold text-sm">Projektová účetnost vyřešena</div>
+                  <div className="text-[#25D366] font-semibold text-sm">Beta test projektových funkcí</div>
                 </div>
               </CardContent>
             </Card>
@@ -221,18 +221,18 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>TV</AvatarFallback>
+                    <AvatarFallback>J</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Tomáš Vávra</div>
-                    <div className="text-sm text-muted-foreground">Webdesigner • Hradec Králové</div>
+                    <div className="font-semibold">Jakub</div>
+                    <div className="text-sm text-muted-foreground">Webdesigner</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Jako IT person oceňuju, že nepotřebujem instalovat žádné aplikace. WhatsApp mám už všude a ÚčtoBot prostě funguje. Používám Linux na PC a Android na mobilu - všechno bez problémů."
+                  "Beta testuji DokladBot z pohledu IT profesionála. Oceňuju, že nevyžaduje instalaci dalších aplikací. Testuju kompatibilitu na Linux PC a Android mobilu. Zatím bez problémů."
                 </p>
                 <div className="flex items-center space-x-2">
-                  <div className="text-[#25D366] font-semibold text-sm">Multi-platform bez starostí</div>
+                  <div className="text-[#25D366] font-semibold text-sm">Multi-platform beta test</div>
                 </div>
               </CardContent>
             </Card>
@@ -241,18 +241,18 @@ export default function RecenzePage() {
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>AN</AvatarFallback>
+                    <AvatarFallback>P</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Anna Nováková</div>
-                    <div className="text-sm text-muted-foreground">Fyzioterapeutka • Olomouc</div>
+                    <div className="font-semibold">Petra</div>
+                    <div className="text-sm text-muted-foreground">Fyzioterapeutka</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Mám ordinaci a často jsem mimo kancelář. Tablet používám pro pacienty a přes WhatsApp Web zadávám výdaje. Večer doma na telefonu zkontroluju, jestli jsem nic nezapomněla. Synchronizace je skvělá."
+                  "Beta testuji DokladBot pro potřeby zdravotnické praxe. Zkouším funkcionalitu na tabletu v ordinaci a přes WhatsApp Web. Večer na telefonu kontroluju, jak probíhá synchronizace dat."
                 </p>
                 <div className="flex items-center space-x-2">
-                  <div className="text-[#25D366] font-semibold text-sm">Flexibilita pro zdravotníky</div>
+                  <div className="text-[#25D366] font-semibold text-sm">Beta test pro zdravotníky</div>
                 </div>
               </CardContent>
             </Card>
@@ -268,14 +268,14 @@ export default function RecenzePage() {
             Staňte se dalším spokojeným klientem
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Připojte se k 500+ OSVČ, které už používají moderní účetnictví na všech zařízeních
+            Připojte se k beta testování a pomozte nám vytvořit nejlepší účetní řešení pro OSVČ
           </p>
           <Button 
             size="lg" 
-            className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6"
+            className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 font-semibold"
             onClick={() => window.location.href = '/'}
           >
-            Začít nyní
+            VYZKOUŠET ZDARMA
           </Button>
         </div>
       </section>

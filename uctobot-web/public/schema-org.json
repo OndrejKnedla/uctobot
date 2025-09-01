@@ -1,0 +1,62 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "DokladBot",
+  "description": "Profesionální účetnictví přímo ve WhatsAppu. 7 dní zdarma! Stačí napsat 'koupil jsem papír za 500'. AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 199 Kč/měsíc.",
+  "url": "https://dokladbot.cz",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, WhatsApp",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Měsíční plán",
+      "price": "199",
+      "priceCurrency": "CZK",
+      "priceValidUntil": "2025-12-31",
+      "description": "Měsíční předplatné s 7denní zkušební dobou zdarma",
+      "availability": "https://schema.org/InStock"
+    },
+    {
+      "@type": "Offer", 
+      "name": "Roční plán",
+      "price": "1990",
+      "priceCurrency": "CZK",
+      "priceValidUntil": "2025-12-31",
+      "description": "Roční předplatné s 7denní zkušební dobou zdarma a 2 měsíci zdarma",
+      "availability": "https://schema.org/InStock"
+    }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "150"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DokladBot",
+    "url": "https://dokladbot.cz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dokladbot.cz/logo.png"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+420-XXX-XXX-XXX",
+      "contactType": "Customer Service",
+      "availableLanguage": "Czech"
+    },
+    "sameAs": [
+      "https://facebook.com/dokladbot",
+      "https://twitter.com/dokladbot"
+    ]
+  },
+  "screenshot": "https://dokladbot.cz/screenshots/main.png",
+  "softwareVersion": "1.0.0",
+  "datePublished": "2025-01-01",
+  "dateModified": "2025-08-31",
+  "inLanguage": "cs",
+  "copyrightHolder": {
+    "@type": "Organization",
+    "name": "DokladBot"
+  }
+}
