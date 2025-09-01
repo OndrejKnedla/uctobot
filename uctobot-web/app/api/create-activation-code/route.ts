@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/db/prisma'
+import { sendActivationEmail } from '@/lib/email'
 
 export async function POST(request: Request) {
   try {
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
     }
 
     // Generate activation code
-    const activationCode = `UCTOBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
+    const activationCode = `DOKLADBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
     const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000) // 48 hours from now
 
     // Get customer info
@@ -97,11 +98,38 @@ export async function POST(request: Request) {
       }
     }
 
+    // Send activation email
+    if (customerEmail && user) {
+      try {
+        const emailSent = await sendActivationEmail({
+          customerName: customerName,
+          customerEmail: customerEmail,
+          activationCode: activationCode,
+          expiresAt: expiresAt.toLocaleString('cs-CZ', {
+            year: 'numeric',
+            month: '2-digit', 
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          }),
+          plan: plan as 'MONTHLY' | 'YEARLY',
+          isFoundingMember: isFoundingMember,
+          whatsappNumber: '+420608123456'
+        });
+        
+        console.log('Email sent status:', emailSent);
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        // Don't fail the whole request if email fails
+      }
+    }
+
     return NextResponse.json({
       activationCode,
       whatsappNumber: '+420608123456', // Your WhatsApp business number
       userEmail: customerEmail || 'customer@example.com',
       expiresAt: expiresAt.toISOString(),
+      emailSent: !!customerEmail, // Indicate if we attempted to send email
       sessionInfo: {
         plan: plan,
         isFoundingMember: isFoundingMember,

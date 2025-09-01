@@ -204,7 +204,7 @@ export default function NavodyPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
-              onClick={() => window.location.href = 'mailto:support@uctobot.cz'}
+              onClick={() => window.location.href = 'mailto:info@dokladbot.cz'}
               className="bg-orange-600 hover:bg-orange-700 text-white"
             >
               📧 Napsat na support

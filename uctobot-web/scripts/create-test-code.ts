@@ -6,13 +6,13 @@ async function createTestActivationCode() {
   try {
     // First, create a test user if not exists
     let user = await prisma.user.findUnique({
-      where: { email: 'test@uctobot.cz' }
+      where: { email: 'test@dokladbot.cz' }
     })
 
     if (!user) {
       user = await prisma.user.create({
         data: {
-          email: 'test@uctobot.cz',
+          email: 'test@dokladbot.cz',
           name: 'Test User',
           whatsappPhone: '+420777888999',
           companyName: 'Test Company s.r.o.',
@@ -25,7 +25,7 @@ async function createTestActivationCode() {
     // Create activation code
     const code = await prisma.activationCode.create({
       data: {
-        code: 'UCTOBOT-ABC123-1234',
+        code: 'DOKLADBOT-ABC123-1234',
         userId: user.id,
         used: false,
         expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days from now

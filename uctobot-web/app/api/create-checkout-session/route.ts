@@ -68,9 +68,18 @@ export async function POST(request: Request) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: plan === 'MONTHLY' 
-            ? process.env.STRIPE_MONTHLY_PRICE_ID!
-            : process.env.STRIPE_YEARLY_PRICE_ID!,
+          price_data: {
+            currency: 'czk',
+            product_data: {
+              name: `DokladBot ${plan === 'MONTHLY' ? 'Měsíční' : 'Roční'} předplatné`,
+              description: 'Profesionální účetnictví přes WhatsApp',
+            },
+            unit_amount: Math.round(amountWithExactVAT * 100), // Convert to cents
+            recurring: {
+              interval: plan === 'MONTHLY' ? 'month' : 'year',
+              interval_count: 1,
+            },
+          },
           quantity: 1,
         },
       ],
@@ -82,8 +91,7 @@ export async function POST(request: Request) {
           userId: user?.id || 'unknown',
           plan: plan,
           isFoundingMember: isFoundingMember ? 'true' : 'false',
-          monthly_price_id: process.env.STRIPE_MONTHLY_PRICE_ID!,
-          yearly_price_id: process.env.STRIPE_YEARLY_PRICE_ID!
+          customerName: customerName
         }
       },
       

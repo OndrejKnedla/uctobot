@@ -185,7 +185,7 @@ export default function VideoTutorialyPage() {
           
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
-              onClick={() => window.location.href = 'mailto:support@uctobot.cz?subject=Zájem o video tutoriály'}
+              onClick={() => window.location.href = 'mailto:info@dokladbot.cz?subject=Zájem o video tutoriály'}
               className="bg-yellow-600 hover:bg-yellow-700 text-white"
             >
               📧 Přihlásit se k odběru

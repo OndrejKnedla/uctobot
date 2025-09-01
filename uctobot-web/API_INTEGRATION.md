@@ -19,11 +19,11 @@ All main CTA buttons are now connected to backend functionality:
   - WhatsApp integration with plan-specific messages
 
 - **Partner button**
-  - Email integration: partner@uctobot.cz
+  - Email integration: info@dokladbot.cz
   - Pre-filled subject and body
 
 - **API contact button**
-  - Email integration: api@uctobot.cz
+  - Email integration: info@dokladbot.cz
   - Pre-filled subject for API interest
 
 ### 2. Error Handling

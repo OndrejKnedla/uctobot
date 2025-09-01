@@ -15,7 +15,7 @@ export default function KontaktPage() {
               className="flex items-center space-x-2"
             >
               <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">ÚčtoBot</span>
+              <span className="text-xl font-bold">DokladBot</span>
             </button>
 
             <Button
@@ -48,10 +48,10 @@ export default function KontaktPage() {
                 <div>
                   <h3 className="font-semibold">Email podpora</h3>
                   <a 
-                    href="mailto:support@uctobot.cz" 
+                    href="mailto:info@dokladbot.cz" 
                     className="text-green-600 hover:text-green-700"
                   >
-                    support@uctobot.cz
+                    info@dokladbot.cz
                   </a>
                 </div>
               </div>
@@ -87,10 +87,10 @@ export default function KontaktPage() {
                   🏢 Pro účetní firmy
                 </h3>
                 <a 
-                  href="mailto:ucetni@uctobot.cz" 
+                  href="mailto:info@dokladbot.cz" 
                   className="text-green-600 hover:text-green-700"
                 >
-                  ucetni@uctobot.cz
+                  info@dokladbot.cz
                 </a>
               </div>
               
@@ -99,10 +99,10 @@ export default function KontaktPage() {
                   🤝 Partnerství
                 </h3>
                 <a 
-                  href="mailto:partneri@uctobot.cz" 
+                  href="mailto:info@dokladbot.cz" 
                   className="text-blue-600 hover:text-blue-700"
                 >
-                  partneri@uctobot.cz
+                  info@dokladbot.cz
                 </a>
               </div>
               
@@ -111,10 +111,10 @@ export default function KontaktPage() {
                   💼 Kariéra
                 </h3>
                 <a 
-                  href="mailto:kariera@uctobot.cz" 
+                  href="mailto:info@dokladbot.cz" 
                   className="text-purple-600 hover:text-purple-700"
                 >
-                  kariera@uctobot.cz
+                  info@dokladbot.cz
                 </a>
               </div>
               
@@ -123,10 +123,10 @@ export default function KontaktPage() {
                   🔧 API podpora
                 </h3>
                 <a 
-                  href="mailto:api@uctobot.cz" 
+                  href="mailto:info@dokladbot.cz" 
                   className="text-orange-600 hover:text-orange-700"
                 >
-                  api@uctobot.cz
+                  info@dokladbot.cz
                 </a>
                 <p className="text-sm text-orange-600 mt-1">(v přípravě)</p>
               </div>
@@ -140,7 +140,7 @@ export default function KontaktPage() {
           </h2>
           <p className="text-green-700 mb-6">
             Pro existující zákazníky je nejrychlejší způsob kontaktu přímo přes WhatsApp, 
-            kde máte už nastavený ÚčtoBot. Odpovídáme obvykle do 30 minut během pracovní doby.
+            kde máte už nastavený DokladBot. Odpovídáme obvykle do 30 minut během pracovní doby.
           </p>
           <Button
             onClick={() => window.location.href = '/#jak-funguje'}

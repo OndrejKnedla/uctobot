@@ -37,7 +37,7 @@ async function main() {
   const demoUser = await prisma.user.create({
     data: {
       whatsappPhone: '+420777888999',
-      email: 'demo@uctobot.cz',
+      email: 'demo@dokladbot.cz',
       name: 'Jan Novák',
       companyName: 'Novák Consulting s.r.o.',
       ico: '12345678',

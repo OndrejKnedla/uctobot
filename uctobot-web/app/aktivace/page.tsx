@@ -264,14 +264,14 @@ function ActivationContent() {
           <p className="text-gray-600">
             Potřebujete pomoc? 
             <a 
-              href="mailto:podpora@ucetnibot.cz" 
+              href="mailto:info@dokladbot.cz" 
               className="text-green-600 hover:underline ml-1 font-medium"
             >
-              podpora@ucetnibot.cz
+              info@dokladbot.cz
             </a>
           </p>
           <p className="text-sm text-gray-500 mt-2">
-            ÚčetníBot - Vaše chytré účetnictví
+            DokladBot - Vaše chytré účetnictví
           </p>
         </div>
       </div>

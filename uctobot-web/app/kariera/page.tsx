@@ -56,10 +56,10 @@ export default function KarieraPage() {
                 pošlete nám svůj CV a motivační dopis na:
               </p>
               <a 
-                href="mailto:kariera@uctobot.cz" 
+                href="mailto:info@dokladbot.cz" 
                 className="font-semibold text-green-600 hover:text-green-700"
               >
-                kariera@uctobot.cz
+                info@dokladbot.cz
               </a>
             </div>
 
