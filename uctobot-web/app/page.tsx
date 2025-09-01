@@ -1534,14 +1534,6 @@ export default function DokladBotLanding() {
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => window.location.href = '/video-tutorialy'} 
-                    className="hover:text-foreground text-left"
-                  >
-                    Video tutoriály
-                  </button>
-                </li>
-                <li>
                   <a href="mailto:api@dokladbot.cz" className="hover:text-foreground">
                     API (v přípravě)
                   </a>

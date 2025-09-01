@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/db/prisma'
 import { headers } from 'next/headers'
+import { sendActivationEmail } from '@/lib/email'
 
 export async function POST(request: Request) {
   // Check if Stripe is properly configured
@@ -75,7 +76,33 @@ export async function POST(request: Request) {
           })
 
           // Generate activation code for WhatsApp
-          const activationCode = `UCTOBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
+          const activationCode = `DOKLADBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
+          const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000) // 48 hours
+          
+          // Create activation code record
+          await prisma.activationCode.create({
+            data: {
+              userId,
+              code: activationCode,
+              expiresAt
+            }
+          })
+
+          // Send activation email
+          try {
+            await sendActivationEmail({
+              customerName: customerName || 'Zákazník',
+              customerEmail: session.customer_email || 'test@example.com',
+              activationCode,
+              expiresAt: expiresAt.toLocaleString('cs-CZ'),
+              plan: plan as 'MONTHLY' | 'YEARLY',
+              isFoundingMember,
+              whatsappNumber: '+420608123456'
+            })
+            console.log(`Activation email sent to ${session.customer_email}`)
+          } catch (emailError) {
+            console.error('Failed to send activation email:', emailError)
+          }
           
           console.log(`Checkout completed for user ${userId}, plan: ${plan}, activation code: ${activationCode}`)
         } catch (dbError) {
@@ -150,6 +177,62 @@ export async function POST(request: Request) {
         }
 
         console.log(`Payment succeeded for user ${userId}, plan: ${plan}`)
+        break
+      }
+
+      case 'customer.subscription.updated': {
+        const subscription = event.data.object
+        const stripeCustomerId = subscription.customer
+
+        // Find user by Stripe customer ID
+        const userSub = await prisma.subscription.findFirst({
+          where: { stripeCustomerId: stripeCustomerId as string },
+          include: { user: true }
+        })
+
+        if (userSub && userSub.user) {
+          // Check if subscription was cancelled
+          if (subscription.cancel_at_period_end) {
+            console.log(`Subscription cancelled for user ${userSub.user.email}`)
+            // TODO: Send cancellation confirmation email
+          }
+          
+          // Update subscription status in database
+          await prisma.subscription.update({
+            where: { id: userSub.id },
+            data: {
+              status: subscription.status === 'active' ? 'ACTIVE' : 
+                     subscription.status === 'canceled' ? 'CANCELLED' : 
+                     subscription.status === 'past_due' ? 'PAST_DUE' : 'EXPIRED'
+            }
+          })
+        }
+        break
+      }
+
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object
+        const stripeCustomerId = subscription.customer
+
+        // Find user by Stripe customer ID
+        const userSub = await prisma.subscription.findFirst({
+          where: { stripeCustomerId: stripeCustomerId as string },
+          include: { user: true }
+        })
+
+        if (userSub && userSub.user) {
+          // Update subscription status to cancelled
+          await prisma.subscription.update({
+            where: { id: userSub.id },
+            data: {
+              status: 'CANCELLED',
+              cancelledAt: new Date()
+            }
+          })
+          
+          console.log(`Subscription deleted for user ${userSub.user.email}`)
+          // TODO: Send final cancellation email
+        }
         break
       }
 
