@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite doesn't support enums, using strings instead
+
+model User {
+  id                    String      @id @default(uuid())
+  phoneNumber           String      @unique @map("phone_number")
+  firstName             String?     @map("first_name")
+  lastName              String?     @map("last_name")
+  firstSeen             DateTime    @default(now()) @map("first_seen")
+  lastMessageAt         DateTime?   @map("last_message_at")
+  trustLevel            String      @default("NEW_USER") @map("trust_level")
+  trustLevelUpdatedAt   DateTime    @default(now()) @map("trust_level_updated_at")
+  ico                   String?     // Czech company ID
+  isBanned              Boolean     @default(false) @map("is_banned")
+  banExpiresAt          DateTime?   @map("ban_expires_at")
+  banReason             String?     @map("ban_reason")
+  totalMessageCount     Int         @default(0) @map("total_message_count")
+  subscriptionTier      String?     @map("subscription_tier")
+  subscriptionExpiresAt DateTime?   @map("subscription_expires_at")
+  createdAt             DateTime    @default(now()) @map("created_at")
+  updatedAt             DateTime    @updatedAt @map("updated_at")
+
+  rateLimits RateLimit?
+  messages   Message[]
+  violations SpamViolation[]
+
+  @@map("users")
+}
+
+model RateLimit {
+  id                  String    @id @default(uuid())
+  userId              String    @unique @map("user_id")
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Weekly limits
+  weekCount           Int       @default(0) @map("week_count")
+  weekStartedAt       DateTime  @default(now()) @map("week_started_at")
+  
+  // Daily limits (burst protection)
+  dayCount            Int       @default(0) @map("day_count")
+  dayStartedAt        DateTime  @default(now()) @map("day_started_at")
+  
+  // Hourly limits
+  hourCount           Int       @default(0) @map("hour_count")
+  hourStartedAt       DateTime  @default(now()) @map("hour_started_at")
+  
+  // Tracking
+  lastMessageAt       DateTime? @map("last_message_at")
+  lastResetAt         DateTime? @map("last_reset_at")
+  violationsCount     Int       @default(0) @map("violations_count")
+  duplicateCount      Int       @default(0) @map("duplicate_count")
+  
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  @@map("rate_limits")
+}
+
+model Message {
+  id                String        @id @default(uuid())
+  waMessageId       String        @unique @map("wa_message_id")
+  userId            String        @map("user_id")
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  fromNumber        String        @map("from_number")
+  toNumber          String        @map("to_number")
+  content           String?
+  contentHash       String?       @map("content_hash")
+  messageType       String        @map("message_type") // text/image/document/audio/video
+  mediaUrl          String?       @map("media_url")
+  mediaId           String?       @map("media_id")
+  
+  status            String        @default("PENDING")
+  processedAt       DateTime?     @map("processed_at")
+  errorMessage      String?       @map("error_message")
+  
+  // Anti-spam tracking
+  isSpam            Boolean       @default(false) @map("is_spam")
+  spamScore         Float?        @map("spam_score")
+  duplicateOf       String?       @map("duplicate_of") // ID of original message if duplicate
+  
+  // Response tracking
+  responseId        String?       @map("response_id")
+  responseSentAt    DateTime?     @map("response_sent_at")
+  
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("messages")
+}
+
+model SpamViolation {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  violationType   String    @map("violation_type") // DUPLICATE, PATTERN, RATE_LIMIT, FLOOD
+  violationDetail String?   @map("violation_detail")
+  messageContent  String?   @map("message_content")
+  severity        Int       @default(1) // 1-5
+  
+  actionTaken     String    @map("action_taken") // WARNING, TEMP_BAN, PERM_BAN
+  banDuration     Int?      @map("ban_duration") // in hours
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("spam_violations")
+}
+
+model SystemStats {
+  id                    String    @id @default(uuid())
+  date                  DateTime  @unique @default(now())
+  
+  totalUsers            Int       @default(0) @map("total_users")
+  activeUsers           Int       @default(0) @map("active_users")
+  newUsers              Int       @default(0) @map("new_users")
+  bannedUsers           Int       @default(0) @map("banned_users")
+  
+  totalMessages         Int       @default(0) @map("total_messages")
+  processedMessages     Int       @default(0) @map("processed_messages")
+  spamMessages          Int       @default(0) @map("spam_messages")
+  rateLimitedMessages   Int       @default(0) @map("rate_limited_messages")
+  
+  // Trust level distribution
+  newUserCount          Int       @default(0) @map("new_user_count")
+  regularUserCount      Int       @default(0) @map("regular_user_count")
+  verifiedUserCount     Int       @default(0) @map("verified_user_count")
+  premiumUserCount      Int       @default(0) @map("premium_user_count")
+  
+  // Free tier tracking
+  monthlyMessageCount   Int       @default(0) @map("monthly_message_count")
+  freeTrierRemaining    Int       @default(1000) @map("free_trier_remaining")
+  
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@map("system_stats")
+}
+
+model WebhookLog {
+  id            String    @id @default(uuid())
+  eventType     String    @map("event_type")
+  payload       String    // JSON as string for SQLite
+  headers       String?   // JSON as string for SQLite
+  status        String    @default("RECEIVED")
+  errorMessage  String?   @map("error_message")
+  processedAt   DateTime? @map("processed_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@map("webhook_logs")
+}

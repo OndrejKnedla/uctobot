@@ -1,8 +1,21 @@
 from flask import Flask, request, jsonify, make_response
 import json
+import os
+import sys
+
+# Add current directory to path for imports
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Create Flask app
 app = Flask(__name__)
+
+# Import API modules
+try:
+    from users import app as users_app
+    from transactions import app as transactions_app
+    print("API modules imported successfully")
+except ImportError as e:
+    print(f"Warning: Could not import API modules: {e}")
 
 @app.after_request
 def after_request(response):
@@ -117,8 +130,67 @@ def create_checkout_session():
         
         plan_type = request_data.get('plan_type', 'monthly')
         trial_days = request_data.get('trial_days', 7)
+        user_email = request_data.get('email')
+        user_name = request_data.get('name')
         
         print(f"DEBUG: Processing payment for plan_type='{plan_type}', trial_days={trial_days}")
+        
+        # Create or update user in database
+        if user_email:
+            try:
+                # Add parent directory to path for database imports
+                sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                
+                from app.database.connection import get_database_session
+                from app.database.models import User, Payment
+                from datetime import datetime, timedelta
+                import secrets
+                
+                session = get_database_session()
+                
+                # Find or create user
+                user = session.query(User).filter(User.email == user_email).first()
+                if not user:
+                    user = User(
+                        email=user_email,
+                        full_name=user_name,
+                        subscription_status='trial',
+                        trial_ends_at=datetime.now() + timedelta(days=trial_days),
+                        created_at=datetime.now()
+                    )
+                    # Create activation token
+                    user.create_activation_token()
+                    session.add(user)
+                    session.flush()  # Get the user ID
+                
+                # Create payment record
+                payment_id = f"demo_{plan_type}_{secrets.token_hex(8)}"
+                amount = 2990 if plan_type == 'yearly' else 299
+                
+                payment = Payment(
+                    user_id=user.id,
+                    payment_id=payment_id,
+                    amount=amount,
+                    currency='czk',
+                    status='pending',
+                    provider='demo',
+                    payment_method='demo',
+                    payment_metadata={
+                        'plan_type': plan_type,
+                        'trial_days': trial_days,
+                        'demo': True
+                    }
+                )
+                session.add(payment)
+                session.commit()
+                
+                print(f"DEBUG: Created user {user.id} and payment {payment.id}")
+                
+            except Exception as db_error:
+                print(f"DEBUG: Database error: {db_error}")
+                if 'session' in locals():
+                    session.rollback()
+                    session.close()
         
         # Mock Stripe response for production demo
         response = {
@@ -140,6 +212,235 @@ def create_checkout_session():
         
         error_response = {"success": False, "error": str(e)}
         return jsonify(error_response), 500
+
+# Add new API endpoints for user and subscription management
+@app.route('/api/users/stats', methods=['GET'])
+def users_stats():
+    """Get user statistics"""
+    try:
+        # Add parent directory to path for database imports
+        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        
+        from app.database.connection import get_database_session
+        from app.database.models import User, Payment, Transaction
+        from sqlalchemy import func
+        from datetime import datetime, timedelta
+        
+        session = get_database_session()
+        
+        # Total users
+        total_users = session.query(User).count()
+        
+        # Active users (trial + active subscription)
+        active_users = session.query(User).filter(
+            User.subscription_status.in_(['trial', 'active'])
+        ).count()
+        
+        # Recent registrations (last 30 days)
+        thirty_days_ago = datetime.now() - timedelta(days=30)
+        recent_registrations = session.query(User).filter(
+            User.created_at >= thirty_days_ago
+        ).count()
+        
+        return jsonify({
+            'success': True,
+            'total_users': total_users,
+            'active_users': active_users,
+            'recent_registrations': recent_registrations
+        })
+        
+    except Exception as e:
+        print(f"Error in users_stats: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        if 'session' in locals():
+            session.close()
+
+@app.route('/api/transactions/stats', methods=['GET'])
+def transactions_stats():
+    """Get transaction statistics"""
+    try:
+        # Add parent directory to path for database imports
+        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        
+        from app.database.connection import get_database_session
+        from app.database.models import Transaction
+        from sqlalchemy import func
+        
+        session = get_database_session()
+        
+        # Total transactions
+        total_transactions = session.query(Transaction).count()
+        
+        # Total income
+        total_income_result = session.query(
+            func.sum(Transaction.amount_czk)
+        ).filter(Transaction.type == 'income').scalar()
+        total_income = float(total_income_result) if total_income_result else 0
+        
+        return jsonify({
+            'success': True,
+            'total_transactions': total_transactions,
+            'total_income': total_income
+        })
+        
+    except Exception as e:
+        print(f"Error in transactions_stats: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        if 'session' in locals():
+            session.close()
+
+@app.route('/api/dashboard/stats', methods=['GET'])
+def dashboard_stats():
+    """Get combined dashboard statistics"""
+    try:
+        # Add parent directory to path for database imports
+        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        
+        from app.database.connection import get_database_session
+        from app.database.models import User, Transaction, Payment
+        from sqlalchemy import func
+        from datetime import datetime, timedelta
+        
+        session = get_database_session()
+        
+        # Users stats
+        total_users = session.query(User).count()
+        active_users = session.query(User).filter(
+            User.subscription_status.in_(['trial', 'active'])
+        ).count()
+        
+        # Transactions stats
+        total_transactions = session.query(Transaction).count()
+        total_income_result = session.query(
+            func.sum(Transaction.amount_czk)
+        ).filter(Transaction.type == 'income').scalar()
+        total_income = float(total_income_result) if total_income_result else 0
+        
+        # Recent activity (last 7 days)
+        seven_days_ago = datetime.now() - timedelta(days=7)
+        recent_transactions = session.query(Transaction).filter(
+            Transaction.created_at >= seven_days_ago
+        ).count()
+        
+        return jsonify({
+            'success': True,
+            'stats': {
+                'users': {
+                    'total': total_users,
+                    'active': active_users
+                },
+                'transactions': {
+                    'total': total_transactions,
+                    'recent': recent_transactions
+                },
+                'revenue': {
+                    'total_income': total_income
+                }
+            }
+        })
+        
+    except Exception as e:
+        print(f"Error in dashboard_stats: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        if 'session' in locals():
+            session.close()
+
+@app.route('/api/payments/webhook', methods=['POST'])
+def payment_webhook():
+    """Handle payment provider webhooks"""
+    try:
+        data = request.get_json()
+        print(f"DEBUG: Payment webhook received: {data}")
+        
+        # Add parent directory to path for database imports
+        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        
+        from app.database.connection import get_database_session
+        from app.database.models import User, Payment
+        from datetime import datetime, timedelta
+        
+        session = get_database_session()
+        
+        # Handle different webhook types
+        webhook_type = data.get('type', '')
+        payment_id = data.get('payment_id', '')
+        
+        if webhook_type == 'payment.completed' and payment_id:
+            # Find payment in database
+            payment = session.query(Payment).filter(Payment.payment_id == payment_id).first()
+            if payment:
+                # Update payment status
+                payment.status = 'completed'
+                payment.completed_at = datetime.now()
+                
+                # Update user subscription
+                user = session.query(User).filter(User.id == payment.user_id).first()
+                if user:
+                    user.subscription_status = 'active'
+                    
+                    # Set subscription end date based on plan
+                    metadata = payment.payment_metadata or {}
+                    plan_type = metadata.get('plan_type', 'monthly')
+                    duration_months = 12 if plan_type == 'yearly' else 1
+                    
+                    user.subscription_plan = plan_type
+                    user.subscription_ends_at = datetime.now() + timedelta(days=duration_months * 30)
+                    user.updated_at = datetime.now()
+                
+                session.commit()
+                print(f"DEBUG: Payment {payment_id} completed, user {user.id if user else 'unknown'} activated")
+        
+        return jsonify({'success': True, 'received': True})
+        
+    except Exception as e:
+        print(f"DEBUG: Error in payment webhook: {e}")
+        if 'session' in locals():
+            session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        if 'session' in locals():
+            session.close()
+
+@app.route('/api/payments/success', methods=['GET', 'POST'])
+def payment_success():
+    """Handle successful payment redirects"""
+    try:
+        session_id = request.args.get('session_id') or (request.get_json() or {}).get('session_id')
+        
+        if session_id:
+            # Add parent directory to path for database imports
+            sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            
+            from app.database.connection import get_database_session
+            from app.database.models import Payment
+            
+            db_session = get_database_session()
+            
+            # For demo, mark payment as completed if it contains session_id
+            payment = db_session.query(Payment).filter(
+                Payment.payment_id.like(f"%{session_id.replace('cs_test_', '')}%")
+            ).first()
+            
+            if payment and payment.status == 'pending':
+                payment.status = 'completed'
+                payment.completed_at = datetime.now()
+                db_session.commit()
+                print(f"DEBUG: Payment marked as completed via success callback")
+            
+            db_session.close()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Payment successful',
+            'redirect_url': 'https://uctobot-git-master-realok2001-gmailcoms-projects.vercel.app/platba-uspesna'
+        })
+        
+    except Exception as e:
+        print(f"DEBUG: Error in payment success: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.errorhandler(404)
 def not_found(error):

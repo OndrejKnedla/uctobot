@@ -1,0 +1,39 @@
+{
+  "entry": [
+    {
+      "id": "test_entry_id_3",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "+420123456789",
+              "phone_number_id": "test_phone_number_id"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "Jan Novák"
+                },
+                "wa_id": "+420987654321"
+              }
+            ],
+            "messages": [
+              {
+                "from": "+420987654321",
+                "to": "+420123456789",
+                "id": "test_message_3_unique",
+                "timestamp": "2025-08-26T10:20:00Z",
+                "type": "text",
+                "text": {
+                  "body": "limit"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}
