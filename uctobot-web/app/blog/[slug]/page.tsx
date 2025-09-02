@@ -8,6 +8,7 @@ import ShareButtons from '@/components/blog/ShareButtons';
 import TableOfContents from '@/components/blog/TableOfContents';
 import CTABlock from '@/components/blog/CTABlock';
 import AIGeneratedImage from '@/components/blog/AIGeneratedImage';
+import { HighlightBox, CalculatorBox, StepsList, ComparisonTable } from '@/components/blog/BlogComponents';
 import Layout from '@/components/layout/Layout';
 
 export async function generateStaticParams() {
@@ -136,7 +137,15 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
       <div className="container mx-auto px-4 pb-16">
         <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12">
           <div className="prose prose-lg max-w-none">
-            <MDXRemote source={post.content} />
+            <MDXRemote 
+              source={post.content} 
+              components={{ 
+                HighlightBox, 
+                CalculatorBox, 
+                StepsList, 
+                ComparisonTable 
+              }} 
+            />
             
             {/* CTA Block */}
             <CTABlock />
