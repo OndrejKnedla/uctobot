@@ -108,20 +108,28 @@ export default function RootLayout({
         />
         <script dangerouslySetInnerHTML={{
           __html: `
-            // Force Czech language for CookieBot
+            // CookieBot event handlers
             window.addEventListener('CookiebotOnLoad', function() {
-              if (window.Cookiebot) {
-                window.Cookiebot.renew();
-                // Set language to Czech
-                if (window.Cookiebot.dialog && window.Cookiebot.dialog.language) {
-                  window.Cookiebot.dialog.language = 'cs';
-                }
+              console.log('CookieBot loaded');
+            });
+            
+            window.addEventListener('CookiebotOnAccept', function() {
+              console.log('CookieBot accepted');
+              // Hide the dialog after acceptance
+              var dialog = document.getElementById('CybotCookiebotDialog');
+              if (dialog) {
+                dialog.style.display = 'none';
               }
             });
             
-            // Alternative method - set before CookieBot loads
-            window.CookieScript = window.CookieScript || {};
-            window.CookieScript.lang = 'cs';
+            window.addEventListener('CookiebotOnDecline', function() {
+              console.log('CookieBot declined');
+              // Hide the dialog after decline
+              var dialog = document.getElementById('CybotCookiebotDialog');
+              if (dialog) {
+                dialog.style.display = 'none';
+              }
+            });
           `
         }} />
         <style dangerouslySetInnerHTML={{
@@ -132,6 +140,17 @@ export default function RootLayout({
               border: 2px solid #25D366 !important;
               border-radius: 12px !important;
               box-shadow: 0 8px 32px rgba(37, 211, 102, 0.2) !important;
+              transition: opacity 0.3s ease !important;
+            }
+            
+            /* Hide dialog when accepted */
+            #CybotCookiebotDialog.CybotCookiebotDialogActive[style*="display: none"] {
+              display: none !important;
+            }
+            
+            /* Hide dialog overlay when not needed */
+            .CybotCookiebotDialogBodyUnderlay[style*="display: none"] {
+              display: none !important;
             }
             
             #CybotCookiebotDialogBodyContent {
