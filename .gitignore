@@ -5,3 +5,4 @@ uctobot-backend.tar.gz
 # Ignore environment files
 .env
 ucetni-whatsapp-bot/.env.development
+.vercel
