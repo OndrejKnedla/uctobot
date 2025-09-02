@@ -283,6 +283,12 @@ export default function DokladBotLanding() {
               >
                 Recenze
               </button>
+              <a
+                href="/blog"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                Blog
+              </a>
               <Button variant="ghost" size="sm" onClick={() => setDarkMode(!darkMode)}>
                 {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
@@ -327,6 +333,12 @@ export default function DokladBotLanding() {
               >
                 Recenze
               </button>
+              <a
+                href="/blog"
+                className="block w-full text-left py-2 text-muted-foreground"
+              >
+                Blog
+              </a>
               <Button 
                 size="lg"
                 className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold mt-2"
