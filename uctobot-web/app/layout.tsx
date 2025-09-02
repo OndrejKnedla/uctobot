@@ -99,12 +99,31 @@ export default function RootLayout({
       <head>
         <script 
           id="Cookiebot" 
-          src="https://consent.cookiebot.com/uc.js" 
+          src="https://consent.cookiebot.com/uc.js?culture=cs" 
           data-cbid="2f9a443f-1ad7-4e38-b9f3-7354ba0f7a6c"
           data-blockingmode="auto"
-          data-culture="cs-CZ"
+          data-culture="cs"
+          data-language="cs"
           type="text/javascript"
         />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Force Czech language for CookieBot
+            window.addEventListener('CookiebotOnLoad', function() {
+              if (window.Cookiebot) {
+                window.Cookiebot.renew();
+                // Set language to Czech
+                if (window.Cookiebot.dialog && window.Cookiebot.dialog.language) {
+                  window.Cookiebot.dialog.language = 'cs';
+                }
+              }
+            });
+            
+            // Alternative method - set before CookieBot loads
+            window.CookieScript = window.CookieScript || {};
+            window.CookieScript.lang = 'cs';
+          `
+        }} />
         <style dangerouslySetInnerHTML={{
           __html: `
             /* CookieBot custom DokladBot green styling */
