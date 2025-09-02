@@ -102,12 +102,12 @@ export default function RootLayout({
           src="https://consent.cookiebot.com/uc.js" 
           data-cbid="2f9a443f-1ad7-4e38-b9f3-7354ba0f7a6c"
           data-blockingmode="auto"
-          data-culture="CS"
+          data-culture="cs-CZ"
           type="text/javascript"
         />
         <style dangerouslySetInnerHTML={{
           __html: `
-            /* CookieBot custom green styling */
+            /* CookieBot custom DokladBot green styling */
             #CybotCookiebotDialog {
               background: #ffffff !important;
               border: 2px solid #25D366 !important;
@@ -119,9 +119,13 @@ export default function RootLayout({
               color: #1a1a1a !important;
             }
             
-            /* Accept all button - WhatsApp green */
-            #CybotCookiebotDialogBodyButtonAccept {
+            /* Blue buttons - change to green */
+            button[style*="background-color: rgb(24, 119, 242)"],
+            button[style*="background: rgb(24, 119, 242)"],
+            .CybotCookiebotDialogBodyButton[style*="background-color: rgb(24, 119, 242)"],
+            .CybotCookiebotDialogBodyButton[style*="background: rgb(24, 119, 242)"] {
               background: #25D366 !important;
+              background-color: #25D366 !important;
               color: white !important;
               border: none !important;
               border-radius: 8px !important;
@@ -130,14 +134,59 @@ export default function RootLayout({
               transition: all 0.2s ease !important;
             }
             
-            #CybotCookiebotDialogBodyButtonAccept:hover {
+            button[style*="background-color: rgb(24, 119, 242)"]:hover,
+            button[style*="background: rgb(24, 119, 242)"]:hover,
+            .CybotCookiebotDialogBodyButton[style*="background-color: rgb(24, 119, 242)"]:hover,
+            .CybotCookiebotDialogBodyButton[style*="background: rgb(24, 119, 242)"]:hover {
               background: #128C7E !important;
+              background-color: #128C7E !important;
               transform: translateY(-1px) !important;
             }
             
+            /* Accept all button - WhatsApp green */
+            #CybotCookiebotDialogBodyButtonAccept,
+            .CybotCookiebotDialogBodyButtonAccept {
+              background: #25D366 !important;
+              background-color: #25D366 !important;
+              color: white !important;
+              border: none !important;
+              border-radius: 8px !important;
+              padding: 12px 24px !important;
+              font-weight: 600 !important;
+              transition: all 0.2s ease !important;
+            }
+            
+            #CybotCookiebotDialogBodyButtonAccept:hover,
+            .CybotCookiebotDialogBodyButtonAccept:hover {
+              background: #128C7E !important;
+              background-color: #128C7E !important;
+              transform: translateY(-1px) !important;
+            }
+            
+            /* "Zezwól na wybór" and similar buttons */
+            button[onclick*="allowSelection"],
+            button[onclick*="CookieConsent"],
+            .CybotCookiebotDialogBodyButton {
+              background: #25D366 !important;
+              background-color: #25D366 !important;
+              color: white !important;
+              border: none !important;
+              border-radius: 8px !important;
+              font-weight: 600 !important;
+            }
+            
+            button[onclick*="allowSelection"]:hover,
+            button[onclick*="CookieConsent"]:hover,
+            .CybotCookiebotDialogBodyButton:hover {
+              background: #128C7E !important;
+              background-color: #128C7E !important;
+            }
+            
             /* Decline button - subtle gray */
-            #CybotCookiebotDialogBodyButtonDecline {
+            #CybotCookiebotDialogBodyButtonDecline,
+            .CybotCookiebotDialogBodyButtonDecline {
               background: #f8f9fa !important;
+              background-color: #f8f9fa !important;
               color: #6c757d !important;
               border: 1px solid #dee2e6 !important;
               border-radius: 8px !important;
@@ -145,24 +194,11 @@ export default function RootLayout({
               font-weight: 500 !important;
             }
             
-            #CybotCookiebotDialogBodyButtonDecline:hover {
+            #CybotCookiebotDialogBodyButtonDecline:hover,
+            .CybotCookiebotDialogBodyButtonDecline:hover {
               background: #e9ecef !important;
+              background-color: #e9ecef !important;
               color: #495057 !important;
-            }
-            
-            /* Settings button */
-            #CybotCookiebotDialogBodyButtonSettings {
-              background: transparent !important;
-              color: #25D366 !important;
-              border: 1px solid #25D366 !important;
-              border-radius: 8px !important;
-              padding: 10px 20px !important;
-              font-weight: 500 !important;
-            }
-            
-            #CybotCookiebotDialogBodyButtonSettings:hover {
-              background: #25D366 !important;
-              color: white !important;
             }
             
             /* Dialog title */
@@ -172,31 +208,27 @@ export default function RootLayout({
               font-size: 18px !important;
             }
             
-            /* Close button */
-            #CybotCookiebotDialogBodyButtonClose {
-              color: #6c757d !important;
-              background: none !important;
-              border: none !important;
-            }
-            
-            #CybotCookiebotDialogBodyButtonClose:hover {
-              color: #25D366 !important;
-            }
-            
-            /* Tab styling for detailed view */
-            .CybotCookiebotDialogTab {
+            /* Tab styling */
+            .CybotCookiebotDialogTab,
+            .CybotCookiebotDialogTabSelected {
               border-bottom: 2px solid #25D366 !important;
               color: #25D366 !important;
             }
             
-            /* Checkbox styling */
-            .CybotCookiebotDialogBodyLevelButton {
-              accent-color: #25D366 !important;
+            /* Toggle switches */
+            .CybotCookiebotDialogBodyLevelButton input[type="checkbox"]:checked + .CybotCookiebotDialogBodyLevelButtonSlider {
+              background-color: #25D366 !important;
             }
             
-            /* Banner mode styling */
-            #CybotCookiebotDialogPoweredbyLink {
-              color: #6c757d !important;
+            /* Override any blue colors globally in CookieBot */
+            #CybotCookiebotDialog * {
+              color: inherit !important;
+            }
+            
+            #CybotCookiebotDialog button {
+              background: #25D366 !important;
+              background-color: #25D366 !important;
+              border-color: #25D366 !important;
             }
           `
         }} />
