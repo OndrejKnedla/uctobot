@@ -10,6 +10,10 @@ tags: ["účetnictví", "OSVČ", "paušální daň", "daňová evidence"]
 
 Vedení účetnictví jako OSVČ nemusí být noční můra. V tomto komplexním průvodci vám ukážeme, jak na to v roce 2025, jaké máte možnosti a jak se vyhnout nejčastějším chybám, které mohou stát tisíce korun.
 
+<HighlightBox title="💡 Rychlý tip na začátek" type="tip">
+Nečtěte celý článek najednou! Začněte sekcí o paušální dani vs. daňová evidence - zjistíte, co se vám vyplatí už za 5 minut.
+</HighlightBox>
+
 ## Paušální daň vs. Daňová evidence - co se vám vyplatí?
 
 Jako OSVČ máte v roce 2025 dvě hlavní možnosti, jak řešit své daně a účetnictví:
@@ -32,6 +36,10 @@ Paušální daň je ideální volba pro OSVČ s příjmy do **2 milionů Kč ro�
 - Omezený příjem do 2 mil. Kč
 - Nemůžete být plátcem DPH
 
+<HighlightBox title="⚠️ Pozor na limit příjmů!" type="warning">
+Pokud překročíte 2 miliony Kč během roku, máte pouhých 15 dní na odhlášení z paušální daně. Sledujte své příjmy průběžně!
+</HighlightBox>
+
 ### Daňová evidence - klasická volba
 
 Daňová evidence je tradiční způsob vedení účetnictví pro OSVČ. Je povinná pro všechny, kdo nesplňují podmínky pro paušální daň.
@@ -42,8 +50,7 @@ Daňová evidence je tradiční způsob vedení účetnictví pro OSVČ. Je povi
 - Mzdy zaměstnanců (pokud máte)
 - DPH (pokud jste plátcem)
 
-## Kalkulačka: Vyplatí se mi paušální daň?
-
+<CalculatorBox title="💰 Vyplatí se mi paušální daň?">
 Pojďme si na konkrétním příkladu spočítat, kdy se paušální daň vyplatí:
 
 **Příklad - grafik na volné noze:**
@@ -53,7 +60,7 @@ Pojďme si na konkrétním příkladu spočítat, kdy se paušální daň vyplat
 
 **Varianta A - Paušální daň:**
 - Měsíční platba: 6 208 Kč
-- Ročně zaplatíte: 74 496 Kč
+- **Ročně zaplatíte: 74 496 Kč**
 
 **Varianta B - Daňová evidence (60% paušál na výdaje):**
 - Základ daně: 960 000 × 0,4 = 384 000 Kč
@@ -62,7 +69,8 @@ Pojďme si na konkrétním příkladu spočítat, kdy se paušální daň vyplat
 - Zdravotní pojištění (min.): 35 616 Kč
 - **Celkem: 142 452 Kč**
 
-**Úspora s paušální daní: 67 956 Kč ročně!**
+🎉 **Úspora s paušální daní: 67 956 Kč ročně!**
+</CalculatorBox>
 
 ## Povinné doklady k archivaci
 
@@ -81,6 +89,10 @@ Bez ohledu na zvolený režim musíte archivovat určité doklady:
 - Inventární karty majetku
 
 **Lhůta archivace: 5 let** od konce zdaňovacího období
+
+<HighlightBox title="💡 Tip pro digitální archivaci" type="info">
+Fotite všechny doklady přes DokladBot a máte automaticky digitální archiv s vyhledáváním. Papírové doklady můžete pak bezpečně zlikvidovat.
+</HighlightBox>
 
 ## 10 nejčastějších chyb OSVČ v účetnictví
 
@@ -127,13 +139,16 @@ Bez ohledu na zvolený režim musíte archivovat určité doklady:
 - Sleva na dítě: 15 204 - 29 904 Kč
 - Sleva na studenta: 4 020 Kč
 
-## Praktický checklist pro začátek roku 2025
-
-✅ **Do 10. ledna:** Přihláška k paušální dani (pokud splňujete podmínky)
-✅ **Do 31. ledna:** Přehled OSVČ za rok 2024
-✅ **Do 15. února:** První záloha na pojištění
-✅ **Do 1. března:** Zaplacení daně za 2024 (pokud máte nedoplatek)
-✅ **Do 1. dubna:** Daňové přiznání za 2024
+<StepsList 
+  title="📋 Praktický checklist pro začátek roku 2025" 
+  steps={[
+    "Do 10. ledna: Přihláška k paušální dani (pokud splňujete podmínky)",
+    "Do 31. ledna: Přehled OSVČ za rok 2024", 
+    "Do 15. února: První záloha na pojištění",
+    "Do 1. března: Zaplacení daně za 2024 (pokud máte nedoplatek)",
+    "Do 1. dubna: Daňové přiznání za 2024"
+  ]}
+/>
 
 ## Jak DokladBot řeší tyto problémy?
 
@@ -159,14 +174,16 @@ DokladBot je účetní asistent přímo ve vašem WhatsAppu, který:
 - Upozornění na limity DPH
 - Kontrola platnosti dokladů
 
-## Srovnání časové náročnosti
-
-| Činnost | Klasicky | S DokladBotem |
-|---------|----------|---------------|
-| Evidence faktury | 5 minut | 30 sekund |
-| Měsíční uzávěrka | 2 hodiny | 15 minut |
-| Příprava pro účetní | 4 hodiny | 5 minut |
-| Kontrola DPH limitu | 30 minut | Automaticky |
+<ComparisonTable 
+  title="⏱️ Srovnání časové náročnosti"
+  headers={["Činnost", "Klasicky", "S DokladBotem"]}
+  rows={[
+    { label: "Evidence faktury", values: ["5 minut", "30 sekund"] },
+    { label: "Měsíční uzávěrka", values: ["2 hodiny", "15 minut"] },
+    { label: "Příprava pro účetní", values: ["4 hodiny", "5 minut"] },
+    { label: "Kontrola DPH limitu", values: ["30 minut", "Automaticky"] }
+  ]}
+/>
 
 ## Závěr: Účetnictví nemusí bolet
 
@@ -177,6 +194,10 @@ DokladBot je účetní asistent přímo ve vašem WhatsAppu, který:
 3. **Technologie** - využijte moderní nástroje jako DokladBot
 
 Pamatujte: Dobré účetnictví vám ušetří nejen peníze na daních, ale hlavně čas a nervy. A čas strávený papírováním můžete věnovat své práci nebo rodině.
+
+<HighlightBox title="🚀 Začněte hned dnes!" type="success">
+Neodkládejte účetnictví na poslední chvíli. Vyzkoušejte DokladBot 7 dní zdarma a uvidíte, jak jednoduché může účetnictví být. Stačí poslat "Ahoj" na WhatsApp!
+</HighlightBox>
 
 ## Často kladené otázky
 
