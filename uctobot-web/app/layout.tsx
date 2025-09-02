@@ -92,18 +92,18 @@ export default function RootLayout({
 }>) {
   const cookiebotId = process.env.NEXT_PUBLIC_COOKIEBOT_DOMAIN_GROUP_ID;
   
+  console.log('CookieBot ID:', cookiebotId);
+  
   return (
     <html lang="cs" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
-        {cookiebotId && (
-          <script 
-            id="Cookiebot" 
-            src="https://consent.cookiebot.com/uc.js" 
-            data-cbid={cookiebotId}
-            data-blockingmode="auto"
-            type="text/javascript"
-          />
-        )}
+        <script 
+          id="Cookiebot" 
+          src="https://consent.cookiebot.com/uc.js" 
+          data-cbid="2f9a443f-1ad7-4e38-b9f3-7354ba0f7a6c"
+          data-blockingmode="auto"
+          type="text/javascript"
+        />
       </head>
       <body className={GeistSans.className}>
         {children}
