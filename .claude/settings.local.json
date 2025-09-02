@@ -97,7 +97,11 @@
       "WebFetch(domain:dokladbot.cz)",
       "WebFetch(domain:www.dokladbot.cz)",
       "WebFetch(domain:pagespeed.web.dev)",
-      "WebFetch(domain:developers.google.com)"
+      "WebFetch(domain:developers.google.com)",
+      "Bash(dig:*)",
+      "WebFetch(domain:dnschecker.org)",
+      "WebFetch(domain:vercel.com)",
+      "WebFetch(domain:uctobot-fwqrt4pxr-realok2001-gmailcoms-projects.vercel.app)"
     ],
     "deny": [],
     "ask": [],

@@ -84,7 +84,7 @@ export default function NewsletterSection({ className = '' }: NewsletterSectionP
         </div>
 
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-          📧 Novinky pro OSVČ
+          📧 Novinky pro podnikatele
         </h2>
         
         <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
