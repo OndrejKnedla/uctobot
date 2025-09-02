@@ -2,33 +2,11 @@
 
 import { MessageCircle, Mail, Phone, Clock, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Layout from '@/components/layout/Layout';
 
 export default function KontaktPage() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <button
-              onClick={() => window.location.href = '/'}
-              className="flex items-center space-x-2"
-            >
-              <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">DokladBot</span>
-            </button>
-
-            <Button
-              onClick={() => window.location.href = '/'}
-              variant="outline"
-              className="hidden md:flex"
-            >
-              Zpět na hlavní stránku
-            </Button>
-          </div>
-        </div>
-      </nav>
-
+    <Layout>
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
@@ -159,6 +137,6 @@ export default function KontaktPage() {
           </Button>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

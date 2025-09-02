@@ -4,6 +4,7 @@ import { getAllPosts } from '@/lib/blog';
 import BlogCard from '@/components/blog/BlogCard';
 import SearchBar from '@/components/blog/SearchBar';
 import NewsletterSection from '@/components/blog/NewsletterSection';
+import Layout from '@/components/layout/Layout';
 
 export const metadata: Metadata = {
   title: 'Blog - Poradna pro OSVČ | DokladBot',
@@ -30,7 +31,8 @@ export default function BlogPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Layout>
+      <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-green-50 to-green-100 py-16">
         <div className="container mx-auto px-4">
@@ -71,5 +73,6 @@ export default function BlogPage() {
         <NewsletterSection className="mt-20" />
       </div>
     </div>
+    </Layout>
   );
 }

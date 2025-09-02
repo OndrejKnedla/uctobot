@@ -8,6 +8,7 @@ import ShareButtons from '@/components/blog/ShareButtons';
 import TableOfContents from '@/components/blog/TableOfContents';
 import CTABlock from '@/components/blog/CTABlock';
 import AIGeneratedImage from '@/components/blog/AIGeneratedImage';
+import Layout from '@/components/layout/Layout';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -68,7 +69,8 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   };
 
   return (
-    <article className="min-h-screen bg-white">
+    <Layout>
+      <article className="min-h-screen bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -161,5 +163,6 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         )}
       </div>
     </article>
+    </Layout>
   );
 }
