@@ -155,8 +155,8 @@ Tým DokladBot
 DokladBot.cz - Účetnictví přes WhatsApp
   `.trim();
 
-  // Production: Use Resend to send actual email
-  if (resend && process.env.NODE_ENV === 'production') {
+  // Use Resend to send actual email if API key is available
+  if (resend) {
     try {
       await resend.emails.send({
         from: 'DokladBot <newsletter@dokladbot.cz>',
