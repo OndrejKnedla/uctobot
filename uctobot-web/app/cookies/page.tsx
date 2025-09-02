@@ -1,4 +1,5 @@
 import Layout from '@/components/layout/Layout';
+import { CookieDeclaration } from '@/components/cookiebot/CookieBot';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,6 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default function CookiesPage() {
+  const cookiebotId = process.env.NEXT_PUBLIC_COOKIEBOT_DOMAIN_GROUP_ID;
+  
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50">
@@ -181,8 +184,14 @@ export default function CookiesPage() {
                 </p>
                 <p>
                   <strong>Email:</strong> privacy@dokladbot.cz<br />
+                  <strong>Telefon:</strong> +420 722 158 002<br />
                   <strong>Adresa:</strong> REALOK s.r.o., IČO: 22161104
                 </p>
+              </div>
+
+              <h2>Detailní přehled cookies</h2>
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <CookieDeclaration domainGroupId={cookiebotId} />
               </div>
             </div>
 

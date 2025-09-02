@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
+import { CookieBotScript } from "@/components/cookiebot/CookieBot"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -90,8 +91,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookiebotId = process.env.NEXT_PUBLIC_COOKIEBOT_DOMAIN_GROUP_ID;
+  
   return (
     <html lang="cs" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <head>
+        <CookieBotScript domainGroupId={cookiebotId} />
+      </head>
       <body className={GeistSans.className}>
         {children}
         <Analytics />
