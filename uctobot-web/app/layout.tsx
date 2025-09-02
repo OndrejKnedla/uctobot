@@ -105,6 +105,101 @@ export default function RootLayout({
           data-culture="CS"
           type="text/javascript"
         />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* CookieBot custom green styling */
+            #CybotCookiebotDialog {
+              background: #ffffff !important;
+              border: 2px solid #25D366 !important;
+              border-radius: 12px !important;
+              box-shadow: 0 8px 32px rgba(37, 211, 102, 0.2) !important;
+            }
+            
+            #CybotCookiebotDialogBodyContent {
+              color: #1a1a1a !important;
+            }
+            
+            /* Accept all button - WhatsApp green */
+            #CybotCookiebotDialogBodyButtonAccept {
+              background: #25D366 !important;
+              color: white !important;
+              border: none !important;
+              border-radius: 8px !important;
+              padding: 12px 24px !important;
+              font-weight: 600 !important;
+              transition: all 0.2s ease !important;
+            }
+            
+            #CybotCookiebotDialogBodyButtonAccept:hover {
+              background: #128C7E !important;
+              transform: translateY(-1px) !important;
+            }
+            
+            /* Decline button - subtle gray */
+            #CybotCookiebotDialogBodyButtonDecline {
+              background: #f8f9fa !important;
+              color: #6c757d !important;
+              border: 1px solid #dee2e6 !important;
+              border-radius: 8px !important;
+              padding: 12px 24px !important;
+              font-weight: 500 !important;
+            }
+            
+            #CybotCookiebotDialogBodyButtonDecline:hover {
+              background: #e9ecef !important;
+              color: #495057 !important;
+            }
+            
+            /* Settings button */
+            #CybotCookiebotDialogBodyButtonSettings {
+              background: transparent !important;
+              color: #25D366 !important;
+              border: 1px solid #25D366 !important;
+              border-radius: 8px !important;
+              padding: 10px 20px !important;
+              font-weight: 500 !important;
+            }
+            
+            #CybotCookiebotDialogBodyButtonSettings:hover {
+              background: #25D366 !important;
+              color: white !important;
+            }
+            
+            /* Dialog title */
+            #CybotCookiebotDialogBodyContentTitle {
+              color: #25D366 !important;
+              font-weight: 700 !important;
+              font-size: 18px !important;
+            }
+            
+            /* Close button */
+            #CybotCookiebotDialogBodyButtonClose {
+              color: #6c757d !important;
+              background: none !important;
+              border: none !important;
+            }
+            
+            #CybotCookiebotDialogBodyButtonClose:hover {
+              color: #25D366 !important;
+            }
+            
+            /* Tab styling for detailed view */
+            .CybotCookiebotDialogTab {
+              border-bottom: 2px solid #25D366 !important;
+              color: #25D366 !important;
+            }
+            
+            /* Checkbox styling */
+            .CybotCookiebotDialogBodyLevelButton {
+              accent-color: #25D366 !important;
+            }
+            
+            /* Banner mode styling */
+            #CybotCookiebotDialogPoweredbyLink {
+              color: #6c757d !important;
+            }
+          `
+        }} />
       </head>
       <body className={GeistSans.className}>
         {children}
