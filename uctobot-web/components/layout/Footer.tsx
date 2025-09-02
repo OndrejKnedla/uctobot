@@ -216,6 +216,7 @@ export default function Footer({ showMainPageSections = false }: FooterProps) {
                 <h4 className="font-semibold mb-2">Kontakt</h4>
                 <div className="text-sm text-muted-foreground space-y-1">
                   <div>📧 info@dokladbot.cz</div>
+                  <div>📞 +420 722 158 002</div>
                   <div>🕐 Po-Pá 9:00-17:00</div>
                 </div>
               </div>

@@ -171,7 +171,7 @@ export default function ObchodniPodminkyPage() {
                 <p>
                   Máte otázky k obchodním podmínkám?<br />
                   <strong>Email:</strong> info@dokladbot.cz<br />
-                  <strong>Telefon:</strong> +420 XXX XXX XXX
+                  <strong>Telefon:</strong> +420 722 158 002
                 </p>
               </div>
             </div>

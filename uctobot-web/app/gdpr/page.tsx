@@ -160,7 +160,7 @@ export default function GDPRPage() {
                 </p>
                 <ul className="space-y-2">
                   <li><strong>Email:</strong> privacy@dokladbot.cz</li>
-                  <li><strong>Telefon:</strong> +420 XXX XXX XXX</li>
+                  <li><strong>Telefon:</strong> +420 722 158 002</li>
                   <li><strong>Adresa:</strong> REALOK s.r.o., [Adresa]</li>
                 </ul>
                 <p className="mt-4 text-sm text-blue-700">

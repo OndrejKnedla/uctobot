@@ -30,7 +30,7 @@ export default function OchranaOsobnichUdajuPage() {
                 IČO: 22161104<br />
                 Sídlo: [Adresa]<br />
                 Email: info@dokladbot.cz<br />
-                Telefon: +420 XXX XXX XXX
+                Telefon: +420 722 158 002
               </p>
 
               <h2>2. Jaké osobní údaje zpracováváme</h2>
@@ -195,7 +195,7 @@ export default function OchranaOsobnichUdajuPage() {
               <h3>9.1 Kontakt pro ochranu údajů</h3>
               <p>
                 <strong>Email:</strong> privacy@dokladbot.cz<br />
-                <strong>Telefon:</strong> +420 XXX XXX XXX<br />
+                <strong>Telefon:</strong> +420 722 158 002<br />
                 <strong>Adresa:</strong> [Adresa společnosti]
               </p>
 
