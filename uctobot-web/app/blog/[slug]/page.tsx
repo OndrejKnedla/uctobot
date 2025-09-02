@@ -7,6 +7,7 @@ import BlogCard from '@/components/blog/BlogCard';
 import ShareButtons from '@/components/blog/ShareButtons';
 import TableOfContents from '@/components/blog/TableOfContents';
 import CTABlock from '@/components/blog/CTABlock';
+import AIGeneratedImage from '@/components/blog/AIGeneratedImage';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -106,6 +107,28 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
         <ShareButtons url={`https://www.dokladbot.cz/blog/${post.slug}`} title={post.title} />
       </header>
+
+      {/* Hero Image */}
+      <div className="container mx-auto px-4 mb-8">
+        <div className="max-w-4xl mx-auto">
+          {post.image ? (
+            <img 
+              src={post.image} 
+              alt={post.title}
+              className="w-full h-64 md:h-80 object-cover rounded-xl shadow-lg"
+            />
+          ) : (
+            <div className="w-full">
+              <AIGeneratedImage 
+                slug={post.slug} 
+                alt={post.title}
+                title={post.title}
+                isHero={true}
+              />
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pb-16">

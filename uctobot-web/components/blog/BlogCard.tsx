@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { BlogPost } from '@/lib/blog';
+import AIGeneratedImage from './AIGeneratedImage';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -12,22 +13,22 @@ export default function BlogCard({ post }: BlogCardProps) {
   return (
     <article className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow overflow-hidden">
       <Link href={`/blog/${post.slug}`}>
-        <div className="relative h-48 bg-gradient-to-br from-green-400 to-green-600">
-          {post.image ? (
+        {post.image ? (
+          <div className="relative h-48">
             <Image
               src={post.image}
               alt={post.title}
               fill
-              className="object-cover"
+              className="object-cover rounded-t-xl"
             />
-          ) : (
-            <div className="flex items-center justify-center h-full text-white">
-              <svg className="w-16 h-16 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <AIGeneratedImage 
+            slug={post.slug} 
+            alt={post.title}
+            title={post.title}
+          />
+        )}
         
         <div className="p-6">
           <div className="flex items-center gap-3 mb-3 text-sm text-gray-600">

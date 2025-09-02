@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/blog';
 import BlogCard from '@/components/blog/BlogCard';
 import SearchBar from '@/components/blog/SearchBar';
+import NewsletterSection from '@/components/blog/NewsletterSection';
 
 export const metadata: Metadata = {
   title: 'Blog - Poradna pro OSVČ | DokladBot',
@@ -67,27 +68,7 @@ export default function BlogPage() {
         </div>
 
         {/* Newsletter Section */}
-        <div className="mt-20 bg-green-500 rounded-2xl p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">
-            Chcete být informováni o novinkách?
-          </h2>
-          <p className="text-lg mb-8 opacity-90">
-            Posíláme užitečné tipy pro OSVČ maximálně 1x měsíčně
-          </p>
-          <form className="max-w-md mx-auto flex gap-3">
-            <input
-              type="email"
-              placeholder="Váš email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900"
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              Přihlásit
-            </button>
-          </form>
-        </div>
+        <NewsletterSection className="mt-20" />
       </div>
     </div>
   );
