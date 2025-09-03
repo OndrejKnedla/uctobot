@@ -261,10 +261,10 @@ export default function DokladBotLanding() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-2">
-              <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">DokladBot</span>
+              <MessageCircle className="h-10 w-10 text-[#25D366]" />
+              <span className="text-2xl font-bold">DokladBot</span>
             </div>
 
             <div className="hidden md:flex items-center space-x-8">
@@ -289,9 +289,6 @@ export default function DokladBotLanding() {
               >
                 Blog
               </a>
-              <Button variant="ghost" size="sm" onClick={() => setDarkMode(!darkMode)}>
-                {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
               <Button 
                 size="lg"
                 className="bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold"
@@ -301,10 +298,7 @@ export default function DokladBotLanding() {
               </Button>
             </div>
 
-            <div className="md:hidden flex items-center space-x-2">
-              <Button variant="ghost" size="sm" onClick={() => setDarkMode(!darkMode)}>
-                {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
+            <div className="md:hidden flex items-center">
               <Button variant="ghost" size="sm" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
                 <Menu className="h-4 w-4" />
               </Button>
