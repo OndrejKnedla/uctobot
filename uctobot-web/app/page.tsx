@@ -182,7 +182,7 @@ export default function DokladBotLanding() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden pt-20">
       {/* Custom animations CSS */}
       <style jsx>{`
         @keyframes fadeInUp {
@@ -259,7 +259,7 @@ export default function DokladBotLanding() {
 
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-2">
@@ -282,6 +282,12 @@ export default function DokladBotLanding() {
                 className="text-muted-foreground hover:text-foreground"
               >
                 Recenze
+              </button>
+              <button
+                onClick={() => scrollToSection("faq")}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                FAQ
               </button>
               <a
                 href="/blog"
@@ -326,6 +332,12 @@ export default function DokladBotLanding() {
                 className="block w-full text-left py-2 text-muted-foreground"
               >
                 Recenze
+              </button>
+              <button
+                onClick={() => scrollToSection("faq")}
+                className="block w-full text-left py-2 text-muted-foreground"
+              >
+                FAQ
               </button>
               <a
                 href="/blog"
@@ -1294,7 +1306,7 @@ export default function DokladBotLanding() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
+      <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Často kladené otázky</h2>
