@@ -555,3 +555,59 @@ img, picture, svg, video {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Scroll animations */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade in up animation */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger animation for children */
+.animate-stagger.visible > * {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.animate-stagger.visible > *:nth-child(1) { animation-delay: 0.1s; }
+.animate-stagger.visible > *:nth-child(2) { animation-delay: 0.2s; }
+.animate-stagger.visible > *:nth-child(3) { animation-delay: 0.3s; }
+.animate-stagger.visible > *:nth-child(4) { animation-delay: 0.4s; }
+.animate-stagger.visible > *:nth-child(5) { animation-delay: 0.5s; }
+.animate-stagger.visible > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Initial state for stagger animation children */
+.animate-stagger > * {
+  opacity: 0;
+  transform: translateY(30px);
+}

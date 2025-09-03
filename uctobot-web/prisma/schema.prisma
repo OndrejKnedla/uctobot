@@ -65,6 +65,8 @@ model User {
   challenges           Challenge[]
   paymentMatches       PaymentMatch[]
   chartGeneration      ChartGeneration[]
+  whatsappUsage        WhatsAppUsage[]
+  whatsappRateLimit    WhatsAppRateLimit[]
 
   @@index([whatsappPhone])
   @@index([email])
@@ -619,4 +621,39 @@ enum ChartType {
   EXPENSE_BREAKDOWN
   CLIENT_ANALYSIS
   TAX_OVERVIEW
+}
+
+// WhatsApp bot usage tracking
+model WhatsAppUsage {
+  id                   String   @id @default(cuid())
+  userId               String
+  date                 DateTime // Date for tracking (YYYY-MM-DD)
+  messagesCount        Int      @default(0)
+  documentsCount       Int      @default(0)
+  lastActivityAt       DateTime @default(now())
+  // Hourly tracking for rate limiting
+  hourlyMessageCount   Json?    // JSON object with hour:count mapping
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+// WhatsApp bot rate limiting
+model WhatsAppRateLimit {
+  id            String   @id @default(cuid())
+  userId        String
+  windowStart   DateTime // Start of current rate limit window
+  requestCount  Int      @default(1)
+  windowType    String   // "minute", "hour", "day"
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, windowType, windowStart])
+  @@index([userId])
+  @@index([windowStart])
 }

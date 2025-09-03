@@ -4,32 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowLeft, Smartphone, Tablet, Monitor, MessageCircle, Bot, TrendingUp } from "lucide-react";
+import Layout from '@/components/layout/Layout';
 
 export default function JakToFungujePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                onClick={() => window.location.href = '/'}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Zpět na hlavní stránku
-              </Button>
-            </div>
-            <div className="flex items-center space-x-2">
-              <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">DokladBot</span>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+    <Layout>
       {/* Hero */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -239,7 +218,7 @@ export default function JakToFungujePage() {
             Připraveni začít?
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Funguje na mobilu, tabletu i PC. Žádné instalace, okamžitý start.
+            Vyzkoušejte DokladBot zdarma na jakémkoliv zařízení
           </p>
           <Button 
             size="lg" 
@@ -250,6 +229,6 @@ export default function JakToFungujePage() {
           </Button>
         </div>
       </section>
-    </div>
+    </Layout>
   );
 }

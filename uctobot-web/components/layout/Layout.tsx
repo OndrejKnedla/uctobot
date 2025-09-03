@@ -10,7 +10,7 @@ export default function Layout({ children, showMainPageSections = false }: Layou
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header showMainPageSections={showMainPageSections} />
-      <main>
+      <main className="pt-20">
         {children}
       </main>
       <Footer showMainPageSections={showMainPageSections} />

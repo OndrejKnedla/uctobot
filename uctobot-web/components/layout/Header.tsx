@@ -1,27 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Moon, Sun, Menu } from 'lucide-react';
+import { MessageCircle, Menu } from 'lucide-react';
 
 interface HeaderProps {
   showMainPageSections?: boolean;
 }
 
 export default function Header({ showMainPageSections = false }: HeaderProps) {
-  const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
 
   const scrollToSection = (id: string) => {
     if (showMainPageSections) {
@@ -42,12 +33,12 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center space-x-2">
-            <MessageCircle className="h-8 w-8 text-[#25D366]" />
-            <span className="text-xl font-bold">DokladBot</span>
+            <MessageCircle className="h-10 w-10 text-[#25D366]" />
+            <span className="text-2xl font-bold">DokladBot</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
@@ -69,15 +60,18 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
             >
               Recenze
             </button>
+            <button
+              onClick={() => scrollToSection("faq")}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              FAQ
+            </button>
             <Link
               href="/blog"
               className="text-muted-foreground hover:text-foreground"
             >
               Blog
             </Link>
-            <Button variant="ghost" size="sm" onClick={() => setDarkMode(!darkMode)}>
-              {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
             <Button 
               size="lg"
               className="bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold"
@@ -87,10 +81,7 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
             </Button>
           </div>
 
-          <div className="md:hidden flex items-center space-x-2">
-            <Button variant="ghost" size="sm" onClick={() => setDarkMode(!darkMode)}>
-              {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
+          <div className="md:hidden flex items-center">
             <Button variant="ghost" size="sm" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               <Menu className="h-4 w-4" />
             </Button>
@@ -118,6 +109,12 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
               className="block w-full text-left py-2 text-muted-foreground"
             >
               Recenze
+            </button>
+            <button
+              onClick={() => scrollToSection("faq")}
+              className="block w-full text-left py-2 text-muted-foreground"
+            >
+              FAQ
             </button>
             <Link
               href="/blog"

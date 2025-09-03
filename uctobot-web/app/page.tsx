@@ -22,12 +22,16 @@ interface ApiStats {
 function useScrollAnimation() {
   const [isVisible, setIsVisible] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
+  const hasAnimated = useRef(false)
 
   const checkVisibility = useCallback(() => {
-    if (elementRef.current) {
+    if (elementRef.current && !hasAnimated.current) {
       const rect = elementRef.current.getBoundingClientRect()
       const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0
-      setIsVisible(isInView)
+      if (isInView) {
+        setIsVisible(true)
+        hasAnimated.current = true
+      }
     }
   }, [])
 

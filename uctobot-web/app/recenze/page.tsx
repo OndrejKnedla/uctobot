@@ -3,32 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowLeft, MessageCircle } from "lucide-react";
+import Layout from '@/components/layout/Layout';
 
 export default function RecenzePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                onClick={() => window.location.href = '/'}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Zpět na hlavní stránku
-              </Button>
-            </div>
-            <div className="flex items-center space-x-2">
-              <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">DokladBot</span>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <Layout>
 
       {/* Hero */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -279,6 +258,6 @@ export default function RecenzePage() {
           </Button>
         </div>
       </section>
-    </div>
+    </Layout>
   );
 }

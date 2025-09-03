@@ -104,7 +104,11 @@
       "WebFetch(domain:uctobot-fwqrt4pxr-realok2001-gmailcoms-projects.vercel.app)",
       "WebFetch(domain:uctobot-7pqwueaua-realok2001-gmailcoms-projects.vercel.app)",
       "WebFetch(domain:localhost)",
-      "Bash(git revert:*)"
+      "Bash(git revert:*)",
+      "Bash(for file in /home/asznee/mvp-ucetni/uctobot-web/app/**/page.tsx)",
+      "Bash(do if ! grep -q \"Layout\\|Header\" \"$file\")",
+      "Bash(then echo \"$file\")",
+      "Bash(fi)"
     ],
     "deny": [],
     "ask": [],
