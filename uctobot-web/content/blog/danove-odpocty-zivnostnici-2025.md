@@ -1,9 +1,10 @@
 ---
 title: "Daňové odpočty pro živnostníky 2025: Úplný přehled všech možností úspory"
-description: "Kompletní seznam daňových odpočtů pro OSVČ v roce 2025. Jak si snížit daně legálně, co lze odečíst a jaké jsou nové možnosti úspor."
-publishedAt: "2025-01-20"
-image: "/blog-images/danove-odpocty-2025.jpg"
-author: "DokladBot Team"
+metaDescription: "Kompletní seznam daňových odpočtů pro OSVČ v roce 2025. Jak si snížit daně legálně, co lze odečíst a jaké jsou nové možnosti úspor."
+date: "2025-01-20"
+author: "Tým DokladBot"
+category: "Daně"
+excerpt: "Přehled všech daňových odpočtů pro OSVČ v roce 2025. Od základních slev po nové možnosti úspor až 50 000 Kč ročně."
 tags: ["daňové odpočty", "OSVČ", "2025", "úspory", "živnostníci", "slevy"]
 ---
 

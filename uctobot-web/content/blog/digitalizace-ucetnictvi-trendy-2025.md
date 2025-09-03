@@ -1,9 +1,10 @@
 ---
 title: "Digitalizace účetnictví 2025: Trendy, nástroje a příležitosti pro OSVČ"
-description: "Jak digitalizace mění účetnictví v roce 2025. AI nástroje, automatizace procesů, nové technologie a příležitosti pro živnostníky a malé firmy."
-publishedAt: "2025-01-25"
-image: "/blog-images/digitalizace-ucetnictvi-2025.jpg"
-author: "DokladBot Team"
+metaDescription: "Jak digitalizace mění účetnictví v roce 2025. AI nástroje, automatizace procesů, nové technologie a příležitosti pro živnostníky a malé firmy."
+date: "2025-01-25"
+author: "Tým DokladBot"
+category: "Účetnictví"
+excerpt: "Jak AI a digitalizace revolucionizují účetnictví v roce 2025. Nové nástroje, trendy a příležitosti pro moderní OSVČ."
 tags: ["digitalizace", "účetnictví", "AI", "automatizace", "2025", "technologie"]
 ---
 

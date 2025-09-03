@@ -1,9 +1,10 @@
 ---
 title: "WhatsApp Business API pro malé firmy 2025: Kompletní průvodce využitím"
-description: "Jak využít WhatsApp Business API pro automatizaci, zákaznickou podporu a růst malé firmy. Praktické tipy, náklady a nejlepší postupy pro rok 2025."
-publishedAt: "2025-01-30"
-image: "/blog-images/whatsapp-business-api-2025.jpg"
-author: "DokladBot Team"
+metaDescription: "Jak využít WhatsApp Business API pro automatizaci, zákaznickou podporu a růst malé firmy. Praktické tipy, náklady a nejlepší postupy pro rok 2025."
+date: "2025-01-30"
+author: "Tým DokladBot"
+category: "WhatsApp"
+excerpt: "Komplexní průvodce WhatsApp Business API pro malé firmy. Implementace, náklady, automatizace a ROI až 400%."
 tags: ["WhatsApp Business API", "automatizace", "malé firmy", "chatbots", "2025"]
 ---
 

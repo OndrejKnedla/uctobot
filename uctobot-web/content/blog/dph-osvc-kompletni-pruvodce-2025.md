@@ -1,9 +1,10 @@
 ---
 title: "DPH pro OSVČ 2025: Kompletní průvodce registrací a vedením evidence"
-description: "Vše o DPH pro živnostníky v roce 2025. Kdy se registrovat, jak vést evidenci, jaké jsou limity a jak správně vyplnit daňové přiznání k DPH."
-publishedAt: "2025-01-15"
-image: "/blog-images/dph-osvc-2025.jpg"
-author: "DokladBot Team"
+metaDescription: "Vše o DPH pro živnostníky v roce 2025. Kdy se registrovat, jak vést evidenci, jaké jsou limity a jak správně vyplnit daňové přiznání k DPH."
+date: "2025-01-15"
+author: "Tým DokladBot"
+category: "Daně"
+excerpt: "Kompletní průvodce DPH pro OSVČ v roce 2025. Registrace, vedení evidence, termíny a praktické tipy jak se vyhnout pokutám."
 tags: ["DPH", "OSVČ", "2025", "daně", "živnostníci", "registrace"]
 ---
 
