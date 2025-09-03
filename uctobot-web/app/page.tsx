@@ -260,11 +260,11 @@ export default function DokladBotLanding() {
 
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-responsive">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
               <MessageCircle className="h-8 w-8 text-[#25D366]" />
-              <span className="text-xl font-bold">DokladBot</span>
+              <span className="text-lg sm:text-xl font-bold">DokladBot</span>
             </div>
 
             <div className="hidden md:flex items-center space-x-8">
@@ -302,46 +302,46 @@ export default function DokladBotLanding() {
             </div>
 
             <div className="md:hidden flex items-center space-x-2">
-              <Button variant="ghost" size="sm" onClick={() => setDarkMode(!darkMode)}>
-                {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <Button variant="ghost" size="icon" className="min-h-[44px] min-w-[44px]" onClick={() => setDarkMode(!darkMode)}>
+                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                <Menu className="h-4 w-4" />
+              <Button variant="ghost" size="icon" className="min-h-[44px] min-w-[44px]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                <Menu className="h-5 w-5" />
               </Button>
             </div>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden bg-background border-t">
-            <div className="px-4 py-2 space-y-2">
+          <div className="md:hidden bg-background border-t animate-in slide-in-from-top duration-200">
+            <div className="px-4 py-3 space-y-1 safe-bottom">
               <button
                 onClick={() => scrollToSection("jak-funguje")}
-                className="block w-full text-left py-2 text-muted-foreground"
+                className="block w-full text-left py-3 px-4 text-muted-foreground hover:bg-muted/50 rounded-lg transition-colors min-h-[44px]"
               >
                 Jak to funguje
               </button>
               <button
                 onClick={() => scrollToSection("cenik")}
-                className="block w-full text-left py-2 text-muted-foreground"
+                className="block w-full text-left py-3 px-4 text-muted-foreground hover:bg-muted/50 rounded-lg transition-colors min-h-[44px]"
               >
                 Ceník
               </button>
               <button
                 onClick={() => scrollToSection("recenze")}
-                className="block w-full text-left py-2 text-muted-foreground"
+                className="block w-full text-left py-3 px-4 text-muted-foreground hover:bg-muted/50 rounded-lg transition-colors min-h-[44px]"
               >
                 Recenze
               </button>
               <a
                 href="/blog"
-                className="block w-full text-left py-2 text-muted-foreground"
+                className="block w-full text-left py-3 px-4 text-muted-foreground hover:bg-muted/50 rounded-lg transition-colors min-h-[44px]"
               >
                 Blog
               </a>
               <Button 
                 size="lg"
-                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold mt-2"
+                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold mt-4 min-h-[48px]"
                 onClick={handleRegister}
               >
                 VYZKOUŠET ZDARMA
@@ -352,7 +352,7 @@ export default function DokladBotLanding() {
       </nav>
 
       {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive relative overflow-hidden">
         {/* Floating background elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 left-10 w-20 h-20 bg-[#25D366]/10 rounded-full animate-float"></div>
@@ -361,14 +361,14 @@ export default function DokladBotLanding() {
           <div className="absolute bottom-20 right-40 w-24 h-24 bg-[#25D366]/10 rounded-full animate-float" style={{animationDelay: '0.5s'}}></div>
         </div>
         
-        <div className="max-w-7xl mx-auto">
+        <div className="container-responsive">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 animate-slide-in-left">
               <div className="space-y-4">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                <h1 className="text-responsive-4xl font-bold leading-tight">
                   Účetnictví přes WhatsApp za <span className="text-[#25D366] animate-pulse">5 vteřin</span>
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <p className="text-responsive-lg text-muted-foreground leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                   Profesionální účetnictví ze smartphonu. Pošlete fotku účtenky a AI vše rozpozná a správně zaúčtuje za 5 sekund.
                 </p>
               </div>
@@ -390,7 +390,7 @@ export default function DokladBotLanding() {
 
               <Button 
                 size="lg" 
-                className="bg-[#25D366] hover:bg-[#128C7E] text-white text-lg px-8 py-6 flex items-center justify-center"
+                className="bg-[#25D366] hover:bg-[#128C7E] text-white text-base sm:text-lg btn-touch w-full sm:w-auto flex items-center justify-center"
                 onClick={handleRegister}
               >
                 VYZKOUŠET ZDARMA
@@ -399,8 +399,8 @@ export default function DokladBotLanding() {
 
             </div>
 
-            <div className="relative">
-              <div className="bg-gradient-to-br from-[#25D366]/10 to-[#075E54]/10 rounded-3xl p-8">
+            <div className="relative hidden lg:block">
+              <div className="bg-gradient-to-br from-[#25D366]/10 to-[#075E54]/10 rounded-3xl p-4 sm:p-8">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-6 max-w-sm mx-auto">
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="w-10 h-10 bg-[#25D366] rounded-full flex items-center justify-center">
@@ -455,14 +455,14 @@ export default function DokladBotLanding() {
       </section>
 
       {/* How It Works Section */}
-      <section id="jak-funguje" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-7xl mx-auto">
+      <section id="jak-funguje" className="py-12 sm:py-16 lg:py-20 padding-responsive bg-muted/50">
+        <div className="container-responsive">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Jak to funguje</h2>
-            <p className="text-xl text-muted-foreground">3 jednoduché kroky k bezstarostnému účetnictví</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Jak to funguje</h2>
+            <p className="text-responsive-lg text-muted-foreground">3 jednoduché kroky k bezstarostnému účetnictví</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid-responsive">
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -516,14 +516,14 @@ export default function DokladBotLanding() {
 
 
       {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive bg-muted/50">
+        <div className="container-responsive">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Kompletní funkcionalita</h2>
-            <p className="text-xl text-muted-foreground">Vše, co potřebujete pro profesionální účetnictví OSVČ</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Kompletní funkcionalita</h2>
+            <p className="text-responsive-lg text-muted-foreground">Vše, co potřebujete pro profesionální účetnictví OSVČ</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid-responsive">
             {/* Core Features */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
@@ -753,8 +753,8 @@ export default function DokladBotLanding() {
       </section>
 
       {/* Pricing Section */}
-      <section id="cenik" className="py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section id="cenik" className="py-12 sm:py-16 lg:py-20 padding-responsive">
+        <div className="container-responsive">
           <div className="text-center mb-12">
             {/* Launch Week Special Badge */}
             <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-200 dark:border-green-800 rounded-full px-8 py-3 mb-8">
@@ -762,7 +762,7 @@ export default function DokladBotLanding() {
               <span className="text-green-700 dark:text-green-300 font-bold text-lg">⚡ LAUNCH WEEK SPECIAL</span>
             </div>
             
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">
+            <h2 className="text-responsive-3xl font-bold mb-4 text-foreground">
               <span className="block">7 dní k vyzkoušení</span>
               <span className="block text-green-600">ZDARMA</span>
             </h2>
@@ -815,14 +815,14 @@ export default function DokladBotLanding() {
       </section>
 
       {/* Integrace Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive bg-muted/50">
+        <div className="container-responsive">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Integrace s vašimi nástroji</h2>
-            <p className="text-xl text-muted-foreground">Propojte DokladBot s aplikacemi, které už používáte</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Integrace s vašimi nástroji</h2>
+            <p className="text-responsive-lg text-muted-foreground">Propojte DokladBot s aplikacemi, které už používáte</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid-responsive mb-16">
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -907,14 +907,14 @@ export default function DokladBotLanding() {
       </section>
 
       {/* Security Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive">
+        <div className="container-responsive">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Bezpečnost na prvním místě</h2>
-            <p className="text-xl text-muted-foreground">Vaše data jsou v bezpečí díky špičkovým bezpečnostním opatřením</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Bezpečnost na prvním místě</h2>
+            <p className="text-responsive-lg text-muted-foreground">Vaše data jsou v bezpečí díky špičkovým bezpečnostním opatřením</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-16">
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -972,8 +972,8 @@ export default function DokladBotLanding() {
             </Card>
           </div>
 
-          <div className="bg-muted/50 rounded-2xl p-8">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="bg-muted/50 rounded-2xl padding-responsive">
+            <div className="grid-responsive-2 items-center">
               <div>
                 <h3 className="text-2xl font-bold mb-4">Transparentnost bezpečnosti</h3>
                 <ul className="space-y-3">
@@ -1010,14 +1010,14 @@ export default function DokladBotLanding() {
       </section>
 
       {/* For Accounting Firms Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive bg-muted/50">
+        <div className="container-responsive">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Pro účetní kanceláře</h2>
-            <p className="text-xl text-muted-foreground">Rozšiřte své služby o moderní řešení pro vaše klienty</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Pro účetní kanceláře</h2>
+            <p className="text-responsive-lg text-muted-foreground">Rozšiřte své služby o moderní řešení pro vaše klienty</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid-responsive-2 items-center mb-16">
             <div>
               <h3 className="text-2xl font-bold mb-6">Partner program pro účetní</h3>
               <ul className="space-y-4">
@@ -1096,7 +1096,7 @@ export default function DokladBotLanding() {
             <p className="text-lg text-muted-foreground mb-6">
               Hledáme účetní kanceláře, které chtějí nabídnout svým klientům moderní řešení účetnictví.
             </p>
-            <div className="grid md:grid-cols-3 gap-8 mb-6">
+            <div className="grid-responsive mb-6">
               <div>
                 <div className="text-xl font-bold text-[#25D366] mb-2">Individuální</div>
                 <p className="text-muted-foreground">podmínky provize</p>
@@ -1118,20 +1118,22 @@ export default function DokladBotLanding() {
       </section>
 
       {/* Comparison Table */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive">
+        <div className="container-responsive">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Porovnání s konkurencí</h2>
-            <p className="text-xl text-muted-foreground">Proč je DokladBot nejlepší volba</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Porovnání s konkurencí</h2>
+            <p className="text-responsive-lg text-muted-foreground">Proč je DokladBot nejlepší volba</p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full bg-card rounded-lg shadow-lg">
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <div className="inline-block min-w-full align-middle">
+              <div className="overflow-hidden shadow-lg sm:rounded-lg">
+                <table className="min-w-full bg-card">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left p-4"></th>
-                  <th className="text-center p-4 bg-[#25D366]/10">
-                    <div className="font-bold">DokladBot</div>
+                  <th className="text-left p-2 sm:p-4 text-xs sm:text-sm"></th>
+                  <th className="text-center p-2 sm:p-4 bg-[#25D366]/10">
+                    <div className="font-bold text-xs sm:text-base">DokladBot</div>
                   </th>
                   <th className="text-center p-4">
                     <div className="blur-sm">Konkurent A</div>
@@ -1146,8 +1148,8 @@ export default function DokladBotLanding() {
               </thead>
               <tbody>
                 <tr className="border-b">
-                  <td className="p-4 font-medium">Cena</td>
-                  <td className="text-center p-4 bg-[#25D366]/10 font-bold">199 Kč</td>
+                  <td className="p-2 sm:p-4 font-medium text-xs sm:text-sm">Cena</td>
+                  <td className="text-center p-2 sm:p-4 bg-[#25D366]/10 font-bold text-xs sm:text-sm">199 Kč</td>
                   <td className="text-center p-4">399 Kč</td>
                   <td className="text-center p-4">690 Kč</td>
                   <td className="text-center p-4">950 Kč</td>
@@ -1207,21 +1209,23 @@ export default function DokladBotLanding() {
                   </td>
                 </tr>
               </tbody>
-            </table>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section id="recenze" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section id="recenze" className="py-12 sm:py-16 lg:py-20 padding-responsive">
+        <div className="container-responsive">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Výsledky, které mluví za vše</h2>
-            <p className="text-xl text-muted-foreground">Reálná čísla od našich prvních uživatelů</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Výsledky, které mluví za vše</h2>
+            <p className="text-responsive-lg text-muted-foreground">Reálná čísla od našich prvních uživatelů</p>
           </div>
 
           {/* Statistics */}
-          <div className="grid md:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-16">
             <div className="text-center">
               <div className="text-4xl font-bold text-[#25D366] mb-2">95%</div>
               <p className="text-muted-foreground">snížení chybovosti</p>
@@ -1241,7 +1245,7 @@ export default function DokladBotLanding() {
           </div>
 
           {/* Enhanced Testimonials */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid-responsive mb-16">
             <Card className="hover:shadow-lg transition-shadow border-l-4 border-l-[#25D366]">
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
@@ -1304,7 +1308,7 @@ export default function DokladBotLanding() {
             <p className="text-muted-foreground mb-6">
               Připojte se k našim 50+ beta testerům a pomozte vytvořit nejlepší účetní řešení
             </p>
-            <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div className="grid-responsive mb-8">
               <div>
                 <div className="text-3xl font-bold text-[#25D366] mb-2">320+</div>
                 <p className="text-muted-foreground text-sm">zpracovaných účtenek</p>
@@ -1330,11 +1334,11 @@ export default function DokladBotLanding() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive bg-muted/50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-0">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Často kladené otázky</h2>
-            <p className="text-xl text-muted-foreground">Vše, co potřebujete vědět o DokladBotu</p>
+            <h2 className="text-responsive-3xl font-bold mb-4">Často kladené otázky</h2>
+            <p className="text-responsive-lg text-muted-foreground">Vše, co potřebujete vědět o DokladBotu</p>
           </div>
 
           <Accordion type="single" collapsible className="space-y-4">
@@ -1416,12 +1420,12 @@ export default function DokladBotLanding() {
       </section>
 
       {/* Footer CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#25D366]/10 to-[#075E54]/10">
+      <section className="py-12 sm:py-16 lg:py-20 padding-responsive bg-gradient-to-br from-[#25D366]/10 to-[#075E54]/10">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <h2 className="text-responsive-3xl font-bold mb-4">
             Začněte používat profesionální účetnictví
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-responsive-lg text-muted-foreground mb-8">
             Jednoduché účetnictví přes WhatsApp. Bez složitých programů, bez školení.
           </p>
           <Button 
@@ -1438,9 +1442,9 @@ export default function DokladBotLanding() {
       {/* Why Now Section */}
 
       {/* Footer */}
-      <footer className="bg-background border-t py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-8">
+      <footer className="bg-background border-t py-8 sm:py-12 padding-responsive safe-bottom">
+        <div className="container-responsive">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <MessageCircle className="h-6 w-6 text-[#25D366]" />
@@ -1593,7 +1597,7 @@ export default function DokladBotLanding() {
           </div>
 
           <div className="border-t mt-8 pt-8">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="grid-responsive-2 items-center">
               <div>
                 <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
                   <button onClick={() => window.location.href = '/obchodni-podminky'} className="hover:text-foreground">Obchodní podmínky</button>
