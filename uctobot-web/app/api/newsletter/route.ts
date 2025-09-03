@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/prisma';
 
 export async function POST(request: NextRequest) {
+  console.log('Newsletter API called');
   try {
     const { email } = await request.json();
+    console.log('Email received:', email);
 
     // Validate email
     if (!email || typeof email !== 'string') {
@@ -70,8 +72,16 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Newsletter signup error:', error);
+    console.error('Error details:', {
+      name: error?.name,
+      message: error?.message,
+      stack: error?.stack
+    });
     return NextResponse.json(
-      { message: 'Nastala chyba při zpracování žádosti' },
+      { 
+        message: 'Nastala chyba při zpracování žádosti',
+        error: process.env.NODE_ENV === 'development' ? error?.message : undefined
+      },
       { status: 500 }
     );
   }
