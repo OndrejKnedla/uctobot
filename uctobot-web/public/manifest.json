@@ -1,0 +1,26 @@
+{
+  "name": "DokladBot - Profesionální účetnictví přes WhatsApp",
+  "short_name": "DokladBot",
+  "description": "Profesionální účetnictví přímo ve WhatsAppu. AI kategorizace, DPH připomínky, měsíční přehledy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#25D366",
+  "theme_color": "#25D366",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icon",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
