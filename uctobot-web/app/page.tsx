@@ -774,13 +774,6 @@ export default function DokladBotLanding() {
 
 
           <div className="text-center mt-12">
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-200 dark:border-yellow-800 rounded-xl p-4 max-w-2xl mx-auto mb-6">
-              <h3 className="font-bold text-yellow-800 dark:text-yellow-300 mb-2">⚠️ Důležité upozornění pro rok 2025</h3>
-              <p className="text-yellow-700 dark:text-yellow-400 text-sm">
-                <strong>DPH limit se zvyšuje z 1 mil. Kč na 2 mil. Kč!</strong> Mnoho OSVČ bude muset nově platit DPH. 
-                DokladBot vám pomůže s přípravou a automaticky sleduje vaše příjmy.
-              </p>
-            </div>
             <p className="text-lg text-muted-foreground mb-3">
               Bez závazků • Zrušte kdykoliv • Podpora v češtině
             </p>
