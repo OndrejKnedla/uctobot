@@ -55,11 +55,15 @@ export default function DokladBotLanding() {
     "name": "DokladBot - Profesionální účetnictví přes WhatsApp",
     "description": "Profesionální účetnictví přímo ve WhatsAppu. 7 dní zdarma! Stačí napsat 'koupil jsem papír za 500'. AI kategorizace, připomínky na DPH, měsíční přehledy. Již od 199 Kč/měsíc.",
     "url": "https://dokladbot.cz",
+    "image": "https://dokladbot.cz/logo-dokladbot.png",
+    "logo": "https://dokladbot.cz/logo-dokladbot.png",
     "mainEntity": {
       "@type": "SoftwareApplication",
       "name": "DokladBot",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web, WhatsApp",
+      "logo": "https://dokladbot.cz/logo-dokladbot.png",
+      "image": "https://dokladbot.cz/logo-dokladbot.png",
       "offers": [
         {
           "@type": "Offer",
@@ -76,6 +80,32 @@ export default function DokladBotLanding() {
           "description": "Roční předplatné s 7denní zkušební dobou zdarma a 2 měsíci zdarma"
         }
       ]
+    }
+  }
+
+  // Organization schema for better Google recognition
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "DokladBot",
+    "alternateName": ["Doklad Bot", "ÚčtoBot"],
+    "url": "https://dokladbot.cz",
+    "logo": "https://dokladbot.cz/logo-dokladbot.png",
+    "description": "Profesionální účetnictví přes WhatsApp",
+    "foundingDate": "2024",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "email": "info@dokladbot.cz"
+    },
+    "sameAs": [],
+    "offers": {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Účetnictví přes WhatsApp",
+        "description": "Automatizované účetnictví a správa dokladů"
+      }
     }
   }
   const [darkMode, setDarkMode] = useState(false)
@@ -210,6 +240,10 @@ export default function DokladBotLanding() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
       
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden pt-20">

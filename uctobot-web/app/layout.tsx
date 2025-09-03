@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description:
     'Profesionální účetnictví přes WhatsApp. 7 dní zdarma! AI kategorizace, DPH připomínky, měsíční přehledy. Stačí napsat výdaj, zbytek za vás. 199 Kč/měsíc.',
   keywords: [
+    'dokladbot',
+    'DokladBot',
+    'doklad bot',
+    'Doklad Bot',
+    'účtobot',
+    'ÚčtoBot',
     'účetnictví OSVČ',
     'WhatsApp účetnictví',
     'AI účetní asistent',
@@ -68,6 +74,12 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'DokladBot - Profesionální účetnictví přes WhatsApp'
+      },
+      {
+        url: '/logo-dokladbot.png',
+        width: 400,
+        height: 400,
+        alt: 'DokladBot Logo'
       }
     ],
   },
