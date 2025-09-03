@@ -23,17 +23,55 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For production without database, we'll just log the subscription
-    // In a real production environment, you would:
-    // 1. Save to database or external service (like Mailchimp, ConvertKit)
-    // 2. Send confirmation email via email service
-    
+    // Log the subscription
     console.log(`Newsletter subscription from: ${email.toLowerCase()}`);
     console.log(`Timestamp: ${new Date().toISOString()}`);
     console.log(`Source: blog`);
 
-    // In production, you would integrate with your email marketing service here
-    // For example: Mailchimp, ConvertKit, SendGrid, etc.
+    // Send notification email to admin using Resend
+    try {
+      if (process.env.RESEND_API_KEY) {
+        const { Resend } = await import('resend');
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        
+        await resend.emails.send({
+          from: 'DokladBot <noreply@dokladbot.cz>',
+          to: ['info@dokladbot.cz'], // Pošle notifikaci na váš email
+          subject: `🎉 Nový newsletter subscriber: ${email}`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #22c55e;">Nová newsletter registrace</h2>
+              <p><strong>Email:</strong> ${email.toLowerCase()}</p>
+              <p><strong>Čas:</strong> ${new Date().toLocaleString('cs-CZ')}</p>
+              <p><strong>Zdroj:</strong> Blog</p>
+              
+              <hr style="margin: 20px 0;">
+              
+              <p><strong>Akce:</strong></p>
+              <ul>
+                <li>Přidejte tento email do vašeho email marketing systému</li>
+                <li>Pošlete uvítací email s nejlepšími články</li>
+                <li>Nastavte pravidelné newsletter kampaně</li>
+              </ul>
+            </div>
+          `,
+          text: `
+Nová newsletter registrace!
+
+Email: ${email.toLowerCase()}
+Čas: ${new Date().toLocaleString('cs-CZ')}
+Zdroj: Blog
+
+Přidejte tento email do vašeho email marketing systému.
+          `
+        });
+        
+        console.log(`Admin notification sent for: ${email}`);
+      }
+    } catch (error) {
+      console.error('Failed to send admin notification:', error);
+      // Don't fail the whole request if notification fails
+    }
     
     return NextResponse.json({
       message: 'Děkujeme za zájem o newsletter! Brzy budeme v kontaktu.',
