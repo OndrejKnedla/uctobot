@@ -44,10 +44,7 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
             </p>
             {isYearly && (
               <div className="mt-2">
-                <p className="text-sm text-gray-600">
-                  (to je {Math.round(yearlyPrice/10)} Kč/měsíc)
-                </p>
-                <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold mt-2">
+                <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold">
                   2 měsíce zdarma
                 </div>
               </div>
@@ -131,10 +128,7 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
             </p>
             {isYearly && (
               <div className="mt-2">
-                <p className="text-sm text-gray-600">
-                  (to je {Math.round(yearlyPrice/10)} Kč/měsíc)
-                </p>
-                <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold mt-2">
+                <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold">
                   2 měsíce zdarma
                 </div>
               </div>
@@ -212,10 +206,7 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
           </p>
           {isYearly && (
             <div className="mt-2">
-              <p className="text-sm text-gray-600">
-                (to je {Math.round(yearlyPrice/10)} Kč/měsíc)
-              </p>
-              <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold mt-2">
+              <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold">
                 2 měsíce zdarma
               </div>
             </div>
