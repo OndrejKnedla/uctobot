@@ -54,6 +54,7 @@ export default function DokladBotLanding() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [apiStats, setApiStats] = useState<ApiStats | null>(null)
+  const [isYearly, setIsYearly] = useState(false)
   const [timeLeft, setTimeLeft] = useState({
     days: 6,
     hours: 14,
@@ -762,21 +763,50 @@ export default function DokladBotLanding() {
       <section id="cenik" className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">
               <span className="block">7 dní k vyzkoušení</span>
               <span className="block text-green-600">ZDARMA</span>
             </h2>
+            
+            {/* Monthly/Yearly Toggle */}
+            <div className="flex items-center justify-center mb-8">
+              <div className="bg-gray-100 rounded-full p-1 flex items-center">
+                <button
+                  onClick={() => setIsYearly(false)}
+                  className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                    !isYearly 
+                      ? 'bg-white text-gray-900 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Měsíčně
+                </button>
+                <button
+                  onClick={() => setIsYearly(true)}
+                  className={`px-6 py-2 rounded-full font-semibold transition-all relative ${
+                    isYearly 
+                      ? 'bg-white text-gray-900 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Ročně
+                  <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                    -20%
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
             <div className="animate-slide-in-left">
-              <PricingCard plan="starter" />
+              <PricingCard plan="starter" isYearly={isYearly} />
             </div>
             <div className="animate-slide-in-left" style={{animationDelay: '0.1s'}}>
-              <PricingCard plan="professional" isPopular={true} />
+              <PricingCard plan="professional" isPopular={true} isYearly={isYearly} />
             </div>
             <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
-              <PricingCard plan="business" />
+              <PricingCard plan="business" isYearly={isYearly} />
             </div>
           </div>
 
@@ -786,7 +816,7 @@ export default function DokladBotLanding() {
             <p className="text-lg text-muted-foreground mb-3">
               Bez závazků • Zrušte kdykoliv • Podpora v češtině
             </p>
-            <p className="text-base text-gray-500">
+            <p className="text-base text-gray-500 font-medium">
               *Ceny jsou uvedeny bez DPH
             </p>
           </div>
