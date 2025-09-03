@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -18,7 +18,36 @@ interface ApiStats {
   total_revenue: number
 }
 
+// Hook for scroll animations
+function useScrollAnimation() {
+  const [isVisible, setIsVisible] = useState(false)
+  const elementRef = useRef<HTMLDivElement>(null)
+
+  const checkVisibility = useCallback(() => {
+    if (elementRef.current) {
+      const rect = elementRef.current.getBoundingClientRect()
+      const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0
+      setIsVisible(isInView)
+    }
+  }, [])
+
+  useEffect(() => {
+    checkVisibility()
+    window.addEventListener('scroll', checkVisibility)
+    return () => window.removeEventListener('scroll', checkVisibility)
+  }, [checkVisibility])
+
+  return { isVisible, elementRef }
+}
+
 export default function DokladBotLanding() {
+  // Animation hooks for different sections
+  const heroAnimation = useScrollAnimation()
+  const featuresAnimation = useScrollAnimation()
+  const pricingAnimation = useScrollAnimation()
+  const statsAnimation = useScrollAnimation()
+  const reviewsAnimation = useScrollAnimation()
+  const faqAnimation = useScrollAnimation()
   // Schema.org structured data
   const structuredData = {
     "@context": "https://schema.org",
@@ -464,13 +493,13 @@ export default function DokladBotLanding() {
       {/* How It Works Section */}
       <section id="jak-funguje" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div ref={featuresAnimation.elementRef} className={`text-center mb-16 scroll-animate ${featuresAnimation.isVisible ? 'visible animate-fade-in-up' : ''}`}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Jak to funguje</h2>
             <p className="text-xl text-muted-foreground">3 jednoduché kroky k bezstarostnému účetnictví</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center hover:shadow-lg transition-shadow">
+          <div className={`grid md:grid-cols-3 gap-8 animate-stagger ${featuresAnimation.isVisible ? 'visible' : ''}`}>
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MessageCircle className="h-8 w-8 text-[#25D366]" />
@@ -485,7 +514,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Bot className="h-8 w-8 text-[#25D366]" />
@@ -502,7 +531,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="h-8 w-8 text-[#25D366]" />
@@ -532,7 +561,7 @@ export default function DokladBotLanding() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Core Features */}
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <Bot className="h-8 w-8 text-[#25D366]" />
@@ -546,7 +575,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <Smartphone className="h-8 w-8 text-[#25D366]" />
@@ -560,7 +589,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">📸</span>
@@ -574,7 +603,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <TrendingUp className="h-8 w-8 text-[#25D366]" />
@@ -588,7 +617,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <Clock className="h-8 w-8 text-[#25D366]" />
@@ -602,7 +631,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">💰</span>
@@ -616,7 +645,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">📊</span>
@@ -630,7 +659,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">🔄</span>
@@ -644,7 +673,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <Shield className="h-8 w-8 text-[#25D366]" />
@@ -658,7 +687,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">📋</span>
@@ -672,7 +701,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">🏢</span>
@@ -686,7 +715,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">💱</span>
@@ -700,7 +729,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">📈</span>
@@ -714,7 +743,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">🎯</span>
@@ -728,7 +757,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <span className="text-2xl">🔧</span>
@@ -762,10 +791,10 @@ export default function DokladBotLanding() {
       {/* Pricing Section */}
       <section id="cenik" className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <div ref={pricingAnimation.elementRef} className={`text-center mb-12 scroll-animate ${pricingAnimation.isVisible ? 'visible animate-fade-in-up' : ''}`}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">
               <span className="block">7 dní k vyzkoušení</span>
-              <span className="block text-green-600">ZDARMA</span>
+              <span className="block text-green-600 animate-pulse-soft">ZDARMA</span>
             </h2>
             
             {/* Monthly/Yearly Toggle */}
@@ -798,14 +827,14 @@ export default function DokladBotLanding() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
-            <div className="animate-slide-in-left">
+          <div className={`grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8 animate-stagger ${pricingAnimation.isVisible ? 'visible' : ''}`}>
+            <div>
               <PricingCard plan="starter" isYearly={isYearly} />
             </div>
-            <div className="animate-slide-in-left" style={{animationDelay: '0.1s'}}>
+            <div>
               <PricingCard plan="professional" isPopular={true} isYearly={isYearly} />
             </div>
-            <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
+            <div>
               <PricingCard plan="business" isYearly={isYearly} />
             </div>
           </div>
@@ -832,7 +861,7 @@ export default function DokladBotLanding() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🏦</span>
@@ -852,7 +881,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">📊</span>
@@ -872,7 +901,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🛒</span>
@@ -924,7 +953,7 @@ export default function DokladBotLanding() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Shield className="h-8 w-8 text-red-600" />
@@ -938,7 +967,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🇨🇿</span>
@@ -952,7 +981,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">📋</span>
@@ -966,7 +995,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="text-center hover-lift transition-all duration-300">
               <CardHeader>
                 <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🔒</span>
@@ -1224,13 +1253,13 @@ export default function DokladBotLanding() {
       {/* Testimonials */}
       <section id="recenze" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div ref={reviewsAnimation.elementRef} className={`text-center mb-16 scroll-animate ${reviewsAnimation.isVisible ? 'visible animate-fade-in-up' : ''}`}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Výsledky, které mluví za vše</h2>
             <p className="text-xl text-muted-foreground">Reálná čísla od našich prvních uživatelů</p>
           </div>
 
           {/* Statistics */}
-          <div className="grid md:grid-cols-4 gap-8 mb-16">
+          <div className={`grid md:grid-cols-4 gap-8 mb-16 animate-stagger ${reviewsAnimation.isVisible ? 'visible' : ''}`}>
             <div className="text-center">
               <div className="text-4xl font-bold text-[#25D366] mb-2">95%</div>
               <p className="text-muted-foreground">snížení chybovosti</p>
@@ -1251,7 +1280,7 @@ export default function DokladBotLanding() {
 
           {/* Enhanced Testimonials */}
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="hover:shadow-lg transition-shadow border-l-4 border-l-[#25D366]">
+            <Card className="hover-lift transition-all duration-300 border-l-4 border-l-[#25D366]">
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
@@ -1269,7 +1298,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-l-4 border-l-[#25D366]">
+            <Card className="hover-lift transition-all duration-300 border-l-4 border-l-[#25D366]">
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
@@ -1287,7 +1316,7 @@ export default function DokladBotLanding() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow border-l-4 border-l-[#25D366]">
+            <Card className="hover-lift transition-all duration-300 border-l-4 border-l-[#25D366]">
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
@@ -1341,12 +1370,12 @@ export default function DokladBotLanding() {
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
+          <div ref={faqAnimation.elementRef} className={`text-center mb-16 scroll-animate ${faqAnimation.isVisible ? 'visible animate-fade-in-up' : ''}`}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Často kladené otázky</h2>
             <p className="text-xl text-muted-foreground">Vše, co potřebujete vědět o DokladBotu</p>
           </div>
 
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion type="single" collapsible className={`space-y-4 scroll-animate ${faqAnimation.isVisible ? 'visible animate-fade-in-up' : ''}`}>
             <AccordionItem value="whatsapp">
               <AccordionTrigger>Jak to funguje s WhatsAppem?</AccordionTrigger>
               <AccordionContent>

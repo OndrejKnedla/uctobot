@@ -16,26 +16,25 @@ export default function KontaktPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-xl border p-8">
+        <div className="max-w-2xl mx-auto mb-8">
+          <div className="bg-white rounded-xl border p-8 text-center">
             <h2 className="text-2xl font-bold mb-6">📞 Kontaktní údaje</h2>
             
             <div className="space-y-6">
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-center space-x-4">
                 <Mail className="h-6 w-6 text-green-600" />
                 <div>
                   <h3 className="font-semibold">Email podpora</h3>
                   <a 
                     href="mailto:info@dokladbot.cz" 
-                    className="text-green-600 hover:text-green-700"
+                    className="text-green-600 hover:text-green-700 text-lg"
                   >
                     info@dokladbot.cz
                   </a>
                 </div>
               </div>
               
-              
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-center space-x-4">
                 <Clock className="h-6 w-6 text-green-600" />
                 <div>
                   <h3 className="font-semibold">Pracovní doba</h3>
@@ -43,7 +42,7 @@ export default function KontaktPage() {
                 </div>
               </div>
               
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-center space-x-4">
                 <MapPin className="h-6 w-6 text-green-600" />
                 <div>
                   <h3 className="font-semibold">Sídlo</h3>
@@ -52,61 +51,6 @@ export default function KontaktPage() {
                     IČ: 12345678
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl border p-8">
-            <h2 className="text-2xl font-bold mb-6">💬 Specializované kontakty</h2>
-            
-            <div className="space-y-6">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <h3 className="font-semibold text-green-800 mb-2">
-                  🏢 Pro účetní firmy
-                </h3>
-                <a 
-                  href="mailto:info@dokladbot.cz" 
-                  className="text-green-600 hover:text-green-700"
-                >
-                  info@dokladbot.cz
-                </a>
-              </div>
-              
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="font-semibold text-blue-800 mb-2">
-                  🤝 Partnerství
-                </h3>
-                <a 
-                  href="mailto:info@dokladbot.cz" 
-                  className="text-blue-600 hover:text-blue-700"
-                >
-                  info@dokladbot.cz
-                </a>
-              </div>
-              
-              <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                <h3 className="font-semibold text-purple-800 mb-2">
-                  💼 Kariéra
-                </h3>
-                <a 
-                  href="mailto:info@dokladbot.cz" 
-                  className="text-purple-600 hover:text-purple-700"
-                >
-                  info@dokladbot.cz
-                </a>
-              </div>
-              
-              <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                <h3 className="font-semibold text-orange-800 mb-2">
-                  🔧 API podpora
-                </h3>
-                <a 
-                  href="mailto:info@dokladbot.cz" 
-                  className="text-orange-600 hover:text-orange-700"
-                >
-                  info@dokladbot.cz
-                </a>
-                <p className="text-sm text-orange-600 mt-1">(v přípravě)</p>
               </div>
             </div>
           </div>
