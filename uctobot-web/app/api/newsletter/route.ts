@@ -1,65 +1,92 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-// Simulace databáze - v produkci použijte skutečnou databázi
-const subscribers = new Set<string>();
-
-// Initialize Resend only if API key exists
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+import { prisma } from '@/lib/prisma';
+import { sendNewsletterConfirmation } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
 
-    // Validace emailu
-    if (!email) {
+    // Validate email
+    if (!email || typeof email !== 'string') {
       return NextResponse.json(
         { message: 'Email je povinný' },
         { status: 400 }
       );
     }
 
+    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { message: 'Neplatný formát emailu' },
+        { message: 'Prosím zadejte platný email' },
         { status: 400 }
       );
     }
 
-    // Kontrola duplicit
-    if (subscribers.has(email.toLowerCase())) {
+    // Check if email already exists
+    const existingSubscriber = await prisma.newsletterSubscriber.findUnique({
+      where: { email: email.toLowerCase() }
+    });
+
+    if (existingSubscriber) {
+      if (existingSubscriber.confirmedAt) {
+        return NextResponse.json(
+          { message: 'Tento email je již přihlášen k newsletteru' },
+          { status: 409 }
+        );
+      } else {
+        // Resend confirmation email
+        const success = await sendNewsletterConfirmation(
+          email.toLowerCase(), 
+          existingSubscriber.unsubscribeToken
+        );
+
+        if (success) {
+          return NextResponse.json({
+            message: 'Potvrzovací email byl znovu odeslán',
+            success: true
+          });
+        } else {
+          return NextResponse.json(
+            { message: 'Chyba při odesílání emailu. Zkuste to později.' },
+            { status: 500 }
+          );
+        }
+      }
+    }
+
+    // Create new subscriber
+    const subscriber = await prisma.newsletterSubscriber.create({
+      data: {
+        email: email.toLowerCase(),
+        source: 'blog',
+        isActive: true,
+      }
+    });
+
+    // Send confirmation email
+    const success = await sendNewsletterConfirmation(
+      email.toLowerCase(), 
+      subscriber.unsubscribeToken
+    );
+
+    if (success) {
+      return NextResponse.json({
+        message: 'Potvrzovací email byl odeslán. Zkontrolujte svou schránku.',
+        success: true
+      });
+    } else {
+      // Even if email fails, we created the subscriber
       return NextResponse.json(
-        { message: 'Tento email je již přihlášen k odběru' },
-        { status: 409 }
+        { message: 'Přihlášení proběhlo, ale nepodařilo se odeslat potvrzovací email.' },
+        { status: 500 }
       );
     }
 
-    // Přidání do newsletteru
-    subscribers.add(email.toLowerCase());
-    
-    // V produkci byste zde:
-    // 1. Uložili email do databáze s `confirmed: false`
-    // 2. Vygenerovali verification token
-    // 3. Poslali potvrzovací email
-
-    // Simulace potvrzovacího emailu
-    await sendConfirmationEmail(email);
-
-    console.log(`Newsletter subscription: ${email}`);
-
-    return NextResponse.json(
-      { 
-        message: 'Úspěšně přihlášen! Zkontrolujte email pro potvrzení.',
-        success: true 
-      },
-      { status: 200 }
-    );
-
   } catch (error) {
-    console.error('Newsletter error:', error);
+    console.error('Newsletter signup error:', error);
     return NextResponse.json(
-      { message: 'Nastala chyba při zpracování požadavku' },
+      { message: 'Nastala chyba při zpracování žádosti' },
       { status: 500 }
     );
   }
@@ -68,179 +95,233 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const action = url.searchParams.get('action');
-  const email = url.searchParams.get('email');
   const token = url.searchParams.get('token');
 
-  if (action === 'confirm' && email && token) {
-    // V produkci byste ověřili token a označili email jako potvrzený
-    return NextResponse.json(
-      { message: 'Email úspěšně potvrzen!' },
-      { status: 200 }
-    );
+  if (action === 'confirm' && token) {
+    try {
+      // Find subscriber by token
+      const subscriber = await prisma.newsletterSubscriber.findUnique({
+        where: { unsubscribeToken: token }
+      });
+
+      if (!subscriber) {
+        return new NextResponse(`
+          <!DOCTYPE html>
+          <html lang="cs">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Neplatný odkaz | DokladBot</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; }
+              .card { background: #fef2f2; border: 2px solid #ef4444; border-radius: 12px; padding: 2rem; text-align: center; }
+              .error { color: #dc2626; font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; }
+              .description { color: #374151; line-height: 1.6; }
+              .button { display: inline-block; background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 1rem; }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <div class="error">❌ Neplatný odkaz</div>
+              <p class="description">
+                Tento odkaz není platný nebo již vypršel.
+              </p>
+              <a href="https://www.dokladbot.cz/blog" class="button">Návrat na blog</a>
+            </div>
+          </body>
+          </html>
+        `, {
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+          },
+        });
+      }
+
+      if (subscriber.confirmedAt) {
+        return new NextResponse(`
+          <!DOCTYPE html>
+          <html lang="cs">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Již potvrzeno | DokladBot</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; }
+              .card { background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px; padding: 2rem; text-align: center; }
+              .success { color: #15803d; font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; }
+              .description { color: #374151; line-height: 1.6; }
+              .button { display: inline-block; background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 1rem; }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <div class="success">✅ Již potvrzeno</div>
+              <p class="description">
+                Váš email <strong>${subscriber.email}</strong> je již potvrzen a aktivní.
+              </p>
+              <a href="https://www.dokladbot.cz/blog" class="button">Návrat na blog</a>
+            </div>
+          </body>
+          </html>
+        `, {
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+          },
+        });
+      }
+
+      // Confirm the subscriber
+      await prisma.newsletterSubscriber.update({
+        where: { id: subscriber.id },
+        data: { 
+          confirmedAt: new Date(),
+          isActive: true
+        }
+      });
+
+      // Send welcome email
+      const { sendNewsletterWelcome } = await import('@/lib/email');
+      await sendNewsletterWelcome(subscriber.email);
+
+      return new NextResponse(`
+        <!DOCTYPE html>
+        <html lang="cs">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Úspěšně potvrzeno | DokladBot</title>
+          <style>
+            body { font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; }
+            .card { background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px; padding: 2rem; text-align: center; }
+            .success { color: #15803d; font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; }
+            .description { color: #374151; line-height: 1.6; }
+            .button { display: inline-block; background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 1rem; }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <div class="success">🎉 Úspěšně potvrzeno!</div>
+            <p class="description">
+              Děkujeme! Váš email <strong>${subscriber.email}</strong> byl úspěšně potvrzen.
+              Budeme vám posílat praktické tipy pro podnikatele maximálně 1x měsíčně.
+            </p>
+            <p class="description">
+              Brzy vám pošleme uvítací email s nejpopulárnějšími články.
+            </p>
+            <a href="https://www.dokladbot.cz/blog" class="button">Návrat na blog</a>
+          </div>
+        </body>
+        </html>
+      `, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+        },
+      });
+
+    } catch (error) {
+      console.error('Newsletter confirmation error:', error);
+      return NextResponse.json(
+        { message: 'Chyba při potvrzování emailu' },
+        { status: 500 }
+      );
+    }
   }
 
-  if (action === 'unsubscribe' && email && token) {
-    // V produkci byste ověřili token a odstranili email z databáze
-    subscribers.delete(email.toLowerCase());
-    
-    return new NextResponse(`
-      <!DOCTYPE html>
-      <html lang="cs">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Odhlášení z newsletteru | DokladBot</title>
-        <style>
-          body { font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; }
-          .card { background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px; padding: 2rem; text-align: center; }
-          .success { color: #15803d; font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; }
-          .description { color: #374151; line-height: 1.6; }
-          .button { display: inline-block; background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 1rem; }
-        </style>
-      </head>
-      <body>
-        <div class="card">
-          <div class="success">✅ Úspěšně odhlášen</div>
-          <p class="description">
-            Email <strong>${email}</strong> byl úspěšně odhlášen z našeho newsletteru. 
-            Nebudete dostávat další zprávy.
-          </p>
-          <p class="description">
-            Pokud si to rozmyslíte, můžete se kdykoli znovu přihlásit na našem webu.
-          </p>
-          <a href="https://www.dokladbot.cz/blog" class="button">Návrat na blog</a>
-        </div>
-      </body>
-      </html>
-    `, {
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-      },
-    });
+  if (action === 'unsubscribe' && token) {
+    try {
+      // Find subscriber by token
+      const subscriber = await prisma.newsletterSubscriber.findUnique({
+        where: { unsubscribeToken: token }
+      });
+
+      if (!subscriber) {
+        return new NextResponse(`
+          <!DOCTYPE html>
+          <html lang="cs">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Neplatný odkaz | DokladBot</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; }
+              .card { background: #fef2f2; border: 2px solid #ef4444; border-radius: 12px; padding: 2rem; text-align: center; }
+              .error { color: #dc2626; font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; }
+              .description { color: #374151; line-height: 1.6; }
+              .button { display: inline-block; background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 1rem; }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <div class="error">❌ Neplatný odkaz</div>
+              <p class="description">
+                Tento odkaz není platný nebo již vypršel.
+              </p>
+              <a href="https://www.dokladbot.cz/blog" class="button">Návrat na blog</a>
+            </div>
+          </body>
+          </html>
+        `, {
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+          },
+        });
+      }
+
+      // Unsubscribe
+      await prisma.newsletterSubscriber.update({
+        where: { id: subscriber.id },
+        data: { 
+          isActive: false,
+          unsubscribedAt: new Date()
+        }
+      });
+
+      return new NextResponse(`
+        <!DOCTYPE html>
+        <html lang="cs">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Odhlášení z newsletteru | DokladBot</title>
+          <style>
+            body { font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; }
+            .card { background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px; padding: 2rem; text-align: center; }
+            .success { color: #15803d; font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; }
+            .description { color: #374151; line-height: 1.6; }
+            .button { display: inline-block; background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 1rem; }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <div class="success">✅ Úspěšně odhlášen</div>
+            <p class="description">
+              Email <strong>${subscriber.email}</strong> byl úspěšně odhlášen z našeho newsletteru. 
+              Nebudete dostávat další zprávy.
+            </p>
+            <p class="description">
+              Pokud si to rozmyslíte, můžete se kdykoli znovu přihlásit na našem webu.
+            </p>
+            <a href="https://www.dokladbot.cz/blog" class="button">Návrat na blog</a>
+          </div>
+        </body>
+        </html>
+      `, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+        },
+      });
+
+    } catch (error) {
+      console.error('Newsletter unsubscribe error:', error);
+      return NextResponse.json(
+        { message: 'Chyba při odhlašování z newsletteru' },
+        { status: 500 }
+      );
+    }
   }
 
   return NextResponse.json(
     { message: 'Newsletter API' },
     { status: 200 }
   );
-}
-
-// Odeslání potvrzovacího emailu
-async function sendConfirmationEmail(email: string) {
-  const confirmToken = Buffer.from(`${email}:${Date.now()}`).toString('base64');
-  const confirmUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.dokladbot.cz'}/api/newsletter?action=confirm&email=${encodeURIComponent(email)}&token=${confirmToken}`;
-  const unsubscribeUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.dokladbot.cz'}/api/newsletter?action=unsubscribe&email=${encodeURIComponent(email)}&token=${confirmToken}`;
-  
-  const emailContent = `
-Ahoj!
-
-Děkujeme za přihlášení k našemu newsletteru pro podnikatele.
-
-Pro potvrzení odběru klikněte zde: ${confirmUrl}
-
-Co vám budeme posílat:
-✅ Daňové změny a novinky
-✅ Tipy na úsporu času a peněz
-✅ Nové funkce DokladBotu
-✅ Praktické návody pro podnikatele
-
-Maximálně 1x měsíčně, žádný spam!
-
-Pokud si odběr nepřejete, můžete se odhlásit zde: ${unsubscribeUrl}
-
-S pozdravem,
-Tým DokladBot
-
---
-DokladBot.cz - Účetnictví přes WhatsApp
-  `.trim();
-
-  // Use Resend to send actual email if API key is available
-  if (resend) {
-    try {
-      await resend.emails.send({
-        from: 'DokladBot <newsletter@dokladbot.cz>',
-        to: [email],
-        subject: 'Potvrďte odběr newsletteru DokladBot',
-        text: emailContent,
-        html: `
-          <!DOCTYPE html>
-          <html lang="cs">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Potvrďte odběr newsletteru DokladBot</title>
-            <style>
-              body { font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; background-color: #f9fafb; }
-              .container { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-              .header { text-align: center; margin-bottom: 2rem; }
-              .logo { color: #22c55e; font-size: 2rem; font-weight: bold; }
-              .content { color: #374151; line-height: 1.6; }
-              .button { display: inline-block; background: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin: 1rem 0; font-weight: 600; }
-              .features { background: #f0fdf4; border-left: 4px solid #22c55e; padding: 1rem; margin: 1rem 0; }
-              .footer { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 0.875rem; }
-              .unsubscribe { color: #9ca3af; font-size: 0.75rem; margin-top: 1rem; }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <div class="header">
-                <div class="logo">📧 DokladBot</div>
-                <h1 style="color: #1f2937; margin-top: 0.5rem;">Potvrďte odběr newsletteru</h1>
-              </div>
-              
-              <div class="content">
-                <p>Ahoj!</p>
-                <p>Děkujeme za přihlášení k našemu newsletteru pro podnikatele.</p>
-                
-                <div style="text-align: center; margin: 2rem 0;">
-                  <a href="${confirmUrl}" class="button">✅ Potvrdit odběr</a>
-                </div>
-                
-                <div class="features">
-                  <h3 style="margin-top: 0; color: #15803d;">Co vám budeme posílat:</h3>
-                  <ul style="margin: 0; padding-left: 1.5rem;">
-                    <li>✅ Daňové změny a novinky</li>
-                    <li>✅ Tipy na úsporu času a peněz</li>
-                    <li>✅ Nové funkce DokladBotu</li>
-                    <li>✅ Praktické návody pro podnikatele</li>
-                  </ul>
-                  <p style="margin-bottom: 0;"><strong>Maximálně 1x měsíčně, žádný spam!</strong></p>
-                </div>
-                
-                <div class="footer">
-                  <p><strong>S pozdravem,<br>Tým DokladBot</strong></p>
-                  <p style="margin: 0;">DokladBot.cz - Účetnictví přes WhatsApp</p>
-                </div>
-                
-                <div class="unsubscribe">
-                  <p>Pokud si odběr nepřejete, můžete se <a href="${unsubscribeUrl}" style="color: #9ca3af;">odhlásit zde</a>.</p>
-                </div>
-              </div>
-            </div>
-          </body>
-          </html>
-        `
-      });
-      
-      console.log(`✅ Newsletter confirmation email sent to: ${email}`);
-      return true;
-    } catch (error) {
-      console.error('❌ Failed to send confirmation email:', error);
-      return false;
-    }
-  } else {
-    // Development: Log to console
-    console.log(`
-    📧 POTVRZOVACÍ EMAIL PRO: ${email}
-    
-    Předmět: Potvrďte odběr newsletteru DokladBot
-    
-    Obsah:
-    ======
-    ${emailContent}
-    ======
-  `);
-    return true;
-  }
 }

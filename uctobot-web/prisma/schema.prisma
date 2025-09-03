@@ -657,3 +657,23 @@ model WhatsAppRateLimit {
   @@index([userId])
   @@index([windowStart])
 }
+
+// Newsletter subscribers
+model NewsletterSubscriber {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  firstName     String?
+  lastName      String?
+  isActive      Boolean   @default(true)
+  confirmedAt   DateTime?
+  unsubscribedAt DateTime?
+  unsubscribeToken String  @unique @default(cuid())
+  source        String?   // Where they subscribed from
+  tags          String?   // Comma-separated tags
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+  @@index([isActive])
+  @@index([confirmedAt])
+}
