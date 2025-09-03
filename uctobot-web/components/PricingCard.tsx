@@ -25,8 +25,8 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
   // Starter Plan
   if (plan === 'starter') {
     const monthlyPrice = 199;
-    const yearlyPrice = Math.round(monthlyPrice * 12 * 0.8); // 20% sleva
-    const currentPrice = isYearly ? Math.round(yearlyPrice / 12) : monthlyPrice;
+    // Starter nemá roční slevu
+    const currentPrice = monthlyPrice;
     
     return (
       <Card className="relative bg-white rounded-lg border border-gray-200 p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
@@ -40,13 +40,8 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
               <span className="text-xl ml-1 text-gray-900 font-semibold">Kč</span>
             </div>
             <p className="text-gray-700 text-base font-medium">
-              Cena za uživatele, účtováno {isYearly ? 'ročně' : 'měsíčně'}.
+              Cena za uživatele, účtováno měsíčně.
             </p>
-            {isYearly && (
-              <p className="text-sm text-gray-600 mt-1">
-                ({yearlyPrice} Kč/rok - ušetříte 20%)
-              </p>
-            )}
           </div>
         </CardHeader>
         
@@ -99,8 +94,8 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
   // Professional Plan
   if (plan === 'professional') {
     const monthlyPrice = 349;
-    const yearlyPrice = Math.round(monthlyPrice * 12 * 0.8); // 20% sleva
-    const currentPrice = isYearly ? Math.round(yearlyPrice / 12) : monthlyPrice;
+    const yearlyPrice = 291; // Konkrétní cena za měsíc při ročním plánu
+    const currentPrice = isYearly ? yearlyPrice : monthlyPrice;
     
     return (
       <Card className={`relative bg-white rounded-lg border-2 ${isPopular ? 'border-green-500' : 'border-gray-200'} p-6 flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow`}>
@@ -127,10 +122,10 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
             {isYearly && (
               <div className="mt-2">
                 <p className="text-sm text-gray-600">
-                  ({yearlyPrice} Kč/rok - ušetříte 20%)
+                  ({yearlyPrice * 12} Kč/rok - ušetříte 20%)
                 </p>
                 <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold mt-2">
-                  Ušetříte {Math.round(monthlyPrice * 12 - yearlyPrice)} Kč
+                  Ušetříte {Math.round((monthlyPrice - yearlyPrice) * 12)} Kč
                 </div>
               </div>
             )}
@@ -188,8 +183,8 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
 
   // Business Plan
   const monthlyPrice = 599;
-  const yearlyPrice = Math.round(monthlyPrice * 12 * 0.8); // 20% sleva
-  const currentPrice = isYearly ? Math.round(yearlyPrice / 12) : monthlyPrice;
+  // Business nemá roční slevu
+  const currentPrice = monthlyPrice;
   
   return (
     <Card className="relative bg-white rounded-lg border border-gray-200 p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
@@ -203,13 +198,8 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
             <span className="text-xl ml-1 text-gray-900 font-semibold">Kč</span>
           </div>
           <p className="text-gray-700 text-base font-medium">
-            Cena za uživatele, účtováno {isYearly ? 'ročně' : 'měsíčně'}.
+            Cena za uživatele, účtováno měsíčně.
           </p>
-          {isYearly && (
-            <p className="text-sm text-gray-600 mt-1">
-              ({yearlyPrice} Kč/rok - ušetříte 20%)
-            </p>
-          )}
         </div>
       </CardHeader>
       
