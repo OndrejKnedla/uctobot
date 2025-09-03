@@ -95,7 +95,8 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
   if (plan === 'professional') {
     const monthlyPrice = 349;
     const yearlyPrice = 291; // Konkrétní cena za měsíc při ročním plánu
-    const currentPrice = isYearly ? yearlyPrice : monthlyPrice;
+    const yearlyTotal = yearlyPrice * 12; // Celková roční cena
+    const currentPrice = isYearly ? yearlyTotal : monthlyPrice;
     
     return (
       <Card className={`relative bg-white rounded-lg border-2 ${isPopular ? 'border-green-500' : 'border-gray-200'} p-6 flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow`}>
@@ -117,12 +118,12 @@ export function PricingCard({ plan, isPopular = false, isYearly = false }: Prici
               <span className="text-xl ml-1 text-gray-900 font-semibold">Kč</span>
             </div>
             <p className="text-gray-700 text-base font-medium">
-              Cena za uživatele, účtováno {isYearly ? 'ročně' : 'měsíčně'}.
+              {isYearly ? 'Cena za uživatele za rok' : 'Cena za uživatele měsíčně'}.
             </p>
             {isYearly && (
               <div className="mt-2">
                 <p className="text-sm text-gray-600">
-                  ({yearlyPrice * 12} Kč/rok - ušetříte 20%)
+                  (to je {yearlyPrice} Kč/měsíc - ušetříte 20%)
                 </p>
                 <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded text-sm font-semibold mt-2">
                   Ušetříte {Math.round((monthlyPrice - yearlyPrice) * 12)} Kč
