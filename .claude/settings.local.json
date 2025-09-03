@@ -101,7 +101,10 @@
       "Bash(dig:*)",
       "WebFetch(domain:dnschecker.org)",
       "WebFetch(domain:vercel.com)",
-      "WebFetch(domain:uctobot-fwqrt4pxr-realok2001-gmailcoms-projects.vercel.app)"
+      "WebFetch(domain:uctobot-fwqrt4pxr-realok2001-gmailcoms-projects.vercel.app)",
+      "WebFetch(domain:uctobot-7pqwueaua-realok2001-gmailcoms-projects.vercel.app)",
+      "WebFetch(domain:localhost)",
+      "Bash(git revert:*)"
     ],
     "deny": [],
     "ask": [],

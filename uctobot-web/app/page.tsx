@@ -182,7 +182,7 @@ export default function DokladBotLanding() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Custom animations CSS */}
       <style jsx>{`
         @keyframes fadeInUp {
@@ -1125,85 +1125,85 @@ export default function DokladBotLanding() {
             <p className="text-xl text-muted-foreground">Proč je DokladBot nejlepší volba</p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full bg-card rounded-lg shadow-lg">
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+            <table className="min-w-full bg-card rounded-lg shadow-lg">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left p-4"></th>
-                  <th className="text-center p-4 bg-[#25D366]/10">
-                    <div className="font-bold">DokladBot</div>
+                  <th className="text-left p-2 sm:p-4 text-xs sm:text-base"></th>
+                  <th className="text-center p-2 sm:p-4 bg-[#25D366]/10">
+                    <div className="font-bold text-xs sm:text-base">DokladBot</div>
                   </th>
-                  <th className="text-center p-4">
-                    <div className="blur-sm">Konkurent A</div>
+                  <th className="text-center p-2 sm:p-4">
+                    <div className="blur-sm text-xs sm:text-base">Konkurent A</div>
                   </th>
-                  <th className="text-center p-4">
-                    <div className="blur-sm">Konkurent B</div>
+                  <th className="text-center p-2 sm:p-4">
+                    <div className="blur-sm text-xs sm:text-base">Konkurent B</div>
                   </th>
-                  <th className="text-center p-4">
-                    <div className="blur-sm">Konkurent C</div>
+                  <th className="text-center p-2 sm:p-4">
+                    <div className="blur-sm text-xs sm:text-base">Konkurent C</div>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b">
-                  <td className="p-4 font-medium">Cena</td>
-                  <td className="text-center p-4 bg-[#25D366]/10 font-bold">199 Kč</td>
-                  <td className="text-center p-4">399 Kč</td>
-                  <td className="text-center p-4">690 Kč</td>
-                  <td className="text-center p-4">950 Kč</td>
+                  <td className="p-2 sm:p-4 font-medium text-xs sm:text-base">Cena</td>
+                  <td className="text-center p-2 sm:p-4 bg-[#25D366]/10 font-bold text-xs sm:text-base">199 Kč</td>
+                  <td className="text-center p-2 sm:p-4 text-xs sm:text-base">399 Kč</td>
+                  <td className="text-center p-2 sm:p-4 text-xs sm:text-base">690 Kč</td>
+                  <td className="text-center p-2 sm:p-4 text-xs sm:text-base">950 Kč</td>
                 </tr>
                 <tr className="border-b">
-                  <td className="p-4 font-medium">Čas na naučení</td>
-                  <td className="text-center p-4 bg-[#25D366]/10 font-bold">5 minut</td>
-                  <td className="text-center p-4">2 hodiny</td>
-                  <td className="text-center p-4">2 dny</td>
-                  <td className="text-center p-4">Týden</td>
+                  <td className="p-2 sm:p-4 font-medium text-xs sm:text-base">Čas na naučení</td>
+                  <td className="text-center p-2 sm:p-4 bg-[#25D366]/10 font-bold text-xs sm:text-base">5 minut</td>
+                  <td className="text-center p-2 sm:p-4 text-xs sm:text-base">2 hodiny</td>
+                  <td className="text-center p-2 sm:p-4 text-xs sm:text-base">2 dny</td>
+                  <td className="text-center p-2 sm:p-4 text-xs sm:text-base">Týden</td>
                 </tr>
                 <tr className="border-b">
-                  <td className="p-4 font-medium">Mobilní použití</td>
-                  <td className="text-center p-4 bg-[#25D366]/10">
-                    <Check className="h-5 w-5 text-[#25D366] mx-auto" />
-                    <div className="text-sm">WhatsApp</div>
+                  <td className="p-2 sm:p-4 font-medium text-xs sm:text-base">Mobilní použití</td>
+                  <td className="text-center p-2 sm:p-4 bg-[#25D366]/10">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-[#25D366] mx-auto" />
+                    <div className="text-xs sm:text-sm">WhatsApp</div>
                   </td>
-                  <td className="text-center p-4">
+                  <td className="text-center p-2 sm:p-4">
                     <div className="text-yellow-500">⚠️</div>
-                    <div className="text-sm">Omezené</div>
+                    <div className="text-xs sm:text-sm">Omezené</div>
                   </td>
-                  <td className="text-center p-4">
-                    <X className="h-5 w-5 text-red-500 mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <X className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mx-auto" />
                   </td>
-                  <td className="text-center p-4">
-                    <X className="h-5 w-5 text-red-500 mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <X className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mx-auto" />
                   </td>
                 </tr>
                 <tr className="border-b">
-                  <td className="p-4 font-medium">AI asistent</td>
-                  <td className="text-center p-4 bg-[#25D366]/10">
-                    <Check className="h-5 w-5 text-[#25D366] mx-auto" />
+                  <td className="p-2 sm:p-4 font-medium text-xs sm:text-base">AI asistent</td>
+                  <td className="text-center p-2 sm:p-4 bg-[#25D366]/10">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-[#25D366] mx-auto" />
                   </td>
-                  <td className="text-center p-4">
-                    <X className="h-5 w-5 text-red-500 mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <X className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mx-auto" />
                   </td>
-                  <td className="text-center p-4">
-                    <X className="h-5 w-5 text-red-500 mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <X className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mx-auto" />
                   </td>
-                  <td className="text-center p-4">
-                    <X className="h-5 w-5 text-red-500 mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <X className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 mx-auto" />
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 font-medium">České prostředí</td>
-                  <td className="text-center p-4 bg-[#25D366]/10">
-                    <Check className="h-5 w-5 text-[#25D366] mx-auto" />
+                  <td className="p-2 sm:p-4 font-medium text-xs sm:text-base">České prostředí</td>
+                  <td className="text-center p-2 sm:p-4 bg-[#25D366]/10">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-[#25D366] mx-auto" />
                   </td>
-                  <td className="text-center p-4">
-                    <Check className="h-5 w-5 text-[#25D366] mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-[#25D366] mx-auto" />
                   </td>
-                  <td className="text-center p-4">
-                    <Check className="h-5 w-5 text-[#25D366] mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-[#25D366] mx-auto" />
                   </td>
-                  <td className="text-center p-4">
-                    <Check className="h-5 w-5 text-[#25D366] mx-auto" />
+                  <td className="text-center p-2 sm:p-4">
+                    <Check className="h-4 w-4 sm:h-5 sm:w-5 text-[#25D366] mx-auto" />
                   </td>
                 </tr>
               </tbody>
