@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, ArrowLeft, Smartphone, Tablet, Monitor, Bot, Clock, Shield, TrendingUp } from "lucide-react";
+import { Check, ArrowLeft, Smartphone, Tablet, Monitor, Bot, Clock, Shield, TrendingUp, MessageCircle } from "lucide-react";
 import Layout from '@/components/layout/Layout';
 
 export default function FunkcePage() {
