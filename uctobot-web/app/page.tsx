@@ -380,7 +380,7 @@ export default function DokladBotLanding() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Clock className="h-4 w-4 text-[#25D366]" />
-                  <span>Ušetříte 10 hodin měsíčně</span>
+                  <span>Ušetříte spoustu času měsíčně</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Shield className="h-4 w-4 text-[#25D366]" />
