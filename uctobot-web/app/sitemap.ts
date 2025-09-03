@@ -69,6 +69,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: 'https://www.dokladbot.cz/recenze',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
       url: 'https://www.dokladbot.cz/kariera',
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -103,6 +109,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
+    },
+    {
+      url: 'https://www.dokladbot.cz/blog/dph-osvc-kompletni-pruvodce-2025',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.dokladbot.cz/blog/danove-odpocty-zivnostnici-2025',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.dokladbot.cz/blog/digitalizace-ucetnictvi-trendy-2025',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: 'https://www.dokladbot.cz/blog/whatsapp-business-api-male-firmy',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
     }
   ]
 }
