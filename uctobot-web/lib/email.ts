@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 import { generateActivationEmailHTML, generateActivationEmailText, type ActivationEmailData } from './email-templates';
 
 // Create reusable transporter
