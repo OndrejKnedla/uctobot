@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check, Shield, Star, TrendingUp, Clock, Zap, Users, Smartphone, Building, Crown } from 'lucide-react';
+import { Check, Camera, FileText, Users } from 'lucide-react';
 import { paymentsAPI } from '@/lib/api';
 
 interface PricingCardProps {
@@ -23,74 +23,54 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
   // Starter Plan
   if (plan === 'starter') {
     return (
-      <Card className="relative bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 flex flex-col h-full shadow-sm">
-        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-          <div className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-            <Smartphone className="h-3 w-3" />
-            STARTER
-          </div>
-        </div>
-        
-        <CardHeader className="text-center pb-3 pt-6">
-          <CardTitle className="text-xl font-bold mb-1 text-gray-900 dark:text-white">Starter</CardTitle>
-          <CardDescription className="text-gray-500 dark:text-gray-400 text-sm">Pro začínající podnikatele</CardDescription>
+      <Card className="relative bg-white rounded-lg border border-gray-200 p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+        <CardHeader className="text-center pb-6">
+          <CardTitle className="text-xl font-semibold mb-2 text-gray-900">Starter</CardTitle>
+          <CardDescription className="text-gray-600 text-sm">Pro začínající podnikatele</CardDescription>
           
-          <div className="mt-4">
-            <div className="flex items-baseline justify-center mb-1">
-              <span className="text-4xl font-bold text-blue-600">199</span>
-              <span className="text-xl ml-1 text-gray-900 dark:text-white">Kč</span>
-              <span className="text-lg text-gray-500 dark:text-gray-400 ml-1">/měsíc</span>
+          <div className="mt-6">
+            <div className="flex items-baseline justify-center mb-2">
+              <span className="text-4xl font-bold text-gray-900">199</span>
+              <span className="text-lg ml-1 text-gray-900">Kč</span>
             </div>
-            <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">Ceny jsou uvedeny bez DPH</p>
-            
-            <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-2 mb-2">
-              <div className="text-orange-700 dark:text-orange-300 font-medium text-sm">
-                🎁 Prvních 7 dní ZDARMA
-              </div>
-            </div>
+            <p className="text-gray-600 text-sm">Cena za uživatele, účtováno měsíčně.</p>
           </div>
         </CardHeader>
         
-        <CardContent className="pb-3">
-          <ul className="space-y-2">
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Max 50 dokladů měsíčně</span>
+        <CardContent className="pb-6 flex-grow">
+          <ul className="space-y-3">
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Max 50 dokladů měsíčně</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Základní účetní funkce</span>
+            <li className="flex items-start text-sm">
+              <Camera className="w-4 h-4 text-gray-400 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Skenování účtenek</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">WhatsApp rozhraní</span>
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">WhatsApp rozhraní</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Export do CSV</span>
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Export do CSV</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Základní support</span>
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Základní podpora</span>
             </li>
           </ul>
         </CardContent>
         
-        <CardFooter className="mt-auto">
+        <CardFooter className="pt-6">
           <Button
             onClick={handlePayment}
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-semibold text-lg"
+            variant="outline"
+            className="w-full py-3 font-medium"
             size="lg"
           >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Načítání...
-              </>
-            ) : (
-              'Vyzkoušet 7 dní zdarma'
-            )}
+            {loading ? 'Načítání...' : 'Vybrat'}
           </Button>
         </CardFooter>
       </Card>
@@ -100,90 +80,73 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
   // Professional Plan
   if (plan === 'professional') {
     return (
-      <Card className={`relative bg-white dark:bg-gray-900 rounded-2xl border-2 ${isPopular ? 'border-green-500 dark:border-green-400' : 'border-gray-200 dark:border-gray-700'} p-4 flex flex-col h-full shadow-sm`}>
+      <Card className={`relative bg-white rounded-lg border-2 ${isPopular ? 'border-gray-900' : 'border-gray-200'} p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow`}>
         {isPopular && (
           <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-            <div className="bg-green-500 dark:bg-green-400 text-white dark:text-black px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-              <Star className="h-3 w-3" />
-              NEJPOPULÁRNĚJŠÍ
+            <div className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">
+              20% sleva
             </div>
           </div>
         )}
         
-        <CardHeader className="text-center pb-3 pt-6">
-          <CardTitle className="text-xl font-bold mb-1 text-gray-900 dark:text-white flex items-center justify-center gap-2">
-            <TrendingUp className="h-5 w-5 text-green-600" />
-            Profesionál
-          </CardTitle>
-          <CardDescription className="text-gray-500 dark:text-gray-400 text-sm">Pro rostoucí podnikatele</CardDescription>
+        <CardHeader className="text-center pb-6">
+          <CardTitle className="text-xl font-semibold mb-2 text-gray-900">Profesionál</CardTitle>
+          <CardDescription className="text-gray-600 text-sm">Pro rostoucí podnikatele</CardDescription>
           
-          <div className="mt-4">
-            <div className="flex items-baseline justify-center mb-1">
-              <span className="text-4xl font-bold text-green-600">349</span>
-              <span className="text-xl ml-1 text-gray-900 dark:text-white">Kč</span>
-              <span className="text-lg text-gray-500 dark:text-gray-400 ml-1">/měsíc</span>
+          <div className="mt-6">
+            {isPopular && (
+              <div className="text-gray-500 text-sm line-through mb-1">4 188 Kč</div>
+            )}
+            <div className="flex items-baseline justify-center mb-2">
+              <span className="text-4xl font-bold text-gray-900">349</span>
+              <span className="text-lg ml-1 text-gray-900">Kč</span>
             </div>
-            <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">
-              nebo <strong>3490 Kč/rok</strong> = 291 Kč/měsíc
-            </p>
-            <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">Ceny jsou uvedeny bez DPH</p>
-            
-            <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-2 mb-2">
-              <div className="text-orange-700 dark:text-orange-300 font-medium text-sm">
-                🎁 Prvních 7 dní ZDARMA
+            <p className="text-gray-600 text-sm">Cena za uživatele, účtováno {isPopular ? 'ročně' : 'měsíčně'}.</p>
+            {isPopular && (
+              <div className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium mt-2">
+                Ušetříte 718 Kč
               </div>
-            </div>
+            )}
           </div>
         </CardHeader>
         
-        <CardContent className="pb-3">
-          <ul className="space-y-2">
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Neomezený počet dokladů</span>
+        <CardContent className="pb-6 flex-grow">
+          <ul className="space-y-3">
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Neomezený počet dokladů</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Všechny funkce</span>
+            <li className="flex items-start text-sm">
+              <Camera className="w-4 h-4 text-gray-400 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Pokročilé skenování účtenek</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">API napojení na banky</span>
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">API napojení na banky</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Prioritní podpora</span>
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Prioritní podpora</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">DPH hlídač a optimalizace</span>
+            <li className="flex items-start text-sm">
+              <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">DPH hlídač a optimalizace</span>
             </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">AI zpracování účtenek</span>
-            </li>
-            <li className="flex items-center text-sm">
-              <Check className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
-              <span className="dark:text-gray-200">Pokročilé reporty</span>
+            <li className="flex items-start text-sm">
+              <FileText className="w-4 h-4 text-gray-400 mr-3 flex-shrink-0 mt-0.5" />
+              <span className="text-gray-700">Pokročilé reporty</span>
             </li>
           </ul>
         </CardContent>
         
-        <CardFooter className="mt-auto">
+        <CardFooter className="pt-6">
           <Button
             onClick={handlePayment}
             disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-semibold text-lg"
+            className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 font-medium"
             size="lg"
           >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Načítání...
-              </>
-            ) : (
-              'Vyzkoušet 7 dní zdarma'
-            )}
+            {loading ? 'Načítání...' : 'Vybrat'}
           </Button>
         </CardFooter>
       </Card>
@@ -192,88 +155,58 @@ export function PricingCard({ plan, isPopular = false }: PricingCardProps) {
 
   // Business Plan
   return (
-    <Card className="relative bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 flex flex-col h-full shadow-sm">
-      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-        <div className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-          <Crown className="h-3 w-3" />
-          BUSINESS
-        </div>
-      </div>
-      
-      <CardHeader className="text-center pb-3 pt-6">
-        <CardTitle className="text-xl font-bold mb-1 text-gray-900 dark:text-white flex items-center justify-center gap-2">
-          <Building className="h-5 w-5 text-purple-600" />
-          Business
-        </CardTitle>
-        <CardDescription className="text-gray-500 dark:text-gray-400 text-sm">Pro větší firmy a agentury</CardDescription>
+    <Card className="relative bg-white rounded-lg border border-gray-200 p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+      <CardHeader className="text-center pb-6">
+        <CardTitle className="text-xl font-semibold mb-2 text-gray-900">Business</CardTitle>
+        <CardDescription className="text-gray-600 text-sm">Pro větší firmy a týmy</CardDescription>
         
-        <div className="mt-4">
-          <div className="flex items-baseline justify-center mb-1">
-            <span className="text-4xl font-bold text-purple-600">599</span>
-            <span className="text-xl ml-1 text-gray-900 dark:text-white">Kč</span>
-            <span className="text-lg text-gray-500 dark:text-gray-400 ml-1">/měsíc</span>
+        <div className="mt-6">
+          <div className="flex items-baseline justify-center mb-2">
+            <span className="text-4xl font-bold text-gray-900">599</span>
+            <span className="text-lg ml-1 text-gray-900">Kč</span>
           </div>
-          <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">
-            nebo <strong>5990 Kč/rok</strong>
-          </p>
-          <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">Ceny jsou uvedeny bez DPH</p>
-          
-          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-2 mb-2">
-            <div className="text-orange-700 dark:text-orange-300 font-medium text-sm">
-              🎁 Prvních 7 dní ZDARMA
-            </div>
-          </div>
+          <p className="text-gray-600 text-sm">Cena za uživatele, účtováno měsíčně.</p>
         </div>
       </CardHeader>
       
-      <CardContent className="pb-3">
-        <ul className="space-y-2">
-          <li className="flex items-center text-sm">
-            <Check className="w-5 h-5 text-purple-600 mr-3 flex-shrink-0" />
-            <span className="dark:text-gray-200">Vše z Profesionál</span>
+      <CardContent className="pb-6 flex-grow">
+        <ul className="space-y-3">
+          <li className="flex items-start text-sm">
+            <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+            <span className="text-gray-700">Vše z Profesionál</span>
           </li>
-          <li className="flex items-center text-sm">
-            <Check className="w-5 h-5 text-purple-600 mr-3 flex-shrink-0" />
-            <span className="dark:text-gray-200">Multi-uživatelský přístup</span>
+          <li className="flex items-start text-sm">
+            <Users className="w-4 h-4 text-gray-400 mr-3 flex-shrink-0 mt-0.5" />
+            <span className="text-gray-700">Multi-uživatelský přístup</span>
           </li>
-          <li className="flex items-center text-sm">
-            <Check className="w-5 h-5 text-purple-600 mr-3 flex-shrink-0" />
-            <span className="dark:text-gray-200">Vlastní branding (white label)</span>
+          <li className="flex items-start text-sm">
+            <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+            <span className="text-gray-700">Vlastní branding</span>
           </li>
-          <li className="flex items-center text-sm">
-            <Check className="w-5 h-5 text-purple-600 mr-3 flex-shrink-0" />
-            <span className="dark:text-gray-200">Dedikovaná podpora</span>
+          <li className="flex items-start text-sm">
+            <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+            <span className="text-gray-700">Dedikovaná podpora</span>
           </li>
-          <li className="flex items-center text-sm">
-            <Check className="w-5 h-5 text-purple-600 mr-3 flex-shrink-0" />
-            <span className="dark:text-gray-200">API pro integrace</span>
+          <li className="flex items-start text-sm">
+            <Check className="w-4 h-4 text-green-600 mr-3 flex-shrink-0 mt-0.5" />
+            <span className="text-gray-700">API pro integrace</span>
           </li>
-          <li className="flex items-center text-sm">
-            <Check className="w-5 h-5 text-purple-600 mr-3 flex-shrink-0" />
-            <span className="dark:text-gray-200">Vlastní onboarding</span>
-          </li>
-          <li className="flex items-center text-sm">
-            <Check className="w-5 h-5 text-purple-600 mr-3 flex-shrink-0" />
-            <span className="dark:text-gray-200">SLA garantované</span>
+          <li className="flex items-start text-sm">
+            <FileText className="w-4 h-4 text-gray-400 mr-3 flex-shrink-0 mt-0.5" />
+            <span className="text-gray-700">Pokročilé analytiky</span>
           </li>
         </ul>
       </CardContent>
       
-      <CardFooter className="mt-auto">
+      <CardFooter className="pt-6">
         <Button
           onClick={handlePayment}
           disabled={loading}
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-lg font-semibold text-lg"
+          variant="outline"
+          className="w-full py-3 font-medium"
           size="lg"
         >
-          {loading ? (
-            <>
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              Načítání...
-            </>
-          ) : (
-            'Kontaktovat prodej'
-          )}
+          {loading ? 'Načítání...' : 'Vybrat'}
         </Button>
       </CardFooter>
     </Card>
