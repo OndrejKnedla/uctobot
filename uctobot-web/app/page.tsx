@@ -768,12 +768,15 @@ export default function DokladBotLanding() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
             <div className="animate-slide-in-left">
-              <PricingCard plan="monthly" />
+              <PricingCard plan="starter" />
+            </div>
+            <div className="animate-slide-in-left" style={{animationDelay: '0.1s'}}>
+              <PricingCard plan="professional" isPopular={true} />
             </div>
             <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
-              <PricingCard plan="yearly" isPopular={true} />
+              <PricingCard plan="business" />
             </div>
           </div>
 
