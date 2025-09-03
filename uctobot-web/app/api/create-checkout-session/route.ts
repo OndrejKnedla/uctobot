@@ -4,10 +4,14 @@ import { prisma } from '@/lib/db/prisma'
 
 export async function POST(request: Request) {
   try {
-    const { plan, isFoundingMember, customerName, customerEmail } = await request.json()
+    const { plan, tier, isFoundingMember, customerName, customerEmail } = await request.json()
 
     if (!plan || !['MONTHLY', 'YEARLY'].includes(plan)) {
-      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid plan frequency' }, { status: 400 })
+    }
+
+    if (!tier || !['starter', 'professional', 'business'].includes(tier)) {
+      return NextResponse.json({ error: 'Invalid plan tier' }, { status: 400 })
     }
 
     if (!customerName || !customerEmail) {
@@ -19,9 +23,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 })
     }
 
-    // Calculate exact price with VAT (21%)
-    const amountWithExactVAT = plan === 'MONTHLY' ? 240.79 : 2407.90 // Exact VAT calculation
-    const displayAmount = plan === 'MONTHLY' ? 240.79 : 200.66 // Display monthly equivalent
+    // Define base prices
+    const basePrices = {
+      starter: { monthly: 199, yearly: 1990 },
+      professional: { monthly: 349, yearly: 3490 },
+      business: { monthly: 599, yearly: 5990 }
+    }
+
+    // Calculate prices based on tier and frequency
+    const getPrices = (tierName: string, frequency: string) => {
+      const basePrice = basePrices[tierName as keyof typeof basePrices][frequency === 'MONTHLY' ? 'monthly' : 'yearly']
+      // Add 21% VAT
+      const priceWithVAT = basePrice * 1.21
+      return Math.round(priceWithVAT * 100) / 100 // Round to 2 decimal places
+    }
+
+    const amountWithExactVAT = getPrices(tier, plan)
 
     // Check founding member eligibility
     let foundingMembersCount = 0
@@ -71,7 +88,7 @@ export async function POST(request: Request) {
           price_data: {
             currency: 'czk',
             product_data: {
-              name: `DokladBot ${plan === 'MONTHLY' ? 'Měsíční' : 'Roční'} předplatné`,
+              name: `ÚčtoBot ${tier === 'professional' ? 'Profesionál' : tier === 'starter' ? 'Starter' : 'Business'} - ${plan === 'MONTHLY' ? 'Měsíční' : 'Roční'} předplatné`,
               description: 'Profesionální účetnictví přes WhatsApp',
             },
             unit_amount: Math.round(amountWithExactVAT * 100), // Convert to cents
@@ -88,6 +105,7 @@ export async function POST(request: Request) {
       metadata: {
         userId: user?.id || 'unknown',
         plan: plan,
+        tier: tier,
         isFoundingMember: isFoundingMember ? 'true' : 'false',
         customerName: customerName,
         customerEmail: customerEmail
@@ -97,6 +115,7 @@ export async function POST(request: Request) {
         metadata: {
           userId: user?.id || 'unknown',
           plan: plan,
+          tier: tier,
           isFoundingMember: isFoundingMember ? 'true' : 'false',
           customerName: customerName
         }
@@ -106,8 +125,8 @@ export async function POST(request: Request) {
       custom_text: {
         submit: {
           message: plan === 'MONTHLY' 
-            ? '💡 Tip: Roční plán ušetří 2 měsíce (1990 Kč + DPH/rok)'
-            : '💰 Skvělá volba! Ušetříte 2 měsíce + 7 dní zdarma'
+            ? '💡 Tip: Roční plán = 2 měsíce zdarma!'
+            : '💰 Skvělá volba! 2 měsíce zdarma + 7 dní zkušebně'
         }
       },
       
@@ -121,9 +140,10 @@ export async function POST(request: Request) {
       metadata: {
         userId: user?.id || 'unknown',
         plan: plan,
+        tier: tier,
         isFoundingMember: isFoundingMember ? 'true' : 'false',
         customerName: customerName,
-        basePrice: plan === 'MONTHLY' ? '199' : '1990',
+        basePrice: basePrices[tier as keyof typeof basePrices][plan === 'MONTHLY' ? 'monthly' : 'yearly'].toString(),
         vatIncluded: 'true'
       },
     })

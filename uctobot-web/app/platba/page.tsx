@@ -19,11 +19,41 @@ function PlanovaStrankaContent() {
     name: '',
     email: ''
   })
+  const [selectedTier, setSelectedTier] = useState<'starter' | 'professional' | 'business'>('professional')
+
+  const getPriceDisplay = (tier: 'starter' | 'professional' | 'business', frequency: 'MONTHLY' | 'YEARLY') => {
+    const prices = {
+      starter: { monthly: '199 Kč/měsíc', yearly: '1 990 Kč/rok' },
+      professional: { monthly: '349 Kč/měsíc', yearly: '3 490 Kč/rok' },
+      business: { monthly: '599 Kč/měsíc', yearly: '5 990 Kč/rok' }
+    }
+    return prices[tier][frequency === 'MONTHLY' ? 'monthly' : 'yearly']
+  }
 
   useEffect(() => {
     const planParam = searchParams.get('plan')
-    if (planParam === 'MONTHLY' || planParam === 'YEARLY') {
-      setSelectedPlan(planParam)
+    
+    // Parse plan parameter that might be like "PROFESSIONAL_YEARLY" or "STARTER"
+    if (planParam) {
+      if (planParam.includes('_YEARLY')) {
+        setSelectedPlan('YEARLY')
+        const tier = planParam.replace('_YEARLY', '').toLowerCase() as 'starter' | 'professional' | 'business'
+        if (['starter', 'professional', 'business'].includes(tier)) {
+          setSelectedTier(tier)
+        }
+      } else if (planParam.includes('_MONTHLY')) {
+        setSelectedPlan('MONTHLY')
+        const tier = planParam.replace('_MONTHLY', '').toLowerCase() as 'starter' | 'professional' | 'business'
+        if (['starter', 'professional', 'business'].includes(tier)) {
+          setSelectedTier(tier)
+        }
+      } else {
+        // Handle legacy or simple plan names
+        const tier = planParam.toLowerCase()
+        if (['starter', 'professional', 'business'].includes(tier)) {
+          setSelectedTier(tier as 'starter' | 'professional' | 'business')
+        }
+      }
     }
   }, [searchParams])
 
@@ -65,7 +95,8 @@ function PlanovaStrankaContent() {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ 
-            plan: selectedPlan, 
+            plan: selectedPlan,
+            tier: selectedTier, 
             isFoundingMember, 
             customerName: customerInfo.name,
             customerEmail: customerInfo.email
@@ -116,9 +147,17 @@ function PlanovaStrankaContent() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span>Tarif:</span>
+                <span>Plán:</span>
+                <span className="font-semibold capitalize">
+                  {selectedTier === 'professional' ? 'Profesionál' : 
+                   selectedTier === 'starter' ? 'Starter' : 'Business'}
+                </span>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span>Frekvence:</span>
                 <span className="font-semibold">
-                  {selectedPlan === 'MONTHLY' ? 'Měsíční' : 'Roční'}
+                  {selectedPlan === 'MONTHLY' ? 'Měsíčně' : 'Ročně'}
                 </span>
               </div>
               
@@ -126,7 +165,7 @@ function PlanovaStrankaContent() {
                 <span>Cena:</span>
                 <div className="text-right">
                   <span className="font-semibold text-2xl text-[#25D366]">
-                    {selectedPlan === 'MONTHLY' ? '199 Kč/měsíc' : '1 990 Kč/rok'}
+                    {getPriceDisplay(selectedTier, selectedPlan)}
                   </span>
                   <p className="text-xs text-gray-500 mt-1">Ceny jsou uvedeny bez DPH</p>
                 </div>
@@ -134,7 +173,7 @@ function PlanovaStrankaContent() {
 
               {selectedPlan === 'YEARLY' && (
                 <div className="text-sm text-muted-foreground">
-                  To je pouze 166 Kč měsíčně + 2 měsíce ZDARMA!
+                  2 měsíce ZDARMA!
                 </div>
               )}
               
@@ -145,7 +184,7 @@ function PlanovaStrankaContent() {
                     <span className="text-green-600 font-medium text-sm">💰 Ušetřete s ročním plánem!</span>
                   </div>
                   <p className="text-sm text-green-700 mb-2">
-                    Roční plán: pouze 166 Kč/měsíc + 2 měsíce ZDARMA
+                    Roční plán: 2 měsíce ZDARMA
                   </p>
                   <button 
                     onClick={() => setSelectedPlan('YEARLY')}
