@@ -756,40 +756,10 @@ export default function DokladBotLanding() {
       <section id="cenik" className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            {/* Launch Week Special Badge */}
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-200 dark:border-green-800 rounded-full px-8 py-3 mb-8">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-green-700 dark:text-green-300 font-bold text-lg">⚡ LAUNCH WEEK SPECIAL</span>
-            </div>
-            
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">
               <span className="block">7 dní k vyzkoušení</span>
               <span className="block text-green-600">ZDARMA</span>
             </h2>
-            
-            <div className="bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-4 max-w-xl mx-auto mb-6">
-              <p className="text-xl font-bold text-green-800 dark:text-green-300 mb-1">🎉 DOŽIVOTNÍ CENA NAVŽDY</p>
-              <p className="text-base text-green-700 dark:text-green-400">Po launch weeku se ceny zvýší - teď si zajistíte cenu navždy!</p>
-            </div>
-            
-            
-            {/* Countdown Timer */}
-            <div className="inline-flex items-center gap-4 bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl px-6 py-3 mb-6">
-              <div className="flex items-center gap-3">
-                <Clock className="w-6 h-6 text-green-600" />
-                <span className="text-lg font-bold text-green-700 dark:text-green-300">Akce končí za:</span>
-              </div>
-              <div className="flex items-center gap-2 font-mono font-bold text-xl">
-                <span className="bg-white dark:bg-gray-800 px-3 py-1 rounded-lg border-2 border-green-200 dark:border-green-700 shadow-lg text-green-700 dark:text-green-300">{timeLeft.days}</span>
-                <span className="text-green-600 dark:text-green-400">d</span>
-                <span className="bg-white dark:bg-gray-800 px-3 py-1 rounded-lg border-2 border-green-200 dark:border-green-700 shadow-lg text-green-700 dark:text-green-300">{timeLeft.hours.toString().padStart(2, '0')}</span>
-                <span className="text-green-600 dark:text-green-400">h</span>
-                <span className="bg-white dark:bg-gray-800 px-3 py-1 rounded-lg border-2 border-green-200 dark:border-green-700 shadow-lg text-green-700 dark:text-green-300">{timeLeft.minutes.toString().padStart(2, '0')}</span>
-                <span className="text-green-600 dark:text-green-400">m</span>
-                <span className="bg-white dark:bg-gray-800 px-3 py-1 rounded-lg border-2 border-green-200 dark:border-green-700 shadow-lg text-green-700 dark:text-green-300">{timeLeft.seconds.toString().padStart(2, '0')}</span>
-                <span className="text-green-600 dark:text-green-400">s</span>
-              </div>
-            </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
@@ -804,6 +774,13 @@ export default function DokladBotLanding() {
 
 
           <div className="text-center mt-12">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-200 dark:border-yellow-800 rounded-xl p-4 max-w-2xl mx-auto mb-6">
+              <h3 className="font-bold text-yellow-800 dark:text-yellow-300 mb-2">⚠️ Důležité upozornění pro rok 2025</h3>
+              <p className="text-yellow-700 dark:text-yellow-400 text-sm">
+                <strong>DPH limit se zvyšuje z 1 mil. Kč na 2 mil. Kč!</strong> Mnoho OSVČ bude muset nově platit DPH. 
+                DokladBot vám pomůže s přípravou a automaticky sleduje vaše příjmy.
+              </p>
+            </div>
             <p className="text-lg text-muted-foreground mb-3">
               Bez závazků • Zrušte kdykoliv • Podpora v češtině
             </p>
