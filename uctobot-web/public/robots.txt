@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://dokladbot.cz/sitemap.xml
+
+# Specific pages
+Allow: /cenik
+Allow: /kontakt  
+Allow: /faq
+Allow: /funkce
+Allow: /platba
+Allow: /platba-uspesna
+
+# Block specific paths if any
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
