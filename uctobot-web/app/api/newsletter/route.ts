@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
         const resend = new Resend(process.env.RESEND_API_KEY);
         
         await resend.emails.send({
-          from: 'DokladBot <noreply@dokladbot.cz>',
-          to: ['info@dokladbot.cz'], // Pošle notifikaci na váš email
+          from: 'DokladBot Newsletter <onboarding@resend.dev>', // Používáme Resend testovací doménu
+          to: ['realok2001@gmail.com'], // Váš osobní email
           subject: `🎉 Nový newsletter subscriber: ${email}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
