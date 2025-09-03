@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function NewsletterConfirmPage() {
+function NewsletterConfirmContent() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'already-confirmed'>('loading');
   const [email, setEmail] = useState('');
   const searchParams = useSearchParams();
@@ -63,5 +63,17 @@ export default function NewsletterConfirmPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function NewsletterConfirmPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin h-16 w-16 border-4 border-green-500 border-t-transparent rounded-full"></div>
+      </div>
+    }>
+      <NewsletterConfirmContent />
+    </Suspense>
   );
 }
