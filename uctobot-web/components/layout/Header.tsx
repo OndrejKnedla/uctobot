@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Menu } from 'lucide-react';
+import { MessageCircle, Menu, Phone } from 'lucide-react';
 
 interface HeaderProps {
   showMainPageSections?: boolean;
@@ -15,21 +15,13 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
   const router = useRouter();
 
   const scrollToSection = (id: string) => {
-    if (showMainPageSections) {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      // Redirect to main page with section
-      router.push(`/#${id}`);
-    }
+    // Always redirect to main page with section hash
+    router.push(`/#${id}`);
     setMobileMenuOpen(false);
   };
 
   const handleRegister = () => {
-    if (showMainPageSections) {
-      document.getElementById('cenik')?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      router.push('/#cenik');
-    }
+    router.push('/#cenik');
   };
 
   return (
@@ -72,6 +64,13 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
             >
               Blog
             </Link>
+            <a
+              href="tel:+420722158002"
+              className="text-muted-foreground hover:text-foreground flex items-center space-x-1"
+            >
+              <Phone className="h-4 w-4" />
+              <span>+420 722 158 002</span>
+            </a>
             <Button 
               size="lg"
               className="bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold"
@@ -122,6 +121,12 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
             >
               Blog
             </Link>
+            <a
+              href="tel:+420722158002"
+              className="block w-full text-left py-2 text-muted-foreground"
+            >
+              📞 +420 722 158 002
+            </a>
             <Button 
               size="lg"
               className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold mt-2"
