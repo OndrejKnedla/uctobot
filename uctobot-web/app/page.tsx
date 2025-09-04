@@ -1577,7 +1577,7 @@ export default function DokladBotLanding() {
                 </li>
                 <li>
                   <button 
-                    onClick={() => window.location.href = '/recenze'} 
+                    onClick={() => scrollToSection("recenze")} 
                     className="hover:text-foreground text-left"
                   >
                     Recenze

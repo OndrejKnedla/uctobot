@@ -87,7 +87,7 @@ export default function Footer({ showMainPageSections = false }: FooterProps) {
               </li>
               <li>
                 <Link 
-                  href="/recenze"
+                  href="/#testimonials"
                   className="hover:text-foreground text-left block"
                 >
                   Recenze

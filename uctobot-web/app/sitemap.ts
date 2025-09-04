@@ -69,12 +69,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
-      url: 'https://www.dokladbot.cz/recenze',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
       url: 'https://www.dokladbot.cz/kariera',
       lastModified: new Date(),
       changeFrequency: 'monthly',
