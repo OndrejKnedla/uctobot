@@ -15,8 +15,11 @@ export default function Header({ showMainPageSections = false }: HeaderProps) {
   const router = useRouter();
 
   const scrollToSection = (id: string) => {
-    // Always redirect to main page with section hash
-    router.push(`/#${id}`);
+    if (showMainPageSections) {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(`/#${id}`);
+    }
     setMobileMenuOpen(false);
   };
 
