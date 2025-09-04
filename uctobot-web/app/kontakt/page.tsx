@@ -6,7 +6,7 @@ import Layout from '@/components/layout/Layout';
 
 export default function KontaktPage() {
   return (
-    <Layout>
+    <Layout showMainPageSections={true}>
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
@@ -48,7 +48,7 @@ export default function KontaktPage() {
                   <h3 className="font-semibold">Sídlo</h3>
                   <p className="text-muted-foreground">
                     Praha, Česká republika<br/>
-                    IČ: 12345678
+                    IČO: 22161104
                   </p>
                 </div>
               </div>

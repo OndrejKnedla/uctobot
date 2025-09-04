@@ -31,7 +31,7 @@ export default function BlogPage() {
   const posts = getAllPosts();
 
   return (
-    <Layout>
+    <Layout showMainPageSections={true}>
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-green-50 to-green-100 py-16">
         <div className="container mx-auto px-4">

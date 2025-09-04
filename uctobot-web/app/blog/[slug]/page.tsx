@@ -70,7 +70,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   };
 
   return (
-    <Layout>
+    <Layout showMainPageSections={true}>
       <article className="min-h-screen bg-white">
       <script
         type="application/ld+json"

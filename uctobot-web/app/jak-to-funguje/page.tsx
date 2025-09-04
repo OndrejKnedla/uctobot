@@ -8,7 +8,7 @@ import Layout from '@/components/layout/Layout';
 
 export default function JakToFungujePage() {
   return (
-    <Layout>
+    <Layout showMainPageSections={true}>
       {/* Hero */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
