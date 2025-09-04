@@ -201,12 +201,12 @@ export default function DokladBotLanding() {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
     setMobileMenuOpen(false)
-  }
+  };
 
   const handleRegister = () => {
     // Scroll to pricing section
     document.getElementById('cenik')?.scrollIntoView({ behavior: 'smooth' })
-  }
+  };
 
   const handlePricingClick = async (planType: 'monthly' | 'annual') => {
     try {
@@ -227,7 +227,7 @@ export default function DokladBotLanding() {
     } finally {
       setLoading(false)
     }
-  }
+  };
 
   const handlePartnerClick = async () => {
     try {
@@ -236,7 +236,7 @@ export default function DokladBotLanding() {
     } catch (err) {
       console.error('Partner click error:', err)
     }
-  }
+  };
 
   return (
     <>
@@ -1383,7 +1383,7 @@ export default function DokladBotLanding() {
                 <p className="text-muted-foreground text-sm">zpracovaných účtenek</p>
               </div>
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">< 30s</div>
+                <div className="text-3xl font-bold text-[#25D366] mb-2">&lt; 30s</div>
                 <p className="text-muted-foreground text-sm">doba zpracování</p>
               </div>
               <div>
