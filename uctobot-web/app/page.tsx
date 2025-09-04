@@ -1322,7 +1322,6 @@ export default function DokladBotLanding() {
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
-                    <AvatarImage src="/jan-novak-portrait.png" />
                     <AvatarFallback>RM</AvatarFallback>
                   </Avatar>
                   <div>
@@ -1340,7 +1339,6 @@ export default function DokladBotLanding() {
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
-                    <AvatarImage src="/marie-svobodova-portrait.png" />
                     <AvatarFallback>LT</AvatarFallback>
                   </Avatar>
                   <div>
@@ -1358,16 +1356,15 @@ export default function DokladBotLanding() {
               <CardContent className="pt-6">
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
-                    <AvatarImage src="/petr-dvorak-portrait.png" />
-                    <AvatarFallback>VD</AvatarFallback>
+                    <AvatarFallback>JH</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Viktor D.</div>
-                    <div className="text-sm text-muted-foreground">Elektrikář</div>
+                    <div className="font-semibold">Jan Hornáček</div>
+                    <div className="text-sm text-muted-foreground">CEO, Redess Group</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "DokladBot je rozhodně jednodušší než Excel tabulky. Oceňuji funkce přímo navržené pro řemeslníky."
+                  "DokladBot výrazně zrychlil naše procesy v Redess Group. Místo složitých tabulek máme jednoduché řešení přes WhatsApp. Rozhodně doporučujeme."
                 </p>
               </CardContent>
             </Card>
