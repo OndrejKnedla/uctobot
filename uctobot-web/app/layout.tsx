@@ -188,6 +188,16 @@ export default function RootLayout({
             #CybotCookiebotDialog a[style*="color"] {
               color: #25D366 !important;
             }
+            
+            /* Hide CookieBot logo/branding */
+            #CybotCookiebotDialogPoweredbyLink,
+            .CybotCookiebotDialogPoweredBy,
+            a[href*="cookiebot"],
+            img[src*="cookiebot"],
+            [class*="cookiebot"][class*="logo"],
+            #CybotCookiebotDialog [style*="cookiebot"] {
+              display: none !important;
+            }
           `
         }} />
       </head>
