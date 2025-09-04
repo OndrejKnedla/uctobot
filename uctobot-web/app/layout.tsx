@@ -158,6 +158,38 @@ export default function RootLayout({
             });
           `
         }} />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* CookieBot - změna modré na zelenou DokladBot barvu */
+            #CybotCookiebotDialog button,
+            #CybotCookiebotDialog a {
+              background-color: #25D366 !important;
+              border-color: #25D366 !important;
+            }
+            
+            #CybotCookiebotDialog button:hover,
+            #CybotCookiebotDialog a:hover {
+              background-color: #128C7E !important;
+              border-color: #128C7E !important;
+            }
+            
+            /* Toggle switches */
+            #CybotCookiebotDialog input[type="checkbox"]:checked + .CybotCookiebotDialogBodyLevelButtonSlider {
+              background-color: #25D366 !important;
+            }
+            
+            /* Active tabs */
+            #CybotCookiebotDialog .CybotCookiebotDialogDetailBodyContentTabsItem[aria-selected="true"] {
+              background-color: #25D366 !important;
+              border-color: #25D366 !important;
+            }
+            
+            /* Links and active elements */
+            #CybotCookiebotDialog a[style*="color"] {
+              color: #25D366 !important;
+            }
+          `
+        }} />
       </head>
       <body className={GeistSans.className}>
         {children}
