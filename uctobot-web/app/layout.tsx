@@ -183,11 +183,18 @@ export default function RootLayout({
               color: #1a1a1a !important;
             }
             
-            /* Blue buttons - change to green */
-            button[style*="background-color: rgb(24, 119, 242)"],
-            button[style*="background: rgb(24, 119, 242)"],
-            .CybotCookiebotDialogBodyButton[style*="background-color: rgb(24, 119, 242)"],
-            .CybotCookiebotDialogBodyButton[style*="background: rgb(24, 119, 242)"] {
+            /* All buttons - force green color */
+            #CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll,
+            #CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection,
+            #CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll,
+            #CybotCookiebotDialogBodyButtonAccept,
+            a#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll,
+            a#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection,
+            button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll,
+            button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection,
+            .CybotCookiebotDialogBodyButton,
+            .CybotCookiebotDialogBodyLevelButton,
+            [id*="CybotCookiebotDialogBodyLevelButton"] {
               background: #25D366 !important;
               background-color: #25D366 !important;
               color: white !important;
@@ -196,12 +203,25 @@ export default function RootLayout({
               padding: 12px 24px !important;
               font-weight: 600 !important;
               transition: all 0.2s ease !important;
+              text-decoration: none !important;
             }
             
-            button[style*="background-color: rgb(24, 119, 242)"]:hover,
-            button[style*="background: rgb(24, 119, 242)"]:hover,
-            .CybotCookiebotDialogBodyButton[style*="background-color: rgb(24, 119, 242)"]:hover,
-            .CybotCookiebotDialogBodyButton[style*="background: rgb(24, 119, 242)"]:hover {
+            /* Secondary buttons - outline style */
+            #CybotCookiebotDialogBodyButtonDecline,
+            button#CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll {
+              background: transparent !important;
+              background-color: transparent !important;
+              color: #25D366 !important;
+              border: 2px solid #25D366 !important;
+            }
+            
+            /* Hover states */
+            #CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll:hover,
+            #CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection:hover,
+            #CybotCookiebotDialogBodyButtonAccept:hover,
+            .CybotCookiebotDialogBodyButton:hover,
+            .CybotCookiebotDialogBodyLevelButton:hover,
+            [id*="CybotCookiebotDialogBodyLevelButton"]:hover {
               background: #128C7E !important;
               background-color: #128C7E !important;
               transform: translateY(-1px) !important;
@@ -244,6 +264,36 @@ export default function RootLayout({
             .CybotCookiebotDialogBodyButton:hover {
               background: #128C7E !important;
               background-color: #128C7E !important;
+            }
+            
+            /* Toggle switches - green when active */
+            .CybotCookiebotDialogBodyLevelButtonSliderWrapper .CybotCookiebotDialogBodyLevelButtonSlider {
+              background-color: #25D366 !important;
+            }
+            
+            .CybotCookiebotDialogBodyLevelButtonSliderWrapper input:checked + .CybotCookiebotDialogBodyLevelButtonSlider {
+              background-color: #25D366 !important;
+            }
+            
+            /* Detail view buttons - force green */
+            button[style*="rgb(68, 130, 247)"],
+            button[style*="rgb(24, 119, 242)"],
+            .CybotCookiebotDialogDetailBodyContentTab,
+            .CybotCookiebotDialogDetailBodyContentTabsItem {
+              background: #25D366 !important;
+              background-color: #25D366 !important;
+              border-color: #25D366 !important;
+            }
+            
+            /* Bottom buttons - all green */
+            .CybotCookiebotDialogBodyEdgeMoreDetailsButton,
+            .CybotCookiebotDialogBodyLevelButtonWrapper button,
+            .CybotCookiebotDialogBodyLevelButtonWrapper a {
+              background: #25D366 !important;
+              background-color: #25D366 !important;
+              color: white !important;
+              border: none !important;
+              border-radius: 8px !important;
             }
             
             /* Decline button - subtle gray */
