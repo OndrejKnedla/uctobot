@@ -12,7 +12,7 @@ export default function FunkcePage() {
   };
 
   return (
-    <Layout showMainPageSections={true}>
+    <Layout >
       {/* Hero */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#25D366]/5 to-[#075E54]/5">
         <div className="max-w-4xl mx-auto text-center">
