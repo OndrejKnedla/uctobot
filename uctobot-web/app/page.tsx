@@ -1326,12 +1326,12 @@ export default function DokladBotLanding() {
                     <AvatarFallback>RM</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Rostislav M.</div>
-                    <div className="text-sm text-muted-foreground">IT konzultant</div>
+                    <div className="font-semibold">Rostislav Meier</div>
+                    <div className="text-sm text-muted-foreground">CEO, RESTARTSTAGE PRODUCTION</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Konečně aplikace, která chápe, že nechci řešit účetnictví. Pošlu fotku účtenky z mobilu a je to. Používám už několik měsíců."
+                  "DokladBot nám zjednodušil správu účetnictví naší produkční společnosti. WhatsApp integrace je pro nás ideální - můžeme odesílat účtenky přímo z terénu během natáčení."
                 </p>
               </CardContent>
             </Card>
@@ -1341,15 +1341,15 @@ export default function DokladBotLanding() {
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
                     <AvatarImage src="/marie-svobodova-portrait.png" />
-                    <AvatarFallback>NŽ</AvatarFallback>
+                    <AvatarFallback>LT</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-semibold">Natalie Ž.</div>
-                    <div className="text-sm text-muted-foreground">Grafička</div>
+                    <div className="font-semibold">Lukáš Tobolák</div>
+                    <div className="text-sm text-muted-foreground">CEO, Lazenskakava.cz & Greenplantation.com</div>
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "DokladBot používám už několik měsíců. Líbí se mi, že se rychle vyvíjí a přidávají nové funkce podle potřeb uživatelů."
+                  "Jako majitel dvou online podniků oceňujem rychlost a jednoduchost DokladBotu. Eucalyptové produkty i káva - všechny účtenky máme hned v pořádku."
                 </p>
               </CardContent>
             </Card>
