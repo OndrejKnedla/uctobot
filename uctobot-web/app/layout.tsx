@@ -134,14 +134,78 @@ export default function RootLayout({
         />
         <script dangerouslySetInnerHTML={{
           __html: `
-            // CookieBot event handlers
+            // CookieBot event handlers and styling
+            function applyDokladBotStyles() {
+              const style = document.createElement('style');
+              style.innerHTML = \`
+                /* Force DokladBot green styling with highest specificity */
+                #CybotCookiebotDialog *[style*="rgb(24, 119, 242)"] { background: #25D366 !important; background-color: #25D366 !important; }
+                #CybotCookiebotDialog *[style*="rgb(68, 130, 247)"] { background: #25D366 !important; background-color: #25D366 !important; }
+                #CybotCookiebotDialog *[style*="rgb(66, 133, 244)"] { background: #25D366 !important; background-color: #25D366 !important; }
+                
+                /* All possible buttons */
+                #CybotCookiebotDialog button:not([id*="Decline"]):not([class*="decline"]),
+                #CybotCookiebotDialog a:not([id*="Decline"]):not([class*="decline"]) {
+                  background: #25D366 !important;
+                  background-color: #25D366 !important;
+                  color: white !important;
+                  border: none !important;
+                }
+                
+                /* Toggle switches */
+                #CybotCookiebotDialog input[type="checkbox"]:checked + * {
+                  background-color: #25D366 !important;
+                }
+                
+                /* Tab active states */
+                #CybotCookiebotDialog .CybotCookiebotDialogDetailBodyContentTabsItem[class*="active"],
+                #CybotCookiebotDialog .CybotCookiebotDialogDetailBodyContentTabsItem[aria-selected="true"] {
+                  background: #25D366 !important;
+                  border-color: #25D366 !important;
+                }
+              \`;
+              document.head.appendChild(style);
+              
+              // Force style all blue elements
+              const blueElements = document.querySelectorAll('#CybotCookiebotDialog *[style*="rgb(24, 119, 242)"], #CybotCookiebotDialog *[style*="rgb(68, 130, 247)"], #CybotCookiebotDialog *[style*="rgb(66, 133, 244)"]');
+              blueElements.forEach(el => {
+                el.style.setProperty('background', '#25D366', 'important');
+                el.style.setProperty('background-color', '#25D366', 'important');
+                el.style.setProperty('border-color', '#25D366', 'important');
+              });
+            }
+            
             window.addEventListener('CookiebotOnLoad', function() {
               console.log('CookieBot loaded');
+              setTimeout(applyDokladBotStyles, 100);
+              // Keep applying styles every 500ms for 5 seconds
+              let attempts = 0;
+              const styleInterval = setInterval(() => {
+                applyDokladBotStyles();
+                attempts++;
+                if (attempts >= 10) clearInterval(styleInterval);
+              }, 500);
+            });
+            
+            // Apply styles when dialog shows
+            const observer = new MutationObserver(() => {
+              const dialog = document.getElementById('CybotCookiebotDialog');
+              if (dialog && dialog.style.display !== 'none') {
+                setTimeout(applyDokladBotStyles, 50);
+              }
+            });
+            
+            document.addEventListener('DOMContentLoaded', () => {
+              observer.observe(document.body, { 
+                childList: true, 
+                subtree: true, 
+                attributes: true,
+                attributeFilter: ['style']
+              });
             });
             
             window.addEventListener('CookiebotOnAccept', function() {
               console.log('CookieBot accepted');
-              // Hide the dialog after acceptance
               var dialog = document.getElementById('CybotCookiebotDialog');
               if (dialog) {
                 dialog.style.display = 'none';
@@ -150,7 +214,6 @@ export default function RootLayout({
             
             window.addEventListener('CookiebotOnDecline', function() {
               console.log('CookieBot declined');
-              // Hide the dialog after decline
               var dialog = document.getElementById('CybotCookiebotDialog');
               if (dialog) {
                 dialog.style.display = 'none';
