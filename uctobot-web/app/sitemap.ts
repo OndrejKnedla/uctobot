@@ -33,12 +33,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: 'https://www.dokladbot.cz/dashboard',
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.6,
-    },
-    {
       url: 'https://www.dokladbot.cz/napoveda',
       lastModified: new Date(),
       changeFrequency: 'weekly',
