@@ -109,7 +109,9 @@
       "Bash(do if ! grep -q \"Layout\\|Header\" \"$file\")",
       "Bash(then echo \"$file\")",
       "Bash(fi)",
-      "WebFetch(domain:resend.com)"
+      "WebFetch(domain:resend.com)",
+      "Bash(git remote get-url:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": [],

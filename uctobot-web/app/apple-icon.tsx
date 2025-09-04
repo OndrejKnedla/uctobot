@@ -13,7 +13,7 @@ export default function AppleIcon() {
     (
       <div
         style={{
-          background: '#25D366',
+          background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -24,19 +24,16 @@ export default function AppleIcon() {
       >
         <div
           style={{
-            background: 'white',
-            width: '100px',
-            height: '100px',
-            borderRadius: '50px',
+            color: 'white',
+            fontSize: '100px',
+            fontWeight: 'bold',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '60px',
-            fontWeight: 'bold',
-            color: '#25D366',
+            textShadow: '0 4px 8px rgba(0,0,0,0.2)',
           }}
         >
-          €
+          D
         </div>
       </div>
     ),
