@@ -1311,8 +1311,8 @@ export default function DokladBotLanding() {
               <p className="text-muted-foreground">zpracovaných transakcí</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#25D366] mb-2">{apiStats?.active_users || 40}</div>
-              <p className="text-muted-foreground">aktivních uživatelů</p>
+              <div className="text-4xl font-bold text-[#25D366] mb-2">24/7</div>
+              <p className="text-muted-foreground">dostupnost systému</p>
             </div>
           </div>
 
@@ -1383,8 +1383,8 @@ export default function DokladBotLanding() {
                 <p className="text-muted-foreground text-sm">zpracovaných účtenek</p>
               </div>
               <div>
-                <div className="text-3xl font-bold text-[#25D366] mb-2">50+</div>
-                <p className="text-muted-foreground text-sm">spokojených uživatelů</p>
+                <div className="text-3xl font-bold text-[#25D366] mb-2">< 30s</div>
+                <p className="text-muted-foreground text-sm">doba zpracování</p>
               </div>
               <div>
                 <div className="text-3xl font-bold text-[#25D366] mb-2">85%</div>
