@@ -280,11 +280,11 @@ Nákup počítače za 60 000 Kč:
 
 ### Jak DokladBot pomáhá se změnami 2025:
 
-✅ **Automatické sledování limitů** - upozorní na DPH práh
-✅ **Kalkulátor paušální daně** - spočítá, co se vyplatí
-✅ **Připomínky termínů** - nezapomenete na důležité deadliny
-✅ **Export pro účetní** - jednoduché předání dat
-✅ **Archivace dokladů** - připraveno na digitální kontroly
+- ✅ **Automatické sledování limitů** - upozorní na DPH práh
+- ✅ **Kalkulátor paušální daně** - spočítá, co se vyplatí
+- ✅ **Připomínky termínů** - nezapomenete na důležité deadliny
+- ✅ **Export pro účetní** - jednoduché předání dat
+- ✅ **Archivace dokladů** - připraveno na digitální kontroly
 
 **Daňové změny 2025 nemusí být komplikované.** S pravčasnou přípravou a správnými nástroji můžete ušetřit tisíce korun a hodiny administrativy.
 

@@ -116,10 +116,14 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
       <div className="container mx-auto px-4 mb-8">
         <div className="max-w-4xl mx-auto">
           {post.image ? (
-            <img 
+            <Image 
               src={post.image} 
               alt={post.title}
+              width={1200}
+              height={600}
+              priority
               className="w-full h-64 md:h-80 object-cover rounded-xl shadow-lg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
             />
           ) : (
             <div className="w-full">
