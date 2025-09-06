@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getPostBySlug, getAllPosts, getRelatedPosts } from '@/lib/blog';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import Image from 'next/image';
 import BlogCard from '@/components/blog/BlogCard';
 import ShareButtons from '@/components/blog/ShareButtons';
 import TableOfContents from '@/components/blog/TableOfContents';
@@ -143,7 +144,16 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 HighlightBox, 
                 CalculatorBox, 
                 StepsList, 
-                ComparisonTable 
+                ComparisonTable,
+                img: (props: any) => (
+                  <Image
+                    {...props}
+                    width={800}
+                    height={400}
+                    className="rounded-lg my-6"
+                    style={{ width: '100%', height: 'auto' }}
+                  />
+                )
               }} 
             />
             

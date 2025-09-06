@@ -111,7 +111,11 @@
       "Bash(fi)",
       "WebFetch(domain:resend.com)",
       "Bash(git remote get-url:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(find:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": [],
