@@ -144,16 +144,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 HighlightBox, 
                 CalculatorBox, 
                 StepsList, 
-                ComparisonTable,
-                img: (props: any) => (
-                  <Image
-                    {...props}
-                    width={800}
-                    height={400}
-                    className="rounded-lg my-6"
-                    style={{ width: '100%', height: 'auto' }}
-                  />
-                )
+                ComparisonTable
               }} 
             />
             

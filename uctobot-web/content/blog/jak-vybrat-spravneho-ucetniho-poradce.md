@@ -5,7 +5,7 @@ date: "2025-01-04"
 author: "Tým DokladBot"
 category: "Účetní poradenství"
 excerpt: "Výběr správného účetního poradce může zásadně ovlivnit úspěch vašeho podnikání. Přinášíme praktický návod, na co se zaměřit při výběru účetního."
-image: "/images/blog/ucetni-poradce.jpg"
+image: "/blog-images/5.webp"
 tags: ["účetní", "poradenství", "OSVČ", "malé firmy", "výběr účetního"]
 ---
 

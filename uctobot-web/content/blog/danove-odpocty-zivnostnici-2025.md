@@ -6,6 +6,7 @@ author: "Tým DokladBot"
 category: "Daně"
 excerpt: "Přehled všech daňových odpočtů pro OSVČ v roce 2025. Od základních slev po nové možnosti úspor až 50 000 Kč ročně."
 tags: ["daňové odpočty", "OSVČ", "2025", "úspory", "živnostníci", "slevy"]
+image: "/blog-images/4.jpg"
 ---
 
 # Daňové odpočty pro živnostníky 2025: Úplný přehled všech možností úspory
@@ -25,8 +26,6 @@ tags: ["daňové odpočty", "OSVČ", "2025", "úspory", "živnostníci", "slevy"
 - **Tip**: I příležitostná práce může ovlivnit nárok
 
 ## 🏠 Odpočty na bydlení
-
-![Daňové odpočty na bydlení](/blog-images/4.jpg)
 
 ### Úroky z hypotéky
 - **Max. odpočet**: 150 000 Kč ročně

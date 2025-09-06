@@ -6,6 +6,7 @@ author: "Tým DokladBot"
 category: "WhatsApp"
 excerpt: "Komplexní průvodce WhatsApp Business API pro malé firmy. Implementace, náklady, automatizace a ROI až 400%."
 tags: ["WhatsApp Business API", "automatizace", "malé firmy", "chatbots", "2025"]
+image: "/blog-images/7.jpg"
 ---
 
 # WhatsApp Business API pro malé firmy 2025: Kompletní průvodce využitím

@@ -6,6 +6,7 @@ author: "Tým DokladBot"
 category: "Účetnictví"
 excerpt: "Jak AI a digitalizace revolucionizují účetnictví v roce 2025. Nové nástroje, trendy a příležitosti pro moderní OSVČ."
 tags: ["digitalizace", "účetnictví", "AI", "automatizace", "2025", "technologie"]
+image: "/blog-images/8.jpg"
 ---
 
 # Digitalizace účetnictví 2025: Trendy, nástroje a příležitosti pro OSVČ
@@ -38,8 +39,6 @@ tags: ["digitalizace", "účetnictví", "AI", "automatizace", "2025", "technolog
 - **Varování** při překročení limitů
 
 ## 🚀 Technologie měnící účetnictví
-
-![Technologie v účetnictví](/blog-images/8.jpg)
 
 ### Blockchain a kryptoměny
 **Nové výzvy pro živnostníky:**

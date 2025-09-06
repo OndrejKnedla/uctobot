@@ -6,6 +6,7 @@ author: "Tým DokladBot"
 category: "Daně"
 excerpt: "Kompletní průvodce DPH pro OSVČ v roce 2025. Registrace, vedení evidence, termíny a praktické tipy jak se vyhnout pokutám."
 tags: ["DPH", "OSVČ", "2025", "daně", "živnostníci", "registrace"]
+image: "/blog-images/1.jpg"
 ---
 
 # DPH pro OSVČ 2025: Kompletní průvodce registrací a vedením evidence
@@ -39,8 +40,6 @@ Od roku 2025 jsou všechna DPH přiznání **pouze elektronická**:
 - Automatické kontroly při odesílání
 
 ## 💼 Vedení evidence DPH v roce 2025
-
-![Evidence DPH](/blog-images/1.jpg)
 
 ### Povinné záznamy
 **Co musíte evidovat:**

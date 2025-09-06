@@ -6,6 +6,7 @@ author: "Tým DokladBot"
 category: "Účetnictví"
 excerpt: "Detailní srovnání účetních programů pro OSVČ. Zjistěte, který se vyplatí právě vám a ušetřete tisíce korun ročně."
 tags: ["účetní programy", "OSVČ", "srovnání", "software"]
+image: "/blog-images/9.jpg"
 ---
 
 Vybrat správný účetní program může rozhodovat o tom, zda budete trávit 20 minut nebo 2 hodiny měsíčně s administrativou. V roce 2025 máte více možností než kdy jindy - od tradičních desktopových aplikací po moderní WhatsApp řešení. Které se vyplatí právě vám?
@@ -13,8 +14,6 @@ Vybrat správný účetní program může rozhodovat o tom, zda budete trávit 2
 Otestovali jsme 8 nejpopulárnějších řešení a připravili kompletní srovnání včetně skrytých nákladů, které vás mohou nepříjemně překvapit.
 
 ## Metodika testování
-
-![Testování účetních programů](/blog-images/9.jpg)
 
 Každý program jsme testovali po dobu 30 dnů s identickým scénářem:
 - Fiktivní OSVČ - grafik na volné noze

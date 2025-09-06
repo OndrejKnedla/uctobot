@@ -6,6 +6,7 @@ author: "Tým DokladBot"
 category: "Daně"
 excerpt: "Kompletní přehled všech daňových změn pro rok 2025. Zjistěte, co se mění a jak to ovlivní vaše podnikání."
 tags: ["daně 2025", "živnostníci", "OSVČ", "DPH", "paušální daň"]
+image: "/blog-images/2.jpg"
 ---
 
 Rok 2025 přináší živnostníkům a OSVČ řadu významných změn v daňové oblasti. Některé vám ušetří peníze, jiné mohou znamenat vyšší náklady. Připravili jsme kompletní přehled všech změn včetně praktických příkladů a kalkulaček.
@@ -18,8 +19,6 @@ Rok 2025 přináší živnostníkům a OSVČ řadu významných změn v daňové
 - Nové možnosti daňových odpisů
 
 ## 1. DPH - změna limitu registrace
-
-![DPH registrace](/blog-images/2.jpg)
 
 ### Co se mění?
 Limit pro povinnou registraci k DPH se **zvyšuje z 1 mil. Kč na 2 mil. Kč** za posledních 12 měsíců.

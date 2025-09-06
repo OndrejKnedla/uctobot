@@ -6,13 +6,12 @@ author: "Tým DokladBot"
 category: "WhatsApp"
 excerpt: "WhatsApp není jen na chatování. Zjistěte, jak ho využít pro efektivní podnikání a ušetřit hodiny času týdně."
 tags: ["WhatsApp", "produktivita", "komunikace", "digitalizace"]
+image: "/blog-images/3.jpg"
 ---
 
 WhatsApp používá v České republice **4,93 milionů lidí** - to je téměř polovina populace. Pro podnikatele to není jen komunikační nástroj, ale kompletní business platforma, která může zásadně změnit způsob, jak pracujete. Pojďme se podívat na 10 konkrétních způsobů, jak WhatsApp využít pro vaše podnikání.
 
 ## WhatsApp v číslech - proč je tak důležitý?
-
-![WhatsApp pro podnikatele](/blog-images/3.jpg)
 
 Než se ponoříme do konkrétních využití, podívejme se na fascinující statistiky:
 
@@ -42,8 +41,6 @@ Tato čísla jasně ukazují, proč je WhatsApp nejefektivnější komunikační
 **Úspora: 10,5 minuty na každé faktuře!**
 
 ## 2. Evidence dokladů v reálném čase
-
-![Evidence dokladů](/blog-images/7.jpg)
 
 Zapomeňte na krabice plné účtenek. Stačí:
 - Vyfotit doklad mobilem

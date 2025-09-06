@@ -6,6 +6,7 @@ author: "Tým DokladBot"
 category: "Účetnictví"
 excerpt: "Zjistěte vše potřebné o účetnictví OSVČ v roce 2025. Od paušální daně přes daňovou evidenci až po nejčastější chyby."
 tags: ["účetnictví", "OSVČ", "paušální daň", "daňová evidence"]
+image: "/blog-images/6.jpg"
 ---
 
 Vedení účetnictví jako OSVČ nemusí být noční můra. V tomto komplexním průvodci vám ukážeme, jak na to v roce 2025, jaké máte možnosti a jak se vyhnout nejčastějším chybám, které mohou stát tisíce korun.
@@ -19,8 +20,6 @@ Nečtěte celý článek najednou! Začněte sekcí o paušální dani vs. daňo
 Jako OSVČ máte v roce 2025 dvě hlavní možnosti, jak řešit své daně a účetnictví:
 
 ### Paušální daň - pro koho je výhodná?
-
-![Paušální daň pro OSVČ](/blog-images/6.jpg)
 
 Paušální daň je ideální volba pro OSVČ s příjmy do **2 milionů Kč ročně**. V roce 2025 platí tyto sazby:
 
