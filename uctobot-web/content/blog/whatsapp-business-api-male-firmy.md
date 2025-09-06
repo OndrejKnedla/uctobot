@@ -284,20 +284,20 @@ AI Bot: "Rozumím, máte high blood pressure a hledáte analgetikum.
 ### Opt-in requirements
 **Meta policies 2025:**
 ```
-✅ Správně: "Kliknutím souhlasíte s komunikací přes WhatsApp"
-❌ Špatně: Automatické přidání do seznamu
-✅ Správně: Double opt-in confirmation
-❌ Špatně: Pre-checked checkboxy
+**Správně:** "Kliknutím souhlasíte s komunikací přes WhatsApp"
+- **Špatně:** Automatické přidání do seznamu
+- **Správně:** Double opt-in confirmation
+- **Špatně:** Pre-checked checkboxy
 ```
 
 ### Message content rules
 **Co je povoleno/zakázáno:**
-- ✅ Transactional messages (receipts, updates)
-- ✅ Customer service responses
-- ✅ Opted-in marketing (s limitations)
-- ❌ Cold marketing messages
-- ❌ Spam nebo mass messaging
-- ❌ Sensitive personal data bez encryption
+- **Povoleno:** Transactional messages (receipts, updates)
+- **Povoleno:** Customer service responses
+- **Povoleno:** Opted-in marketing (s limitations)
+- **Zakázáno:** Cold marketing messages
+- **Zakázáno:** Spam nebo mass messaging
+- **Zakázáno:** Sensitive personal data bez encryption
 
 ## 🎯 Success stories českých firem
 
@@ -352,7 +352,7 @@ AI Bot: "Rozumím, máte high blood pressure a hledáte analgetikum.
    - Speech-to-text automation
    - Audio-based customer support
 
-## ✅ Akční plán pro implementaci
+## Akční plán pro implementaci
 
 ### Měsíc 1: Příprava a plánování
 - [ ] Business case preparation
@@ -389,17 +389,17 @@ AI Bot: "Rozumím, máte high blood pressure a hledáte analgetikum.
 **Pro většinu malých firem v roce 2025: Jednoznačně ANO!**
 
 **Klíčové výhody:**
-- ✅ **ROI 200-400%** ve většině případů
-- ✅ **Customer satisfaction** +1-2 body  
-- ✅ **Operational efficiency** +50-80%
-- ✅ **Competitive advantage** na českém trhu
-- ✅ **Future-proof** investice do komunikace
+- **ROI 200-400%** ve většině případů
+- **Customer satisfaction** +1-2 body  
+- **Operational efficiency** +50-80%
+- **Competitive advantage** na českém trhu
+- **Future-proof** investice do komunikace
 
 **Kdy to není vhodné:**
-- ❌ Velmi malé firmy (pod 50 zákazníků/měsíc)
-- ❌ Firmy bez digitální strategie
-- ❌ Omezený budget (pod 15 000 Kč/měsíc)
-- ❌ Odpor k technologickým inovacím
+- Velmi malé firmy (pod 50 zákazníků/měsíc)
+- Firmy bez digitální strategie
+- Omezený budget (pod 15 000 Kč/měsíc)
+- Odpor k technologickým inovacím
 
 **DokladBot perspective:**
 *My jsme WhatsApp Business API použili pro revolutionizaci účetnictví OSVČ. Naši uživatelé pošlou foto účtenky a za 5 sekund mají kompletní záznam. To je síla správně implementované automatizace!*

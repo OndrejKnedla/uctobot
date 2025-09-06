@@ -36,8 +36,8 @@ Měřili jsme:
 | **Cena/měsíc** | 199 Kč | 299 Kč | 7000 Kč* | 299 Kč | 0 Kč | 890 Kč | 2490 Kč | 49 Kč |
 | **Nastavení** | 5 min | 2 hodiny | 8 hodin | 2 hodiny | 4 hodiny | 6 hodin | 1 den | 3 hodiny |
 | **Čas na fakturu** | 30 s | 3 min | 2 min | 2,5 min | 4 min | 3 min | 5 min | 5 min |
-| **Mobilní app** | WhatsApp | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
-| **Offline práce** | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ |
+| **Mobilní app** | WhatsApp | Ano | Ne | Ano | Ne | Ano | Ne | Ne |
+| **Offline práce** | Ne | Ne | Ano | Ne | Ano | Ne | Ano | Ano |
 | **Podpora** | 9/10 | 7/10 | 6/10 | 8/10 | 4/10 | 5/10 | 7/10 | 3/10 |
 | **Hodnocení** | 9,2/10 | 7,8/10 | 6,5/10 | 8,1/10 | 4,2/10 | 6,8/10 | 6,9/10 | 5,1/10 |
 
@@ -51,17 +51,17 @@ Měřili jsme:
 DokladBot nepotřebujete instalovat ani se učit. Funguje přímo ve vašem WhatsAppu jako chytrý asistent.
 
 **Výhody:**
-- ✅ **Nulová křivka učení** - umíte WhatsApp = umíte DokladBot
-- ✅ **Nejrychlejší fakturace** - 30 sekund na fakturu
-- ✅ **AI rozpoznávání** - vyfoťte doklad a máte ho zaevidovaný
-- ✅ **Mobilní first** - funguje kdekoli kde máte signál
-- ✅ **Automatické bankovní napojení**
-- ✅ **Nejlepší podpora** - odpovídá během 5 minut
+- **Nulová křivka učení** - umíte WhatsApp = umíte DokladBot
+- **Nejrychlejší fakturace** - 30 sekund na fakturu
+- **AI rozpoznávání** - vyfoťte doklad a máte ho zaevidovaný
+- **Mobilní first** - funguje kdekoli kde máte signál
+- **Automatické bankovní napojení**
+- **Nejlepší podpora** - odpovídá během 5 minut
 
 **Nevýhody:**
-- ❌ Potřebujete internetové připojení
-- ❌ Omezené možnosti customizace
-- ❌ Nové na trhu (od 2024)
+- Potřebujete internetové připojení
+- Omezené možnosti customizace
+- Nové na trhu (od 2024)
 
 **Komu se hodí:** OSVČ s omezeným časem, kteří chtějí minimální administrativu
 
@@ -76,17 +76,17 @@ DokladBot nepotřebujete instalovat ani se učit. Funguje přímo ve vašem What
 Kompletní online účetní systém s moderním rozhraním a mobilní aplikací.
 
 **Výhody:**
-- ✅ **Přehledné rozhraní** - intuitivní ovládání
-- ✅ **Mobilní aplikace** - práce offline i online
-- ✅ **Komplexní funkcionalita** - CRM, sklady, projekty
-- ✅ **Dobrá integrace s bankami**
-- ✅ **Kvalitní dokumentace a školení**
+- **Přehledné rozhraní** - intuitivní ovládání
+- **Mobilní aplikace** - práce offline i online
+- **Komplexní funkcionalita** - CRM, sklady, projekty
+- **Dobrá integrace s bankami**
+- **Kvalitní dokumentace a školení**
 
 **Nevýhody:**
-- ❌ **Vyšší cena** - 299 Kč/měsíc basic, 599 Kč pro DPH
-- ❌ **Složitější nastavení** - 2 hodiny učení minimum
-- ❌ **Pomalé načítání** při horším internetu
-- ❌ **Dodatečné poplatky** za SMS a některé funkce
+- **Vyšší cena** - 299 Kč/měsíc basic, 599 Kč pro DPH
+- **Složitější nastavení** - 2 hodiny učení minimum
+- **Pomalé načítání** při horším internetu
+- **Dodatečné poplatky** za SMS a některé funkce
 
 **Skryté náklady:**
 - SMS připomínky: 2 Kč/SMS
@@ -103,17 +103,17 @@ Kompletní online účetní systém s moderním rozhraním a mobilní aplikací.
 Desktopový účetní program od STORMWARE, nejrozšířenější v ČR.
 
 **Výhody:**
-- ✅ **Offline práce** - nezávislá na internetu
-- ✅ **Kompletní funkcionalita** - vše pod jednou střechou
-- ✅ **Česká podpora** - znají lokální specifika
-- ✅ **Stabilní** - na trhu 25+ let
+- **Offline práce** - nezávislá na internetu
+- **Kompletní funkcionalita** - vše pod jednou střechou
+- **Česká podpora** - znají lokální specifika
+- **Stabilní** - na trhu 25+ let
 - ✅ **Možnost pronájmu od 500 Kč/měsíc**
 
 **Nevýhody:**
-- ❌ **Vysoká pořizovací cena** - 7000 Kč jednorázově
-- ❌ **Komplexnost** - měsíc učení pro pokročilé využití
-- ❌ **Zastaralé rozhraní** - design z roku 2010
-- ❌ **Pouze Windows** - nepodpora Mac/Linux
+- **Vysoká pořizovací cena** - 7000 Kč jednorázově
+- **Komplexnost** - měsíc učení pro pokročilé využití
+- **Zastaralé rozhraní** - design z roku 2010
+- **Pouze Windows** - nepodpora Mac/Linux
 - ❌ **Žádná mobilní aplikace**
 
 **Skryté náklady:**
@@ -131,17 +131,17 @@ Desktopový účetní program od STORMWARE, nejrozšířenější v ČR.
 Zaměřuje se především na fakturaci s některými účetními funkcemi.
 
 **Výhody:**
-- ✅ **Krásný design** - nejhezčí faktury na trhu
-- ✅ **Jednoduchá fakturace** - rychlé vytvoření faktury
-- ✅ **Kvalitní mobilní app**
-- ✅ **Dobrý poměr cena/výkon**
-- ✅ **Automatické párování plateb**
+- **Krásný design** - nejhezčí faktury na trhu
+- **Jednoduchá fakturace** - rychlé vytvoření faktury
+- **Kvalitní mobilní app**
+- **Dobrý poměr cena/výkon**
+- **Automatické párování plateb**
 
 **Nevýhody:**
-- ❌ **Omezené účetní funkce** - není to účetní program
-- ❌ **Dodatečné poplatky** za DPH modul
-- ❌ **Pomalá inovace** - málo nových funkcí
-- ❌ **Základní reporty**
+- **Omezené účetní funkce** - není to účetní program
+- **Dodatečné poplatky** za DPH modul
+- **Pomalá inovace** - málo nových funkcí
+- **Základní reporty**
 
 **Komu se hodí:** OSVČ se zaměřením na fakturaci, která má účetní
 
@@ -153,16 +153,16 @@ Zaměřuje se především na fakturaci s některými účetními funkcemi.
 Zdarma verze účetního programu pro malé OSVČ.
 
 **Výhody:**
-- ✅ **Zdarma** - žádné měsíční poplatky
-- ✅ **Základní funkcionalita** pro malé OSVČ
-- ✅ **Česká lokalizace**
+- **Zdarma** - žádné měsíční poplatky
+- **Základní funkcionalita** pro malé OSVČ
+- **Česká lokalizace**
 
 **Nevýhody:**
-- ❌ **Omezení zdarma verze** - max 12 faktur/měsíc
-- ❌ **Zastaralé rozhraní**
-- ❌ **Minimální podpora**
-- ❌ **Pomalé** - nopsaná v starých technologiích
-- ❌ **Časté pády** při větší zátěži
+- **Omezení zdarma verze** - max 12 faktur/měsíc
+- **Zastaralé rozhraní**
+- **Minimální podpora**
+- **Pomalé** - nopsaná v starých technologiích
+- **Časté pády** při větší zátěži
 
 **Komu se hodí:** Začínající OSVČ s minimálními nároky
 
