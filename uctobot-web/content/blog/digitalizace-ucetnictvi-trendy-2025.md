@@ -39,6 +39,8 @@ tags: ["digitalizace", "účetnictví", "AI", "automatizace", "2025", "technolog
 
 ## 🚀 Technologie měnící účetnictví
 
+![Technologie v účetnictví](/blog-images/8.jpg)
+
 ### Blockchain a kryptoměny
 **Nové výzvy pro živnostníky:**
 - **Krypto platby** jako běžný způsob placení

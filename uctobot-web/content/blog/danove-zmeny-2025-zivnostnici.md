@@ -19,6 +19,8 @@ Rok 2025 přináší živnostníkům a OSVČ řadu významných změn v daňové
 
 ## 1. DPH - změna limitu registrace
 
+![DPH registrace](/blog-images/2.jpg)
+
 ### Co se mění?
 Limit pro povinnou registraci k DPH se **zvyšuje z 1 mil. Kč na 2 mil. Kč** za posledních 12 měsíců.
 

@@ -20,6 +20,8 @@ Jako OSVČ máte v roce 2025 dvě hlavní možnosti, jak řešit své daně a ú
 
 ### Paušální daň - pro koho je výhodná?
 
+![Paušální daň pro OSVČ](/blog-images/6.jpg)
+
 Paušální daň je ideální volba pro OSVČ s příjmy do **2 milionů Kč ročně**. V roce 2025 platí tyto sazby:
 
 - **Základní sazba**: 6 208 Kč měsíčně (zahrnuje daň z příjmů, sociální a zdravotní pojištění)

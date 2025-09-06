@@ -26,6 +26,8 @@ tags: ["daňové odpočty", "OSVČ", "2025", "úspory", "živnostníci", "slevy"
 
 ## 🏠 Odpočty na bydlení
 
+![Daňové odpočty na bydlení](/blog-images/4.jpg)
+
 ### Úroky z hypotéky
 - **Max. odpočet**: 150 000 Kč ročně
 - **Podmínky**: Nemovitost slouží k bydlení

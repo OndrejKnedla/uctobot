@@ -40,6 +40,8 @@ Od roku 2025 jsou všechna DPH přiznání **pouze elektronická**:
 
 ## 💼 Vedení evidence DPH v roce 2025
 
+![Evidence DPH](/blog-images/1.jpg)
+
 ### Povinné záznamy
 **Co musíte evidovat:**
 

@@ -14,6 +14,8 @@ Otestovali jsme 8 nejpopulárnějších řešení a připravili kompletní srovn
 
 ## Metodika testování
 
+![Testování účetních programů](/blog-images/9.jpg)
+
 Každý program jsme testovali po dobu 30 dnů s identickým scénářem:
 - Fiktivní OSVČ - grafik na volné noze
 - 15 faktur měsíčně (příjmy)

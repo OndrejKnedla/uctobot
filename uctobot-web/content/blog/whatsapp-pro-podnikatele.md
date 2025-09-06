@@ -12,6 +12,8 @@ WhatsApp používá v České republice **4,93 milionů lidí** - to je téměř
 
 ## WhatsApp v číslech - proč je tak důležitý?
 
+![WhatsApp pro podnikatele](/blog-images/3.jpg)
+
 Než se ponoříme do konkrétních využití, podívejme se na fascinující statistiky:
 
 - **98% open rate** - téměř každá zpráva na WhatsApp je přečtena
@@ -40,6 +42,8 @@ Tato čísla jasně ukazují, proč je WhatsApp nejefektivnější komunikační
 **Úspora: 10,5 minuty na každé faktuře!**
 
 ## 2. Evidence dokladů v reálném čase
+
+![Evidence dokladů](/blog-images/7.jpg)
 
 Zapomeňte na krabice plné účtenek. Stačí:
 - Vyfotit doklad mobilem
