@@ -26,9 +26,9 @@ export default function OchranaOsobnichUdajuPage() {
               <h2>1. Správce osobních údajů</h2>
               <p>
                 Správcem vašich osobních údajů je:<br />
-                <strong>REALOK s.r.o.</strong><br />
+                <strong>DokladBot s.r.o.</strong><br />
                 IČO: 22161104<br />
-                Sídlo: [Adresa]<br />
+                Sídlo: Žitná 562/10, Praha Nové Město (Praha 2), 120 00<br />
                 Email: info@dokladbot.cz<br />
                 Telefon: +420 722 158 002
               </p>
@@ -194,9 +194,9 @@ export default function OchranaOsobnichUdajuPage() {
               
               <h3>9.1 Kontakt pro ochranu údajů</h3>
               <p>
-                <strong>Email:</strong> privacy@dokladbot.cz<br />
+                <strong>Email:</strong> gdpr@dokladbot.cz<br />
                 <strong>Telefon:</strong> +420 722 158 002<br />
-                <strong>Adresa:</strong> [Adresa společnosti]
+                <strong>Adresa:</strong> Žitná 562/10, Praha Nové Město (Praha 2), 120 00
               </p>
 
               <h3>9.2 Právo podat stížnost</h3>

@@ -24,9 +24,9 @@ export default function ObchodniPodminkyPage() {
               <h3>1.1 Poskytovatel služby</h3>
               <p>
                 <strong>DokladBot</strong> je služba poskytovaná společností:<br />
-                <strong>REALOK s.r.o.</strong><br />
+                <strong>DokladBot s.r.o.</strong><br />
                 IČO: 22161104<br />
-                Sídlo: [Adresa]<br />
+                Sídlo: Žitná 562/10, Praha Nové Město (Praha 2), 120 00<br />
                 Email: info@dokladbot.cz
               </p>
 
