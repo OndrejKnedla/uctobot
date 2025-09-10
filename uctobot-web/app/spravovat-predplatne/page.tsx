@@ -17,7 +17,7 @@ export default function SpravovatPredplatnePage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const openCustomerPortal = async (e: React.FormEvent) => {
+  const sendVerificationEmail = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!email) {
@@ -29,22 +29,24 @@ export default function SpravovatPredplatnePage() {
     setError('')
     
     try {
-      const response = await fetch('/api/customer-portal', {
+      const response = await fetch('/api/verify-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
       })
       
       if (response.ok) {
-        const { url } = await response.json()
-        window.open(url, '_blank')
+        const data = await response.json()
+        setError('') // Clear any previous errors
+        // Show success message
+        alert(`✅ ${data.message}\n\nPro testování: ${data.verifyUrl}`)
       } else {
         const errorData = await response.json()
-        setError(errorData.error || 'Nepodařilo se najít váš účet')
+        setError(errorData.error || 'Nepodařilo se odeslat ověřovací email')
       }
     } catch (error) {
-      console.error('Portal error:', error)
-      setError('Chyba při připojování k portálu')
+      console.error('Verification error:', error)
+      setError('Chyba při odesílání ověřovacího emailu')
     } finally {
       setLoading(false)
     }
@@ -65,8 +67,11 @@ export default function SpravovatPredplatnePage() {
 
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-4">Spravovat předplatné</h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-2">
             Zadejte email, se kterým jste si vytvořili předplatné DokladBot
+          </p>
+          <p className="text-sm text-gray-500">
+            Na váš email odešleme bezpečný ověřovací odkaz pro přístup k customer portálu
           </p>
         </div>
 
@@ -77,12 +82,12 @@ export default function SpravovatPredplatnePage() {
               Přístup k Customer Portal
             </CardTitle>
             <CardDescription>
-              V portálu můžete zrušit předplatné, změnit platební kartu nebo stáhnout faktury
+              Pro bezpečnost vašich údajů vám odešleme ověřovací email. Kliknutím na odkaz v emailu získáte přístup k portálu.
             </CardDescription>
           </CardHeader>
           
           <CardContent>
-            <form onSubmit={openCustomerPortal} className="space-y-4">
+            <form onSubmit={sendVerificationEmail} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email adresa</Label>
                 <Input
@@ -108,7 +113,7 @@ export default function SpravovatPredplatnePage() {
                 disabled={loading}
               >
                 <Settings className="w-4 h-4 mr-2" />
-                {loading ? 'Otevírám portál...' : 'Otevřít Customer Portal'}
+                {loading ? 'Odesílám ověřovací email...' : 'Odeslat ověřovací email'}
               </Button>
             </form>
           </CardContent>
