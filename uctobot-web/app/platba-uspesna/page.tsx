@@ -55,12 +55,19 @@ function PlatbaUspesnaPageContent() {
       const code = `DOKLADBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
       const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000) // 48 hours from now
       
+      // Try to get email from URL params if available
+      const urlParams = new URLSearchParams(window.location.search)
+      const emailFromUrl = urlParams.get('email') || 'customer@example.com'
+      
       setActivationData({
         activationCode: code,
         whatsappNumber: '+420608123456',
-        userEmail: 'customer@example.com',
+        userEmail: emailFromUrl,
         expiresAt: expiresAt.toISOString()
       })
+      
+      // Show success message even if API fails
+      console.log('Platba byla úspěšná! Aktivační kód byl vygenerován.')
     }
     
     fetchSessionData()

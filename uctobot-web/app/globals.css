@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-/* Import Satoshi font */
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,600,500,400&display=swap');
+/* Import Neue Machina font - primary font for entire application */
+@import url('https://api.fontshare.com/v2/css?f[]=neue-machina@1,900,800,700,600,500,400,300&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -119,18 +119,58 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
-    font-weight: 400;
-    font-display: swap;
+    font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   }
   
-  /* Heading styles with Satoshi */
+  html {
+    font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-weight: 500;
+    font-display: swap;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Heading styles with Neue Machina - more bold */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+    font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  
+  h1 {
+    font-weight: 800;
+  }
+  
+  h2 {
     font-weight: 700;
+  }
+  
+  h3 {
+    font-weight: 700;
+  }
+  
+  /* Text elements */
+  p, span, div, li, td, th {
+    font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+  
+  /* Form elements */
+  input, textarea, select, button {
+    font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+  
+  /* Bold text - more bold */
+  strong, b {
+    font-weight: 700;
+  }
+  
+  /* Links */
+  a {
+    font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   }
   
   /* Improve text rendering */
@@ -186,10 +226,33 @@
   scrollbar-color: #25D366 transparent;
 }
 
-/* Preload critical fonts */
-@font-face {
-  font-family: 'Geist Sans';
-  font-display: swap;
+/* Ensure Neue Machina is loaded and applied */
+.font-neue-machina {
+  font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Typography utilities */
+.font-heading {
+  font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.font-subheading {
+  font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.font-body {
+  font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.font-light {
+  font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 400;
 }
 
 /* Performance optimizations */
@@ -211,16 +274,18 @@ img, picture, svg, video {
 
 /* Blog prose styling */
 .prose {
+  font-family: 'Neue Machina', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   color: var(--foreground);
   max-width: 65ch;
   font-size: 1.125rem;
   line-height: 1.8;
+  font-weight: 500;
 }
 
 .prose h1 {
-  font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+  font-family: 'Neue Machina', system-ui, -apple-system, sans-serif;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.1;
   margin-top: 0;
   margin-bottom: 1.5rem;
@@ -229,9 +294,9 @@ img, picture, svg, video {
 }
 
 .prose h2 {
-  font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+  font-family: 'Neue Machina', system-ui, -apple-system, sans-serif;
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.2;
   margin-top: 3rem;
   margin-bottom: 1.5rem;
@@ -252,9 +317,9 @@ img, picture, svg, video {
 }
 
 .prose h3 {
-  font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+  font-family: 'Neue Machina', system-ui, -apple-system, sans-serif;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.3;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
@@ -270,8 +335,8 @@ img, picture, svg, video {
 }
 
 .prose p {
-  font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
-  font-weight: 400;
+  font-family: 'Neue Machina', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
   margin-bottom: 1.5rem;
   line-height: 1.8;
   text-align: justify;
@@ -332,8 +397,8 @@ img, picture, svg, video {
 }
 
 .prose strong {
-  font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
-  font-weight: 600;
+  font-family: 'Neue Machina', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
   color: var(--foreground);
   background: linear-gradient(120deg, #25D366 0%, #25D366 100%);
   background-repeat: no-repeat;

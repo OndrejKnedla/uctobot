@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Check, X, MessageCircle, Bot, Clock, Shield, TrendingUp, Smartphone, Moon, Sun, Menu, ArrowRight, Play } from "lucide-react"
+import { Check, X, MessageCircle, Bot, Clock, Shield, TrendingUp, Smartphone, Moon, Sun, Menu, ArrowRight, ArrowLeft, Play } from "lucide-react"
 import { authAPI, paymentsAPI, tokenManager } from "@/lib/api"
 import { PricingCard } from "@/components/PricingCard"
 
@@ -25,7 +25,7 @@ function useScrollAnimation() {
   const hasAnimated = useRef(false)
 
   const checkVisibility = useCallback(() => {
-    if (elementRef.current && !hasAnimated.current) {
+    if (typeof window !== 'undefined' && elementRef.current && !hasAnimated.current) {
       const rect = elementRef.current.getBoundingClientRect()
       const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0
       if (isInView) {
@@ -36,9 +36,11 @@ function useScrollAnimation() {
   }, [])
 
   useEffect(() => {
-    checkVisibility()
-    window.addEventListener('scroll', checkVisibility)
-    return () => window.removeEventListener('scroll', checkVisibility)
+    if (typeof window !== 'undefined') {
+      checkVisibility()
+      window.addEventListener('scroll', checkVisibility)
+      return () => window.removeEventListener('scroll', checkVisibility)
+    }
   }, [checkVisibility])
 
   return { isVisible, elementRef }
@@ -118,6 +120,7 @@ export default function DokladBotLanding() {
   const [error, setError] = useState<string | null>(null)
   const [apiStats, setApiStats] = useState<ApiStats | null>(null)
   const [isYearly, setIsYearly] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
   const [timeLeft, setTimeLeft] = useState({
     days: 6,
     hours: 14,
@@ -126,10 +129,12 @@ export default function DokladBotLanding() {
   })
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
+    if (typeof document !== 'undefined') {
+      if (darkMode) {
+        document.documentElement.classList.add("dark")
+      } else {
+        document.documentElement.classList.remove("dark")
+      }
     }
   }, [darkMode])
 
@@ -199,13 +204,17 @@ export default function DokladBotLanding() {
 
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
-    setMobileMenuOpen(false)
+    if (typeof document !== 'undefined') {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+      setMobileMenuOpen(false)
+    }
   };
 
   const handleRegister = () => {
     // Scroll to pricing section
-    document.getElementById('cenik')?.scrollIntoView({ behavior: 'smooth' })
+    if (typeof document !== 'undefined') {
+      document.getElementById('cenik')?.scrollIntoView({ behavior: 'smooth' })
+    }
   };
 
   const handlePricingClick = async (planType: 'monthly' | 'annual') => {
@@ -240,16 +249,6 @@ export default function DokladBotLanding() {
 
   return (
     <>
-      {/* Schema.org structured data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden pt-20">
       {/* Custom animations CSS */}
       <style jsx>{`
@@ -291,6 +290,7 @@ export default function DokladBotLanding() {
           }
         }
         
+        
         .animate-fade-in-up {
           animation: fadeInUp 0.8s ease-out forwards;
           opacity: 0;
@@ -309,6 +309,7 @@ export default function DokladBotLanding() {
           animation: slideInFromRight 0.8s ease-out forwards;
           opacity: 0;
         }
+        
       `}</style>
       
       {/* Error Display */}
@@ -528,62 +529,170 @@ export default function DokladBotLanding() {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section id="jak-funguje" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
-        <div className="max-w-7xl mx-auto">
-          <div ref={featuresAnimation.elementRef} className={`text-center mb-16 scroll-animate ${featuresAnimation.isVisible ? 'visible animate-fade-in-up' : ''}`}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Jak to funguje</h2>
-            <p className="text-xl text-muted-foreground">3 jednoduché kroky k bezstarostnému účetnictví</p>
+      {/* How It Works Section - Modern Design */}
+      <section id="jak-funguje" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-muted/20 to-background relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-[#25D366] rounded-full blur-3xl"></div>
+          <div className="absolute top-3/4 right-1/4 w-24 h-24 bg-[#128C7E] rounded-full blur-2xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative">
+          <div ref={featuresAnimation.elementRef} className={`text-center mb-20 scroll-animate ${featuresAnimation.isVisible ? 'visible animate-fade-in-up' : ''}`}>
+            <div className="inline-flex items-center gap-2 bg-[#25D366]/10 text-[#25D366] px-4 py-2 rounded-full text-sm font-medium mb-6">
+              ⚡ Rychlé a jednoduché
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+              Jak to funguje
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Tři jednoduché kroky k bezstarostnému účetnictví. 
+              <span className="text-foreground font-medium"> Žádné složité programy</span> - jen WhatsApp.
+            </p>
           </div>
 
-          <div className={`grid md:grid-cols-3 gap-8 animate-stagger ${featuresAnimation.isVisible ? 'visible' : ''}`}>
-            <Card className="text-center hover-lift transition-all duration-300">
-              <CardHeader>
-                <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle className="h-8 w-8 text-[#25D366]" />
+          <div className={`grid lg:grid-cols-3 gap-8 animate-stagger ${featuresAnimation.isVisible ? 'visible' : ''}`}>
+            {/* Step 1 */}
+            <div className="relative group h-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#25D366]/20 to-[#128C7E]/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02] group-hover:border-[#25D366]/30 h-full flex flex-col">
+                <div className="relative mb-6">
+                  <div className="w-24 h-24 bg-gradient-to-br from-[#25D366] to-[#128C7E] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:rotate-3 transition-transform duration-300">
+                    <MessageCircle className="h-12 w-12 text-white" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#25D366] text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+                    1
+                  </div>
                 </div>
-                <CardTitle>1. Napište do WhatsAppu</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Pošlete fotku účtenky nebo faktury</p>
-                <div className="mt-4 bg-muted rounded-lg p-3 text-sm flex items-center gap-2">
-                  📸 <span className="italic">"Pošlete fotku účtenky"</span>
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Napište do WhatsAppu</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
+                  Jednoduše pošlete fotku účtenky, faktury nebo napište text o výdaji
+                </p>
+                
+                {/* Interactive demo */}
+                <div className="bg-gradient-to-br from-muted/50 to-muted rounded-xl p-4 border border-border/30 mt-auto">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-[#25D366] rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs">📱</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground">Vy píšete:</div>
+                  </div>
+                  <div className="bg-[#25D366] text-white px-4 py-2 rounded-2xl rounded-bl-sm text-sm max-w-fit">
+                    📸 Koupil jsem notebook za 25 000 Kč
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="text-center hover-lift transition-all duration-300">
-              <CardHeader>
-                <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Bot className="h-8 w-8 text-[#25D366]" />
+            {/* Step 2 */}
+            <div className="relative group h-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#25D366]/20 to-[#128C7E]/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02] group-hover:border-[#25D366]/30 h-full flex flex-col">
+                <div className="relative mb-6">
+                  <div className="w-24 h-24 bg-gradient-to-br from-[#25D366] to-[#128C7E] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:rotate-3 transition-transform duration-300">
+                    <Bot className="h-12 w-12 text-white" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#25D366] text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+                    2
+                  </div>
                 </div>
-                <CardTitle>2. Bot vše zpracuje</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">AI rozpozná částku, IČO, DIČ a zaúčtuje</p>
-                <div className="mt-4 bg-muted rounded-lg p-3 text-sm">
-                  ✅ Rozpoznáno: ALZA.CZ
-                  <br />💰 Částka: 24 999 Kč
-                  <br />🏢 IČO/DIČ: automaticky
+                <h3 className="text-2xl font-bold mb-4 text-foreground">AI vše zpracuje</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
+                  Umělá inteligence rozpozná částku, dodavatele, IČO/DIČ a automaticky zaúčtuje
+                </p>
+                
+                {/* Processing animation */}
+                <div className="bg-gradient-to-br from-muted/50 to-muted rounded-xl p-4 border border-border/30 mt-auto">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 bg-[#25D366] rounded-full animate-pulse"></div>
+                      <span className="text-muted-foreground">Rozpoznávám text...</span>
+                    </div>
+                    <div className="bg-background rounded-lg p-3 text-xs space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Částka:</span>
+                        <span className="font-bold text-foreground">25 000 Kč</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Kategorie:</span>
+                        <span className="text-[#25D366]">Kancelářské potřeby</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">DPH:</span>
+                        <span className="text-[#25D366]">21%</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="text-center hover-lift transition-all duration-300">
-              <CardHeader>
-                <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="h-8 w-8 text-[#25D366]" />
+            {/* Step 3 */}
+            <div className="relative group h-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#25D366]/20 to-[#128C7E]/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02] group-hover:border-[#25D366]/30 h-full flex flex-col">
+                <div className="relative mb-6">
+                  <div className="w-24 h-24 bg-gradient-to-br from-[#25D366] to-[#128C7E] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:rotate-3 transition-transform duration-300">
+                    <TrendingUp className="h-12 w-12 text-white" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#25D366] text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+                    3
+                  </div>
                 </div>
-                <CardTitle>3. Máte hotovo</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Kompletní účetní záznam + daňové přiznání</p>
-                <div className="mt-4 bg-muted rounded-lg p-3 text-sm">
-                  📊 Přehled připraven
-                  <br />📄 Export pro účetní
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Máte hotovo</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
+                  Kompletní účetní záznam, měsíční přehledy a export pro daňové přiznání
+                </p>
+                
+                {/* Results showcase */}
+                <div className="bg-gradient-to-br from-muted/50 to-muted rounded-xl p-4 border border-border/30 mt-auto">
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="bg-background rounded-lg p-2 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-[#25D366] rounded-full"></div>
+                      <span className="text-muted-foreground">Zaúčtováno</span>
+                    </div>
+                    <div className="bg-background rounded-lg p-2 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-[#128C7E] rounded-full"></div>
+                      <span className="text-muted-foreground">Kategorií</span>
+                    </div>
+                    <div className="bg-background rounded-lg p-2 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-[#25D366] rounded-full"></div>
+                      <span className="text-muted-foreground">DPH kalkulace</span>
+                    </div>
+                    <div className="bg-background rounded-lg p-2 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-[#128C7E] rounded-full"></div>
+                      <span className="text-muted-foreground">Export hotov</span>
+                    </div>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+          </div>
+
+          {/* Connection lines for desktop */}
+          <div className="hidden lg:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl">
+            <svg className="w-full h-2" viewBox="0 0 800 2" fill="none">
+              <defs>
+                <linearGradient id="connectionGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#25D366" stopOpacity="0.6"/>
+                  <stop offset="50%" stopColor="#128C7E" stopOpacity="0.6"/>
+                  <stop offset="100%" stopColor="#25D366" stopOpacity="0.6"/>
+                </linearGradient>
+              </defs>
+              <line x1="150" y1="1" x2="650" y2="1" stroke="url(#connectionGrad)" strokeWidth="2" strokeDasharray="8,8" className="animate-pulse"/>
+            </svg>
+          </div>
+
+          {/* Call to action */}
+          <div className="text-center mt-16">
+            <Button 
+              size="lg"
+              className="bg-[#25D366] hover:bg-[#128C7E] text-white font-semibold px-8 py-4 text-lg"
+              onClick={handleRegister}
+            >
+              Vyzkoušet zdarma
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
         </div>
       </section>

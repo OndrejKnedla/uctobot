@@ -5,8 +5,35 @@
   "functions": {
     "app/api/whatsapp/webhook/route.ts": {
       "maxDuration": 30
+    },
+    "app/api/create-activation-code/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/create-checkout-session/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/create-payment-intent/route.ts": {
+      "maxDuration": 30
     }
   },
+  "rewrites": [
+    {
+      "source": "/platba-uspesna",
+      "destination": "/platba-uspesna"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/success",
+      "destination": "/platba-uspesna",
+      "permanent": false
+    },
+    {
+      "source": "/payment-success",
+      "destination": "/platba-uspesna",
+      "permanent": false
+    }
+  ],
   "env": {
     "NEXT_PUBLIC_APP_URL": "https://dokladbot.cz",
     "NODE_ENV": "production"
@@ -26,6 +53,15 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization"
+        }
+      ]
+    },
+    {
+      "source": "/platba-uspesna",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
         }
       ]
     }
