@@ -11,6 +11,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Users, CreditCard, Activity, TrendingUp, Search, Eye, Edit } from "lucide-react"
 
+// Client wrapper for buttons with onClick
+const ClickableButton = ({ children, onClick, ...props }: any) => (
+  <Button onClick={onClick} {...props}>{children}</Button>
+)
+
 interface User {
   id: number
   email: string
@@ -277,13 +282,13 @@ export default function AdminDashboard() {
                       <Search className="h-4 w-4" />
                     </Button>
                   </form>
-                  <Button 
+                  <ClickableButton 
                     variant="outline" 
                     size="sm"
                     onClick={() => loadUsers(currentPage, searchTerm)}
                   >
                     Obnovit
-                  </Button>
+                  </ClickableButton>
                 </div>
               </CardHeader>
               <CardContent>
@@ -345,20 +350,20 @@ export default function AdminDashboard() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <Button 
+                            <ClickableButton 
                               size="sm" 
                               variant="outline"
                               onClick={() => window.open(`/admin/users/${user.id}`, '_blank')}
                             >
                               <Eye className="h-4 w-4" />
-                            </Button>
-                            <Button 
+                            </ClickableButton>
+                            <ClickableButton 
                               size="sm" 
                               variant="outline"
                               onClick={() => window.open(`/admin/users/${user.id}/edit`, '_blank')}
                             >
                               <Edit className="h-4 w-4" />
-                            </Button>
+                            </ClickableButton>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -370,25 +375,25 @@ export default function AdminDashboard() {
                 {totalPages > 1 && (
                   <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center space-x-2">
-                      <Button 
+                      <ClickableButton 
                         variant="outline" 
                         size="sm"
                         disabled={currentPage <= 1}
                         onClick={() => loadUsers(currentPage - 1, searchTerm)}
                       >
                         Předchozí
-                      </Button>
+                      </ClickableButton>
                       <span className="text-sm text-gray-600">
                         Stránka {currentPage} z {totalPages}
                       </span>
-                      <Button 
+                      <ClickableButton 
                         variant="outline" 
                         size="sm"
                         disabled={currentPage >= totalPages}
                         onClick={() => loadUsers(currentPage + 1, searchTerm)}
                       >
                         Další
-                      </Button>
+                      </ClickableButton>
                     </div>
                   </div>
                 )}
