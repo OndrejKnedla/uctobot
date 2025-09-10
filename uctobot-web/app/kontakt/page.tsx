@@ -1,4 +1,7 @@
-'use client';
+"use client";
+
+
+export const dynamic = "force-dynamic"
 
 import { MessageCircle, Mail, Phone, Clock, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';

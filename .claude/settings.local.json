@@ -115,7 +115,13 @@
       "Bash(find:*)",
       "Bash(for:*)",
       "Bash(do echo \"=== $file ===\")",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(do sed -i \"s/''use client''/\"\"use client\"\"/g\" \"$file\")",
+      "Bash(do sed -i '1i\"\"use client\"\"\\n' \"$file\")",
+      "Bash(do sed -i '2a\\\\nexport const dynamic = \"\"force-dynamic\"\"\\n' \"$file\")",
+      "Bash(timeout 120 npm run build)",
+      "Bash(if ! grep -q \"export const dynamic\" \"$file\")",
+      "Bash(then)"
     ],
     "deny": [],
     "ask": [],
