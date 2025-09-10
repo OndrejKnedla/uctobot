@@ -121,7 +121,8 @@
       "Bash(do sed -i '2a\\\\nexport const dynamic = \"\"force-dynamic\"\"\\n' \"$file\")",
       "Bash(timeout 120 npm run build)",
       "Bash(if ! grep -q \"export const dynamic\" \"$file\")",
-      "Bash(then)"
+      "Bash(then)",
+      "Bash(timeout 180 npm run build)"
     ],
     "deny": [],
     "ask": [],

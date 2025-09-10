@@ -20,6 +20,9 @@ const nextConfig = {
     serverMinification: false, // Prevent minification issues in dev
     // optimizeCss: true, // Disabled due to critters dependency issue
   },
+  
+  // Disable static generation to avoid client component issues
+  output: 'standalone',
   // Faster builds in development
   // swcMinify deprecated in Next.js 13+
   // Better error handling
