@@ -39,7 +39,13 @@ export default function SpravovatPredplatnePage() {
         const data = await response.json()
         setError('') // Clear any previous errors
         // Show success message
-        alert(`✅ ${data.message}\n\nPro testování: ${data.verifyUrl}`)
+        if (data.verifyUrl) {
+          // Development/testing mode
+          alert(`✅ ${data.message}\n\nPro testování: ${data.verifyUrl}`)
+        } else {
+          // Production mode
+          alert(`✅ ${data.message}\n\nZkontrolujte svou emailovou schránku a klikněte na ověřovací odkaz.`)
+        }
       } else {
         const errorData = await response.json()
         setError(errorData.error || 'Nepodařilo se odeslat ověřovací email')
