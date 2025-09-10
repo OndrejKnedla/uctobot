@@ -163,16 +163,13 @@ export default function SpravovatPredplatnePage() {
           <p className="text-gray-600 mb-6">
             Pokud máte problémy s přístupem k portálu nebo jakékoliv dotazy, kontaktujte nás.
           </p>
-          <Button 
-            variant="outline" 
-            asChild
-            className="border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white"
+          <a 
+            href="mailto:info@dokladbot.cz"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-[#25D366] text-[#25D366] rounded-lg hover:bg-[#25D366] hover:text-white transition-all duration-200 font-medium shadow-sm hover:shadow-md"
           >
-            <a href="mailto:info@dokladbot.cz">
-              <Mail className="w-4 h-4 mr-2" />
-              info@dokladbot.cz
-            </a>
-          </Button>
+            <Mail className="w-5 h-5" />
+            info@dokladbot.cz
+          </a>
         </div>
 
       </div>
