@@ -44,6 +44,7 @@ export async function POST(request: Request) {
     // Create Stripe Checkout Session with plan switching
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
+      locale: 'cs',
       mode: 'subscription',
       
       // Both price options for plan switching
@@ -57,6 +58,11 @@ export async function POST(request: Request) {
       // Enable plan switching by providing alternative prices
       subscription_data: {
         trial_period_days: 7,
+        trial_settings: {
+          end_behavior: {
+            missing_payment_method: 'create_invoice'
+          }
+        },
         metadata: {
           userId: user?.id || 'unknown',
           plan: plan,
@@ -78,8 +84,8 @@ export async function POST(request: Request) {
       custom_text: {
         submit: {
           message: isFoundingMember 
-            ? '🚀 Launch Week Special - Zakladatelská cena navždy!' 
-            : 'Začněte s 7denním zkušebním obdobím zdarma'
+            ? '🚀 Launch Week Special - Zakladatelská cena navždy! Prvních 7 dní zkušebně zdarma.' 
+            : 'Začněte s 7 dny zkušebně zdarma'
         }
       },
 

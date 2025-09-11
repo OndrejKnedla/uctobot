@@ -83,6 +83,7 @@ export async function POST(request: Request) {
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
+      locale: 'cs',
       line_items: [
         {
           price_data: {
@@ -112,6 +113,11 @@ export async function POST(request: Request) {
       },
       subscription_data: {
         trial_period_days: 7,
+        trial_settings: {
+          end_behavior: {
+            missing_payment_method: 'create_invoice'
+          }
+        },
         metadata: {
           userId: user?.id || 'unknown',
           plan: plan,
@@ -125,8 +131,8 @@ export async function POST(request: Request) {
       custom_text: {
         submit: {
           message: plan === 'MONTHLY' 
-            ? '💡 Tip: Roční plán = 2 měsíce zdarma!'
-            : '💰 Skvělá volba! 2 měsíce zdarma + 7 dní zkušebně'
+            ? '💡 Tip: Roční plán = 2 měsíce zdarma! Prvních 7 dní zkušebně zdarma.'
+            : '💰 Skvělá volba! 2 měsíce zdarma + prvních 7 dní zkušebně'
         }
       },
       

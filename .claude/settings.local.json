@@ -122,7 +122,8 @@
       "Bash(timeout 120 npm run build)",
       "Bash(if ! grep -q \"export const dynamic\" \"$file\")",
       "Bash(then)",
-      "Bash(timeout 180 npm run build)"
+      "Bash(timeout 180 npm run build)",
+      "WebFetch(domain:uctobot-90dmyxv3w-realok2001-gmailcoms-projects.vercel.app)"
     ],
     "deny": [],
     "ask": [],
