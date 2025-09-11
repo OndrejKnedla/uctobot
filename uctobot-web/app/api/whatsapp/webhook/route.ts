@@ -200,8 +200,8 @@ ${savedReceipt && savedTransaction ? `💾 **Uloženo do databáze**
 
     console.log(`Message from ${from}: ${messageBody}`)
 
-    // Check if message is an activation code (UCTOBOT- or TEST- prefix)
-    if (messageBody.startsWith('UCTOBOT-') || messageBody.startsWith('TEST-')) {
+    // Check if message is an activation code (UCTOBOT-, TEST-, or DOKLADBOT- prefix)
+    if (messageBody.startsWith('UCTOBOT-') || messageBody.startsWith('TEST-') || messageBody.startsWith('DOKLADBOT-')) {
       const activationCode = await prisma.activationCode.findUnique({
         where: { code: messageBody },
         include: { user: true }
