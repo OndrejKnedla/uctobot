@@ -136,8 +136,8 @@ export async function POST(request: Request) {
         }
       },
       
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/platba-uspesna?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/platba?cancelled=true&plan=${plan}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.dokladbot.cz'}/platba-uspesna?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.dokladbot.cz'}/platba?cancelled=true&plan=${plan}`,
       customer_email: customerEmail,
       billing_address_collection: 'auto',
       tax_id_collection: {
