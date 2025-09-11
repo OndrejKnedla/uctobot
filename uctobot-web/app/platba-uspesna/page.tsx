@@ -2,7 +2,7 @@
 
 export const dynamic = "force-dynamic"
 
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle, MessageCircle, ArrowLeft, Star, Mail, Copy, Clock, Settings, Phone, FileText, Calculator } from "lucide-react"
@@ -27,6 +27,11 @@ function PlatbaUspesnaPageContent() {
   const [portalLoading, setPortalLoading] = useState(false)
   
   useEffect(() => {
+    // Add null check for searchParams
+    if (!searchParams) {
+      setLoading(false)
+      return
+    }
     const sessionId = searchParams.get('session_id')
     
     const fetchSessionData = async () => {
@@ -64,8 +69,11 @@ function PlatbaUspesnaPageContent() {
       const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000) // 48 hours from now
       
       // Try to get email from URL params if available
-      const urlParams = new URLSearchParams(window.location.search)
-      const emailFromUrl = urlParams.get('email') || 'customer@example.com'
+      let emailFromUrl = 'customer@example.com'
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search)
+        emailFromUrl = urlParams.get('email') || 'customer@example.com'
+      }
       
       setActivationData({
         activationCode: code,
@@ -79,7 +87,7 @@ function PlatbaUspesnaPageContent() {
     }
     
     fetchSessionData()
-  }, [searchParams])
+  }, [])
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -374,16 +382,5 @@ function PlatbaUspesnaPageContent() {
 }
 
 export default function PlatbaUspesnaPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#25D366] mx-auto mb-4"></div>
-          <p style={{ fontFamily: 'Neue Machina, system-ui, sans-serif' }}>Načítám...</p>
-        </div>
-      </div>
-    }>
-      <PlatbaUspesnaPageContent />
-    </Suspense>
-  )
+  return <PlatbaUspesnaPageContent />
 }
