@@ -15,8 +15,8 @@ interface ActivationData {
   expiresAt: string
 }
 
-// Use the actual Twilio WhatsApp number
-const WHATSAPP_NUMBER = '+14155238886' // Twilio WhatsApp Sandbox number
+// Use the production WhatsApp Business number
+const WHATSAPP_NUMBER = '+420722158002' // Production WhatsApp Business number
 
 function PlatbaUspesnaPageContent() {
   const router = useRouter()

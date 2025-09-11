@@ -107,7 +107,7 @@ export async function sendTestEmail(testEmail: string): Promise<boolean> {
     expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toLocaleString('cs-CZ'),
     plan: 'YEARLY',
     isFoundingMember: true,
-    whatsappNumber: '+420608123456'
+    whatsappNumber: '+420722158002'
   };
 
   return await sendActivationEmail(testData);

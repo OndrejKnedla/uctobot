@@ -125,7 +125,8 @@
       "Bash(timeout 180 npm run build)",
       "WebFetch(domain:uctobot-90dmyxv3w-realok2001-gmailcoms-projects.vercel.app)",
       "Bash(awk:*)",
-      "Bash(npx next build:*)"
+      "Bash(npx next build:*)",
+      "Bash(xargs sed:*)"
     ],
     "deny": [],
     "ask": [],

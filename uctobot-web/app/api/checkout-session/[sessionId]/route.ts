@@ -98,7 +98,7 @@ export async function GET(
 
     return NextResponse.json({
       activationCode,
-      whatsappNumber: '+420608123456', // Your WhatsApp business number
+      whatsappNumber: '+420722158002', // Your WhatsApp business number
       userEmail: customerEmail || 'customer@example.com',
       expiresAt: expiresAt.toISOString(),
       sessionInfo: {

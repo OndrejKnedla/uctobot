@@ -230,7 +230,7 @@ export default function DokladBotLanding() {
         ? 'Chci vyzkoušet DokladBot zdarma a pak roční plán za 1990 Kč (166 Kč/měsíc + 2 měsíce zdarma). Prosím kontaktujte mě.'
         : 'Chci vyzkoušet DokladBot 7 dní zdarma a pak měsíční plán za 199 Kč. Prosím kontaktujte mě.'
       
-      window.open(`https://wa.me/420608123456?text=${encodeURIComponent(message)}`, '_blank')
+      window.open(`https://wa.me/420722158002?text=${encodeURIComponent(message)}`, '_blank')
       
     } catch (err) {
       console.error('Pricing error:', err)

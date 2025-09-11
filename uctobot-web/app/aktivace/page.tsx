@@ -17,7 +17,7 @@ function ActivationContent() {
   const [copied, setCopied] = useState(false)
   const [timeLeft, setTimeLeft] = useState('')
   
-  const WHATSAPP_NUMBER = '+420777888999' // Vaše WhatsApp číslo
+  const WHATSAPP_NUMBER = '+420722158002' // Vaše WhatsApp číslo
   const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}?text=${token}`
   
   // Format token with dashes for better readability

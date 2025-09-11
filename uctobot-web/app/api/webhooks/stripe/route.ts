@@ -102,7 +102,7 @@ export async function POST(request: Request) {
               expiresAt: expiresAt.toLocaleString('cs-CZ'),
               plan: plan as 'MONTHLY' | 'YEARLY',
               isFoundingMember,
-              whatsappNumber: '+420608123456'
+              whatsappNumber: '+420722158002'
             })
             console.log(`✅ Activation email sent to ${customerEmail}`)
           } catch (emailError) {

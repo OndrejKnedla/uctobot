@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       const fallbackCode = `DOKLADBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
       return NextResponse.json({
         activationCode: fallbackCode,
-        whatsappNumber: '+420608123456',
+        whatsappNumber: '+420722158002',
         userEmail: 'customer@example.com',
         expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
         fallback: true
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       const fallbackCode = `DOKLADBOT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`
       return NextResponse.json({
         activationCode: fallbackCode,
-        whatsappNumber: '+420608123456',
+        whatsappNumber: '+420722158002',
         userEmail: 'customer@example.com',
         expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
         fallback: true
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
           }),
           plan: plan as 'MONTHLY' | 'YEARLY',
           isFoundingMember: isFoundingMember,
-          whatsappNumber: '+420608123456'
+          whatsappNumber: '+420722158002'
         });
         
         console.log('Email sent status:', emailSent);
@@ -142,7 +142,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       activationCode,
-      whatsappNumber: '+420608123456', // Your WhatsApp business number
+      whatsappNumber: '+420722158002', // Your WhatsApp business number
       userEmail: customerEmail || 'customer@example.com',
       expiresAt: expiresAt.toISOString(),
       emailSent: !!customerEmail, // Indicate if we attempted to send email
