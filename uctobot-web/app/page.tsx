@@ -453,15 +453,15 @@ export default function DokladBotLanding() {
               <div className="flex flex-wrap gap-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <Check className="h-4 w-4 text-[#25D366]" />
-                  <span>{apiStats?.total_users || 50}+ beta testerů</span>
+                  <span>Okamžité odpovědi na vaše dotazy</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Clock className="h-4 w-4 text-[#25D366]" />
-                  <span>Ušetříte spoustu času měsíčně</span>
+                  <span>Profesionální účetnictví kdykoliv</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Shield className="h-4 w-4 text-[#25D366]" />
-                  <span>Schváleno Komorou účetních</span>
+                  <span>Vždy aktuální legislativa</span>
                 </div>
               </div>
 
@@ -1486,7 +1486,7 @@ export default function DokladBotLanding() {
           <div className="bg-gradient-to-r from-[#25D366]/10 to-[#075E54]/10 rounded-2xl p-8 text-center">
             <h3 className="text-2xl font-bold mb-4">Staňte se dalším beta testerem</h3>
             <p className="text-muted-foreground mb-6">
-              Připojte se k našim 50+ beta testerům a pomozte vytvořit nejlepší účetní řešení
+              Vyzkoušejte moderní způsob účetnictví a ušetřete čas i peníze
             </p>
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               <div>
